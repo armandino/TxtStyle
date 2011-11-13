@@ -46,6 +46,7 @@ class RegionMatcher:
                                             offset=0, results=[]):
         if not searchstr:
             return []
+        
         # if whole string match (when offset > 0, we're processing remainder)
         if searchstr == s and offset == 0:
             return [(0, len(s)-1)]
@@ -57,14 +58,14 @@ class RegionMatcher:
             remainder = s[start:]
             
             # remove first occurance of searchstr in s
-            print "-----------------------------------"
-            print "S: <<%s>>" % s
-            print "SEARCHSTR: <<%s>>" % searchstr
-            print "REMAINDER: <<%s>>" % remainder
-            remainder = re.sub(searchstr, '', remainder, 1)
-
+            if remainder == searchstr:
+                remainder = ''
+            else:
+                # escape in case searchstr has regex characters in it
+                remainder = re.sub(re.escape(searchstr), '', remainder, 1)
+                
             if remainder == '':
-                end = len(s)-1
+                end = len(s) - 1
             else:
                 # e.g. search 'o' in 'clock' (2,2)
                 if len(searchstr) == 1:
