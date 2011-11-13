@@ -38,6 +38,9 @@ class Transformer:
         self.line_style_processor = LineStyleProcessor()
 
     def style(self, line):
+        if not self.styles:
+            return line
+
         elected_regions = self.line_style_processor.get_elected_regions(
             line, self.styles)
         return self.__transform(line, elected_regions)

@@ -32,7 +32,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.style_map[style] = regions
         return style
 
-    def __test_get_region_map(self):
+    def test_get_region_map(self):
         s1 = self.add_style([(1,2),(7,12),(19,25)])
         s2 = self.add_style([(4,7)])    # overlaps
         s3 = self.add_style([(12,15)])  # overlaps
@@ -58,7 +58,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.assertEqual(region_map[(29,29)], s7)
         self.assertEqual(region_map[(13,15)], s8)
 
-    def __test_get_region_map_reverse_order(self):
+    def test_get_region_map_reverse_order(self):
         s1 = self.add_style([(13,15)])
         s2 = self.add_style([(29,29)])
         s3 = self.add_style([(26,28)])
@@ -101,14 +101,14 @@ class RegionMatcherTests(unittest.TestCase):
         self.__find_regions__ = None
         self.__get_unique_search_tokens__ = None
 
-    def __test_repeated_invocation_returns_new_list(self):
+    def test_repeated_invocation_returns_new_list(self):
         results1 = self.__find_regions__('string', 'in')
         results2 = self.__find_regions__('string', 'in')
         self.assertIsNot(results1, results2)
         self.assert_results([(3,4)], results1)
         self.assert_results([(3,4)], results2)
 
-    def __test_missing_searchstr_return_empty_results(self):
+    def test_missing_searchstr_return_empty_results(self):
         results = self.__find_regions__('some string', '')
         self.assert_results([], results)
         
@@ -118,7 +118,7 @@ class RegionMatcherTests(unittest.TestCase):
         results = self.__find_regions__('', '')
         self.assert_results([], results)
 
-    def __test_no_match(self):
+    def test_no_match(self):
         results = self.__find_regions__('', 'a')
         self.assert_results([], results)
         
@@ -128,14 +128,14 @@ class RegionMatcherTests(unittest.TestCase):
         results = self.__find_regions__('some string', 'foo')
         self.assert_results([], results)
 
-    def __test_smart_simple_cases(self):
+    def test_smart_simple_cases(self):
         results = self.__find_regions__('this is...', 'this')
         self.assert_results([(0,3)], results)
 
         results = self.__find_regions__('my string', 'string')
         self.assert_results([(3,8)], results)
 
-    def __test_single_char_match(self):
+    def test_single_char_match(self):
         results = self.__find_regions__('a', 'a')
         self.assert_results([(0,0)], results)
 
@@ -151,7 +151,7 @@ class RegionMatcherTests(unittest.TestCase):
         results = self.__find_regions__('foo', 'o')
         self.assert_results([(1,1), (2,2)], results)
         
-    def __test_consecutive_matches(self):
+    def test_consecutive_matches(self):
         results = self.__find_regions__('isisis', 'is')
         tokens = self.__get_unique_search_tokens__('isisis', regex('is'))
         self.assertEqual(['is'], tokens)
@@ -169,7 +169,7 @@ class RegionMatcherTests(unittest.TestCase):
                              (13,14), (17,18), (19,20)], results)
 
 
-    def __test_find_regions_with_simple_regex(self):
+    def test_find_regions_with_simple_regex(self):
         results = self.find_regions('0123456789 nums', regex('\d+'))
         self.assert_results([(0,9)], results)
 
@@ -219,7 +219,7 @@ class RegionMatcherTests(unittest.TestCase):
         self.assert_results([(1,4), (9,12)], results)
         
 
-    def __test_get_unique_search_tokens(self):
+    def test_get_unique_search_tokens(self):
         results = self.__get_unique_search_tokens__(
             "111 some 111 string 111", regex("\d\d\d"))
         self.assertEqual(['111'], results)
@@ -258,7 +258,7 @@ class ConfParserTests(unittest.TestCase):
     def add_style(self, pattern, transforms):
         self.expected_styles.append(Style(pattern, transforms))
 
-    def __test_get_first(self):
+    def test_get_first(self):
         styles = self.confparser.get_styles('first')
         self.add_style('some error', 'red')
         self.add_style('\d\d-\d\d-\d\d\d\d', 'blue')
@@ -266,29 +266,43 @@ class ConfParserTests(unittest.TestCase):
         self.add_style('other pattern', 'underline')
         self.assert_styles(styles)
         
-    def __test_get_second(self):
+    def test_get_second(self):
         styles = self.confparser.get_styles('second')
         self.add_style('\w+', 'blue')
         self.assert_styles(styles)
 
-    def __test_get_third(self):
+    def test_get_third(self):
         styles = self.confparser.get_styles('third')
         self.add_style('\d+', 'on-red')
         self.add_style('.*(foo).*', 'black')
         self.add_style(': single: quotes', 'yellow')
         self.assert_styles(styles)
 
-    def __test_get_fourth(self):
+    def test_get_fourth(self):
         styles = self.confparser.get_styles('fourth')
         assert styles == []
 
-    def __test_get_fifth(self):
+    def test_get_fifth(self):
         try:
             styles = self.confparser.get_styles('fifth')
             self.fail('should fail on invalid definition')
         except ConfParserException, e:
-            assert e.message == 'Invalid style definition: black "missing semi-colon"'
+            self.assertEqual(e.message, 'Invalid style definition: black "some pattern"')
         
+    def test_get_sixth(self):
+        try:
+            styles = self.confparser.get_styles('sixth')
+            self.fail('should fail on invalid style attribute')
+        except ConfParserException, e:
+            self.assertEqual(e.message, 'Invalid style attribute: "some-bad-attribute"')
+
+    def test_get_undefined(self):
+        try:
+            styles = self.confparser.get_styles('FOO')
+            self.fail('should fail on undefined  style name')
+        except ConfParserException, e:
+            self.assertEqual(e.message, 'Style "FOO" is not defined')
+
     def assert_styles(self, styles):
         self.assertEquals(len(self.expected_styles), len(styles))
         for i, style in enumerate(styles):
