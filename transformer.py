@@ -40,7 +40,6 @@ class Transformer:
     def style(self, line):
         elected_regions = self.line_style_processor.get_elected_regions(
             line, self.styles)
-        
         return self.__transform(line, elected_regions)
 
     def __transform(self, line, region_map):

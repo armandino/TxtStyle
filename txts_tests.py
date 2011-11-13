@@ -153,6 +153,8 @@ class RegionMatcherTests(unittest.TestCase):
         
     def __test_consecutive_matches(self):
         results = self.__find_regions__('isisis', 'is')
+        tokens = self.__get_unique_search_tokens__('isisis', regex('is'))
+        self.assertEqual(['is'], tokens)
         self.assert_results([(0,1), (2,3), (4,5)], results)
 
         results = self.__find_regions__('isisisis', 'is')
@@ -166,6 +168,7 @@ class RegionMatcherTests(unittest.TestCase):
         self.assert_results([(2,3), (5,6), (9,10),
                              (13,14), (17,18), (19,20)], results)
 
+
     def __test_find_regions_with_simple_regex(self):
         results = self.find_regions('0123456789 nums', regex('\d+'))
         self.assert_results([(0,9)], results)
@@ -176,31 +179,44 @@ class RegionMatcherTests(unittest.TestCase):
         results = self.find_regions('some string', regex('\w+'))
         self.assert_results([(0,3), (5,10)], results)
 
-        results = self.find_regions('some long string', regex('.*(long).*'))
+        results = self.find_regions('some long string', regex('long'))
         self.assert_results([(5,8)], results)
 
         results = self.find_regions('foo boo', regex('o+'))
         self.assert_results([(1,2), (5,6)], results)
 
-        results = self.find_regions('foo boo', regex('.*(o+).*'))
+        results = self.find_regions('foo boo', regex('o'))
         self.assert_results([(1,1), (2,2), (5,5), (6,6)], results)
 
     # TODO: fix test and re-run all tests
-    def test_FIX_BROKEN(self):
+    def test_FIX_BROKEN_1_match_digit_in_timestamp_string(self):
         #s = "2011-11-11 22:08:52.074932: Url: org.apache.tomcat.UrlResolver - doing something"
         #    0         1         2
         #    01234567890123456789012345
-        s = "2011-11-11 22:08:52.074932"
+        s = "20-2011-11-11 22:08:52.074932"
         
         tokens = self.__get_unique_search_tokens__(s, regex("\d+"))
         results = self.find_regions(s, regex("\d+"))
 
-        #print "TOKENS", tokens
-        #print "RESULTS", results
+        print "TOKENS", tokens    # ['2011', '11', '22', '08', '52', '074932']
+        print "RESULTS", results  # (0,3), (2,3), (5,6)
         
         self.assert_results([(0,3), (4,5), (8,9),       # date
                              (11,12), (14,15), (17,18), # time
                              (20,25)], results)
+        
+    def __test_FIX_BROKEN_2(self):
+        #    0         1
+        #    012345678901234
+        s = "(none) ((none))"
+        regex_obj = regex(r".*\((.*)\).*")
+        
+        # token = ['none)']
+        tokens = self.__get_unique_search_tokens__(s, regex_obj)
+        # results = []
+        results = self.find_regions(s, regex_obj)
+        
+        self.assert_results([(1,4), (9,12)], results)
         
 
     def __test_get_unique_search_tokens(self):

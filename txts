@@ -15,13 +15,17 @@ class Txts:
     def transform_input(self):
         try:
             while True:
-                self.__style(sys.stdin.readline())
+                line = sys.stdin.readline()
+                if not line:
+                    # time.sleep(0.1)
+                    continue
+                self.__style(line)
         except KeyboardInterrupt:
             pass
 
     def __style(self, line):
-        styled_line = self.transformer.style(line + '\n')
-        sys.stdout.write(styled_line)
+        styled_line = self.transformer.style(line.strip('\n'))
+        sys.stdout.write(styled_line + '\n')
 
 
 def parse_args():

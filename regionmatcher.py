@@ -16,19 +16,26 @@ class RegionMatcher:
             if matching_regions:
                 found_regions += matching_regions
 
-        return sorted(found_regions)
+        return found_regions
 
 
     def __get_unique_search_tokens__(self, line, regex_obj):
         """\
-        Returns a list of search tokens that match the regex eg.
+        Returns a list of unique search tokens that match the regex eg.
         Given "foo 12 bar 34" and regex "\d\d" returns: ['12', '34']
         """
-        search_tokens = re.findall(regex_obj, line)
+        search_tokens = []
+        # TODO: use r for rawstring
+        it = re.finditer(regex_obj, line)
+        for match in it:
+            token = match.group(0)
+            if token not in search_tokens:
+                search_tokens.append(token)
+
         if len(search_tokens) == 1 and search_tokens[0] == '':
             return []
         else:
-            return list(set(search_tokens))
+            return search_tokens
 
 
     def __find_regions__(self, s, searchstr):
@@ -39,6 +46,9 @@ class RegionMatcher:
                                             offset=0, results=[]):
         if not searchstr:
             return []
+        # if whole string match (when offset > 0, we're processing remainder)
+        if searchstr == s and offset == 0:
+            return [(0, len(s)-1)]
 
         start = s.find(searchstr)
         if start != -1:
@@ -47,6 +57,10 @@ class RegionMatcher:
             remainder = s[start:]
             
             # remove first occurance of searchstr in s
+            print "-----------------------------------"
+            print "S: <<%s>>" % s
+            print "SEARCHSTR: <<%s>>" % searchstr
+            print "REMAINDER: <<%s>>" % remainder
             remainder = re.sub(searchstr, '', remainder, 1)
 
             if remainder == '':
