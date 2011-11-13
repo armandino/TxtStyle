@@ -1,7 +1,9 @@
+# http://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
 __STYLES__ = {
     "bold" : "\033[1m",
     "underline" : "\033[4m",
-    "black" : "\033[30m", 
+    "hidden" : "\033[4m",
+    "grey" : "\033[30m", 
     "red" : "\033[31m",
     "green" : "\033[32m",
     "yellow" : "\033[33m",
@@ -9,7 +11,7 @@ __STYLES__ = {
     "magenta" : "\033[35m",
     "cyan" : "\033[36m",
     "white" : "\033[37m",
-    "on-black" : "\033[40m", 
+    "on-grey" : "\033[40m", 
     "on-red" : "\033[41m",
     "on-green" : "\033[42m",
     "on-yellow" : "\033[43m",
@@ -20,7 +22,6 @@ __STYLES__ = {
     }
 
 __DEFAULT__ = "\033[m"
-
 
 import re
 from linestyleprocessor import LineStyleProcessor

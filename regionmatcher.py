@@ -25,7 +25,6 @@ class RegionMatcher:
         Given "foo 12 bar 34" and regex "\d\d" returns: ['12', '34']
         """
         search_tokens = []
-        # TODO: use r for rawstring
         it = re.finditer(regex_obj, line)
         for match in it:
             token = match.group(0)
