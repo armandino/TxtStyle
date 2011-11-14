@@ -52,33 +52,34 @@ class Transformer:
         regions.sort()
         
         pos = 0
+        region_strings = []
         for region in regions:
             style = region_map[region]
-
-            r_start = region[0]
-            r_end = region[1] + 1
-            region_str = ''
-
-            if pos < r_start:
-                region_str += self.__apply(line, pos, r_start)
-                region_str += self.__apply(line, r_start, r_end, style)
+            start = region[0]
+            end = region[1] + 1
+            
+            if pos < start:
+                self._append_to(region_strings, line, pos, start)
+                self._append_to(region_strings, line, start, end, style)
             else:
-                region_str += self.__apply(line, r_start, r_end, style)
+                self._append_to(region_strings, line, start, end, style)
 
-            styled_line += region_str
-            pos = r_end
+            pos = end
 
         if pos < len(line) - 1:
-            styled_line += self.__apply(line, pos, len(line)-1)
+            self._append_to(region_strings, line, pos, len(line) - 1)
         
+        styled_line = ''.join(region_strings)
         return styled_line
 
-    def __apply(self, line, start, end, style=None):
-        style_escape_seq = __DEFAULT__
+    def _append_to(self, region_strings, line, start, end, style=None):
         if style:
             for transform in style.transforms:
-                style_escape_seq += __STYLES__[transform]
-
+                region_strings.append(__STYLES__[transform])
+        else:
+            region_strings.append(__DEFAULT__)
+            
         region = line[start : end]
+        region_strings.append(region)
+        region_strings.append(__DEFAULT__)
         
-        return style_escape_seq + region + __DEFAULT__

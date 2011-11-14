@@ -13,8 +13,9 @@ class RegionMatcher:
         
         for searchstr in search_tokens:
             matching_regions = self.__find_regions__(line, searchstr)
+
             if matching_regions:
-                found_regions += matching_regions
+                found_regions.extend(matching_regions)
 
         return found_regions
 

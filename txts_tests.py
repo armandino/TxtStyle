@@ -281,7 +281,6 @@ class ConfParserTests(unittest.TestCase):
             styles = self.confparser.get_styles('fifth')
             self.fail('should fail on invalid definition')
         except ConfParserException, e:
-            print e.message
             self.assertEqual(e.message, 'Invalid style definition: green "some pattern"')
         
     def test_get_sixth(self):
