@@ -36,15 +36,17 @@ class ConfParser:
 
     def __validate_styles(self, styles):
         for style in styles:
-            if style.transforms not in transformer.__STYLES__.keys():
-                raise ConfParserException('Invalid style attribute: "%s"'
-                                          % style.transforms)
+            for attr in style.transforms:
+                if attr not in transformer.__STYLES__.keys():
+                    raise ConfParserException('Invalid style attribute: "%s"'
+                                              % attr)
 
     def __parse_style(self, style_def):
         match = re.match(__STYLE_DEF__, style_def)
         if match:
-            transforms = match.group(1).strip()
+            parsed_transforms = match.group(1).strip()
             pattern = match.group(2).strip()
+            transforms = parsed_transforms.split()
             return transformer.Style(pattern, transforms)
         
         raise ConfParserException("Invalid style definition: %s" % style_def)

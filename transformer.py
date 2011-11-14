@@ -76,7 +76,8 @@ class Transformer:
     def __apply(self, line, start, end, style=None):
         style_escape_seq = __DEFAULT__
         if style:
-            style_escape_seq = __STYLES__[style.transforms]
+            for transform in style.transforms:
+                style_escape_seq += __STYLES__[transform]
 
         region = line[start : end]
         

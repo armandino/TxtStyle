@@ -249,27 +249,27 @@ class ConfParserTests(unittest.TestCase):
         self.confparser = None
         self.expected_styles = None
 
-    def add_style(self, pattern, transforms):
+    def expect_style(self, pattern, transforms):
         self.expected_styles.append(Style(pattern, transforms))
 
     def test_get_first(self):
         styles = self.confparser.get_styles('first')
-        self.add_style('some error', 'red')
-        self.add_style('\d\d-\d\d-\d\d\d\d', 'blue')
-        self.add_style('some pattern', 'green')
-        self.add_style('other pattern', 'underline')
+        self.expect_style('some error', ['red'])
+        self.expect_style('\d\d-\d\d-\d\d\d\d', ['blue'])
+        self.expect_style('some pattern', ['green'])
+        self.expect_style('other pattern', ['underline'])
         self.assert_styles(styles)
         
     def test_get_second(self):
         styles = self.confparser.get_styles('second')
-        self.add_style('\w+', 'blue')
+        self.expect_style('\w+', ['blue'])
         self.assert_styles(styles)
 
     def test_get_third(self):
         styles = self.confparser.get_styles('third')
-        self.add_style('\d+', 'on-red')
-        self.add_style('.*(foo).*', 'black')
-        self.add_style(': single: quotes', 'yellow')
+        self.expect_style('\d+', ['on-red'])
+        self.expect_style('.*(foo).*', ['grey'])
+        self.expect_style(': single: quotes', ['yellow'])
         self.assert_styles(styles)
 
     def test_get_fourth(self):
@@ -281,7 +281,8 @@ class ConfParserTests(unittest.TestCase):
             styles = self.confparser.get_styles('fifth')
             self.fail('should fail on invalid definition')
         except ConfParserException, e:
-            self.assertEqual(e.message, 'Invalid style definition: black "some pattern"')
+            print e.message
+            self.assertEqual(e.message, 'Invalid style definition: green "some pattern"')
         
     def test_get_sixth(self):
         try:
@@ -289,6 +290,11 @@ class ConfParserTests(unittest.TestCase):
             self.fail('should fail on invalid style attribute')
         except ConfParserException, e:
             self.assertEqual(e.message, 'Invalid style attribute: "some-bad-attribute"')
+
+    def test_get_seventh(self):
+        styles = self.confparser.get_styles('seventh')
+        self.expect_style('two attributes', ['blue', 'on-white'])
+        self.assert_styles(styles)
 
     def test_get_undefined(self):
         try:
