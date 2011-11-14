@@ -37,7 +37,7 @@ class ConfParser:
     def _validate_styles(self, styles):
         for style in styles:
             for attr in style.transforms:
-                if attr not in transformer.__STYLES__.keys():
+                if attr not in transformer.__STYLES__:
                     raise ConfParserException('Invalid style attribute: "%s"'
                                               % attr)
 
