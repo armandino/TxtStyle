@@ -30,35 +30,40 @@ class Txts:
         sys.stdout.write(styled_line + '\n')
 
 
+def get_conf_parser(conf):
+    try:
+        return ConfParser(conf)
+    except IOError, e:
+        if e.errno == errno.ENOENT:
+            sys.stderr.write("Configuration file not found: %s\n" % conf)
+        else:
+            sys.stderr.write("%s\n" % e)
+        sys.exit(e.errno)
+
 def parse_args():
     parser = argparse.ArgumentParser(
         prog='txts',
         description='Prettifies output of console programs.')
 
     parser.add_argument('-n', nargs=1)
+    parser.add_argument('-f', nargs=1)
     return parser.parse_args()
 
 
 __DEFAULT_CONF_FILE__ = '~/.txts.conf'
 
-def get_styles(style_name):
-    conf = os.path.expanduser(__DEFAULT_CONF_FILE__)
-    try:
-        parser = ConfParser(conf)
-        return parser.get_styles(style_name)
-    except IOError, e:
-        if e.errno == errno.ENOENT:
-            sys.stderr.write("Missing configuration file: %s\n" % conf)
-        else:
-            sys.stderr.write("%s\n" % e)
-        sys.exit(e.errno)
-
 def main():
     args = parse_args()
     styles = []
+    conf = os.path.expanduser(__DEFAULT_CONF_FILE__)
+    if args.f:
+        conf = args.f[0]
+
+    conf_parser = get_conf_parser(conf)
+    
     if args.n:
         style_name = args.n[0]
-        styles = get_styles(style_name)
+        styles = conf_parser.get_styles(style_name)
 
     txts = Txts(styles)
     txts.transform_input()

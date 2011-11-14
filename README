@@ -1,3 +1,6 @@
 txtstyle - prettifies output of console programs
 
+$ git clone git://github.com/armandino/txts.git
+$ cd txts
+$ cat /var/log/syslog | ./txts -f txts.conf -n syslog
 
