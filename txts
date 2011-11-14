@@ -6,7 +6,7 @@ import sys
 import time
 import argparse
 
-from confparser import ConfParser
+from confparser import ConfParser, ConfParserException
 from transformer import *
 
 class Txts:
@@ -50,6 +50,13 @@ def parse_args():
     return parser.parse_args()
 
 
+def get_styles(conf_parser, style_def_name):
+    try:
+        return conf_parser.get_styles(style_def_name)
+    except ConfParserException, e:
+        sys.stderr.write("%s\n" % e)
+        sys.exit(1)
+
 __DEFAULT_CONF_FILE__ = '~/.txts.conf'
 
 def main():
@@ -62,8 +69,8 @@ def main():
     conf_parser = get_conf_parser(conf)
     
     if args.n:
-        style_name = args.n[0]
-        styles = conf_parser.get_styles(style_name)
+        style_def_name = args.n[0]
+        styles = get_styles(conf_parser, style_def_name)
 
     txts = Txts(styles)
     txts.transform_input()
