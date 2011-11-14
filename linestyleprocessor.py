@@ -15,9 +15,9 @@ class LineStyleProcessor:
             style_map[style] = candidate_regions
         
         # region map represents elected regions (i.e. no overlaps)
-        return self.__get_elected_region_map__(line, style_map)
+        return self._get_elected_region_map(line, style_map)
 
-    def __get_elected_region_map__(self, line, style_map):
+    def _get_elected_region_map(self, line, style_map):
         """\
         Takes a style map (style -> candidate regions) and
         removes overlapping regions.
@@ -30,21 +30,21 @@ class LineStyleProcessor:
         for style, regions in style_map.items():
             
             for region in regions:
-                region_indexes = range(region[0], region[1]+1) # inclusive range
-                overlaps = self.__region_overlaps__(region_indexes, index_occupied)
+                region_indexes = range(region[0], region[1] + 1) # inclusive range
+                overlaps = self._region_overlaps(region_indexes, index_occupied)
                 
                 if not overlaps:
-                    self.__occupy_indexes__(region_indexes, index_occupied)
+                    self._occupy_indexes(region_indexes, index_occupied)
                     region_map[region] = style
         return region_map
 
-    def __region_overlaps__(self, region_indexes, index_occupied):
+    def _region_overlaps(self, region_indexes, index_occupied):
         for i in region_indexes:
             if index_occupied[i]:
                 return True
         return False
 
-    def __occupy_indexes__(self, region_indexes, index_occupied):
+    def _occupy_indexes(self, region_indexes, index_occupied):
         for i in region_indexes:
             index_occupied[i] = True
 

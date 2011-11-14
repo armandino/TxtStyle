@@ -42,7 +42,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         s7 = self.add_style([(29,29)])
         s8 = self.add_style([(13,15)])
 
-        region_map = self.lineStyleProcessor.__get_elected_region_map__(
+        region_map = self.lineStyleProcessor._get_elected_region_map(
             self.line, self.style_map)
         
         regions = region_map.keys()
@@ -68,7 +68,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         s7 = self.add_style([(4,7)])
         s8 = self.add_style([(1,2),(7,12),(19,25)]) # overlaps except: (1,2)
 
-        region_map = self.lineStyleProcessor.__get_elected_region_map__(
+        region_map = self.lineStyleProcessor._get_elected_region_map(
             self.line, self.style_map)
         regions = region_map.keys()
         regions.sort()
@@ -94,77 +94,77 @@ class RegionMatcherTests(unittest.TestCase):
     def setUp(self):
         regionmatcher = RegionMatcher()
         self.find_regions = regionmatcher.find_regions
-        self.__find_regions__ = regionmatcher.__find_regions__
-        self.__get_unique_search_tokens__ = regionmatcher.__get_unique_search_tokens__
+        self._find_regions = regionmatcher._find_regions
+        self._get_unique_search_tokens = regionmatcher._get_unique_search_tokens
 
     def tearDown(self):
-        self.__find_regions__ = None
-        self.__get_unique_search_tokens__ = None
+        self._find_regions = None
+        self._get_unique_search_tokens = None
 
     def test_repeated_invocation_returns_new_list(self):
-        results1 = self.__find_regions__('string', 'in')
-        results2 = self.__find_regions__('string', 'in')
+        results1 = self._find_regions('string', 'in')
+        results2 = self._find_regions('string', 'in')
         self.assertIsNot(results1, results2)
         self.assert_results([(3,4)], results1)
         self.assert_results([(3,4)], results2)
 
     def test_missing_searchstr_return_empty_results(self):
-        results = self.__find_regions__('some string', '')
+        results = self._find_regions('some string', '')
         self.assert_results([], results)
         
-        results = self.__find_regions__('some string', None)
+        results = self._find_regions('some string', None)
         self.assert_results([], results)
         
-        results = self.__find_regions__('', '')
+        results = self._find_regions('', '')
         self.assert_results([], results)
 
     def test_no_match(self):
-        results = self.__find_regions__('', 'a')
+        results = self._find_regions('', 'a')
         self.assert_results([], results)
         
-        results = self.__find_regions__('', 'foo')
+        results = self._find_regions('', 'foo')
         self.assert_results([], results)
 
-        results = self.__find_regions__('some string', 'foo')
+        results = self._find_regions('some string', 'foo')
         self.assert_results([], results)
 
     def test_smart_simple_cases(self):
-        results = self.__find_regions__('this is...', 'this')
+        results = self._find_regions('this is...', 'this')
         self.assert_results([(0,3)], results)
 
-        results = self.__find_regions__('my string', 'string')
+        results = self._find_regions('my string', 'string')
         self.assert_results([(3,8)], results)
 
     def test_single_char_match(self):
-        results = self.__find_regions__('a', 'a')
+        results = self._find_regions('a', 'a')
         self.assert_results([(0,0)], results)
 
-        results = self.__find_regions__('aaaaa', 'a')
+        results = self._find_regions('aaaaa', 'a')
         self.assert_results([(0,0), (1,1), (2,2), (3,3), (4,4)], results)
 
-        results = self.__find_regions__('axaxa', 'a')
+        results = self._find_regions('axaxa', 'a')
         self.assert_results([(0,0), (2,2), (4,4)], results)
 
-        results = self.__find_regions__('foo', 'f')
+        results = self._find_regions('foo', 'f')
         self.assert_results([(0,0)], results)
 
-        results = self.__find_regions__('foo', 'o')
+        results = self._find_regions('foo', 'o')
         self.assert_results([(1,1), (2,2)], results)
         
     def test_consecutive_matches(self):
-        results = self.__find_regions__('isisis', 'is')
-        tokens = self.__get_unique_search_tokens__('isisis', regex('is'))
+        results = self._find_regions('isisis', 'is')
+        tokens = self._get_unique_search_tokens('isisis', regex('is'))
         self.assertEqual(['is'], tokens)
         self.assert_results([(0,1), (2,3), (4,5)], results)
 
-        results = self.__find_regions__('isisisis', 'is')
+        results = self._find_regions('isisisis', 'is')
         self.assert_results([(0,1), (2,3), (4,5), (6,7)], results)
 
-        results = self.__find_regions__('x isis', 'is')
+        results = self._find_regions('x isis', 'is')
         self.assert_results([(2,3), (4,5)], results)
         #                              0         1         2
         #                              012345678901234567890
-        results = self.__find_regions__('this is his list isis', 'is')
+        results = self._find_regions('this is his list isis', 'is')
         self.assert_results([(2,3), (5,6), (9,10),
                              (13,14), (17,18), (19,20)], results)
 
@@ -194,7 +194,7 @@ class RegionMatcherTests(unittest.TestCase):
         #    01234567890123456789012345
         s = "20-2011-11-11 22:08:52.074932"
         
-        tokens = self.__get_unique_search_tokens__(s, regex("\d+"))
+        tokens = self._get_unique_search_tokens(s, regex("\d+"))
         results = self.find_regions(s, regex("\d+"))
 
         print "TOKENS", tokens    # ['2011', '11', '22', '08', '52', '074932']
@@ -208,29 +208,29 @@ class RegionMatcherTests(unittest.TestCase):
         s = "text (inside) brackets"
         r = regex("\((.*)\)")
         
-        tokens = self.__get_unique_search_tokens__(s, r)
+        tokens = self._get_unique_search_tokens(s, r)
         results = self.find_regions(s, r)
         self.assertEqual(['(inside)'], tokens)
         self.assert_results([(5,12)], results)
        
     def test_get_unique_search_tokens(self):
-        results = self.__get_unique_search_tokens__(
+        results = self._get_unique_search_tokens(
             "111 some 111 string 111", regex("\d\d\d"))
         self.assertEqual(['111'], results)
 
-        results = self.__get_unique_search_tokens__(
+        results = self._get_unique_search_tokens(
             "111 some 111 string 111", regex("some"))
         self.assertEqual(['some'], results)
 
-        results = self.__get_unique_search_tokens__(
+        results = self._get_unique_search_tokens(
             "2011-11-11 22:08:52.074932:", regex("\d+"))
         self.assertEqual(sorted(['2011', '11', '074932', '22', '08', '52']),
                          sorted(results))
 
-        results = self.__get_unique_search_tokens__("some string", regex("foo"))
+        results = self._get_unique_search_tokens("some string", regex("foo"))
         self.assertEqual([], results)
 
-        results = self.__get_unique_search_tokens__("", regex(""))
+        results = self._get_unique_search_tokens("", regex(""))
         self.assertEqual([], results)
 
     def assert_results(self, expected_results, results):

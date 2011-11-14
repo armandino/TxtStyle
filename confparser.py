@@ -25,23 +25,23 @@ class ConfParser:
         self.conf = conf_file
 
     def get_styles(self, style_name):
-        style_defs = self.__get_style_defs(style_name)
+        style_defs = self._get_style_defs(style_name)
         styles = []
         for style_def in style_defs:
-            style = self.__parse_style(style_def)
+            style = self._parse_style(style_def)
             styles.append(style)
         
-        self.__validate_styles(styles)
+        self._validate_styles(styles)
         return styles
 
-    def __validate_styles(self, styles):
+    def _validate_styles(self, styles):
         for style in styles:
             for attr in style.transforms:
                 if attr not in transformer.__STYLES__.keys():
                     raise ConfParserException('Invalid style attribute: "%s"'
                                               % attr)
 
-    def __parse_style(self, style_def):
+    def _parse_style(self, style_def):
         match = re.match(__STYLE_DEF__, style_def)
         if match:
             parsed_transforms = match.group(1).strip()
@@ -51,8 +51,8 @@ class ConfParser:
         
         raise ConfParserException("Invalid style definition: %s" % style_def)
 
-    def __get_style_defs(self, style_name):
-        lines = self.__get_conf_file_lines()
+    def _get_style_defs(self, style_name):
+        lines = self._get_conf_file_lines()
         style_defs = []
         found_style = False
 
@@ -61,9 +61,9 @@ class ConfParser:
             if line == '' or line.startswith('#'):
                 continue
             
-            if self.__is_style_header(line, style_name):
+            if self._is_style_header(line, style_name):
                 found_style = True
-            elif found_style and self.__is_style_header(line):
+            elif found_style and self._is_style_header(line):
                 break # next style def
             elif found_style:
                 style_defs.append(line)
@@ -73,7 +73,7 @@ class ConfParser:
 
         return style_defs
         
-    def __is_style_header(self, line, style_name=None):
+    def _is_style_header(self, line, style_name=None):
         match = re.match(__STYLE_HEADER__, line)
         if match:
             if style_name is not None:
@@ -82,7 +82,7 @@ class ConfParser:
         
         return False
 
-    def __get_conf_file_lines(self):
+    def _get_conf_file_lines(self):
         f = open(self.conf)
         lines = f.readlines()
         f.close()
