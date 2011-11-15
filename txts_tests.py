@@ -5,7 +5,7 @@ from collections import OrderedDict
 from confparser import ConfParser, ConfParserException
 from linestyleprocessor import LineStyleProcessor
 from regionmatcher import RegionMatcher
-from transformer import Style
+import transformer
 
 def regex(pattern):
     return re.compile(pattern)
@@ -28,7 +28,7 @@ class LineStyleProcessorTests(unittest.TestCase):
 
     def add_style(self, regions):
         empty_regex = regex("")
-        style = Style(empty_regex, None)
+        style = transformer.Style(empty_regex, None)
         self.style_map[style] = regions
         return style
 
@@ -238,8 +238,6 @@ class RegionMatcherTests(unittest.TestCase):
         for i, result in enumerate(results):
             self.assertEqual(expected_results[i], result)
 
-
-
 class ConfParserTests(unittest.TestCase):
     def setUp(self):
         self.confparser = ConfParser('.test.txts.conf')
@@ -250,7 +248,7 @@ class ConfParserTests(unittest.TestCase):
         self.expected_styles = None
 
     def expect_style(self, pattern, transforms):
-        self.expected_styles.append(Style(pattern, transforms))
+        self.expected_styles.append(transformer.Style(pattern, transforms))
 
     def test_get_first(self):
         styles = self.confparser.get_styles('first')
@@ -308,7 +306,45 @@ class ConfParserTests(unittest.TestCase):
             expected = self.expected_styles[i]
             self.assertEqual(expected.regex_obj.pattern, style.regex_obj.pattern)
             self.assertEqual(expected.transforms, style.transforms)
-        
+
+
+class TransformerTests(unittest.TestCase):
+    def setUp(self):
+        Style = transformer.Style
+        styles = [
+            Style("^\w\w\w \d\d\s?", ['white', 'on-magenta']),
+            Style("\d\d:\d\d:\d\d", ['bold', 'on-blue']),
+            Style(".*<warn>.*", ['yellow']),
+            Style("\((.*)\)", ['red', 'on-white']),
+            Style("\[(.*)\]", ['grey', 'bold']),
+            ]
+        self.transformer = transformer.Transformer(styles)
+        self.lines = self.get_lines('test-files/test-syslog')
+    
+    def get_lines(self, fname):
+        f = open(fname)
+        lines = f.readlines()
+        f.close()
+        return lines
+
+    def test_removing_styles_is_equal_to_original_line(self):
+        """Style a line, remove escape sequences and compare to the original
+        """
+        for original_line in self.lines:
+            original_line = original_line.strip('\n')
+            styled_line = self.transformer.style(original_line)
+            styled_line = styled_line.encode('string_escape')
+            unstyled_line = self.remove_styles(styled_line)
+            self.assertEqual(original_line, unstyled_line)
+
+    def remove_styles(self, line):
+        unstyled = line.replace(r'\x1b[m', '', 1000)
+        unstyled = unstyled.replace("\\'", "'", 1000)
+        for style_key in transformer.__STYLES__:
+            transform = transformer.__STYLES__[style_key]
+            escape_code = transform.encode('string_escape')
+            unstyled = unstyled.replace(escape_code, '', 1000)
+        return unstyled
 
 if __name__ == "__main__":
     unittest.main()

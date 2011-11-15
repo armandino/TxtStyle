@@ -1,0 +1,550 @@
+Nov 13 21:51:05 lhost dhclient: DHCPACK of 192.168.1.64 from 192.168.1.254
+Nov 13 21:51:05 lhost dhclient: bound to 192.168.1.64 -- renewal in 36163 seconds.
+Nov 13 21:51:05 lhost NetworkManager[522]: <info> (wlan0): DHCPv4 state changed preinit -> reboot
+Nov 13 21:51:05 lhost NetworkManager[522]: <info> Activation (wlan0) Stage 4 of 5 (IP4 Configure Get) scheduled...
+Nov 13 21:51:05 lhost NetworkManager[522]: <info> Activation (wlan0) Stage 4 of 5 (IP4 Configure Get) started...
+Nov 13 21:51:05 lhost NetworkManager[522]: <info>   address 192.168.1.64
+Nov 13 21:51:05 lhost NetworkManager[522]: <info>   prefix 24 (255.255.255.0)
+Nov 13 21:51:05 lhost NetworkManager[522]: <info>   gateway 192.168.1.254
+Nov 13 21:51:05 lhost NetworkManager[522]: <info>   hostname 'lhost'
+Nov 13 21:51:05 lhost NetworkManager[522]: <info>   nameserver '192.168.1.254'
+Nov 13 21:51:05 lhost NetworkManager[522]: <info>   domain name 'home'
+Nov 13 21:51:05 lhost NetworkManager[522]: <info> Activation (wlan0) Stage 5 of 5 (IP Configure Commit) started...
+Nov 14 18:39:05 lhost kernel: [ 1686.526788] cfg80211:     (5170000 KHz - 5250000 KHz @ 40000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:21:03 lhost rsyslogd: [origin software="rsyslogd" swVersion="5.8.1" x-pid="514" x-info="http://www.rsyslog.com"] rsyslogd was HUPed
+Nov 14 18:21:27 lhost anacron[800]: Job `cron.daily' terminated
+Nov 14 18:21:27 lhost anacron[800]: Normal exit (1 job run)
+Nov 14 18:22:04 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:22:04 lhost kernel: [  665.500076] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:22:04 lhost kernel: [  665.504068] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:22:04 lhost kernel: [  665.504082] cfg80211: Restoring regulatory settings
+Nov 14 18:22:04 lhost kernel: [  665.504094] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:22:04 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:22:04 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:22:04 lhost kernel: [  665.662853] cfg80211: 2474000 KHz - 2494000 KHz @  KHz), (300 mBi, 2000 mBm)
+Nov 14 18:22:04 lhost kernel: [  665.662865] cfg80211: World regulatory domain updated:
+Nov 14 18:22:04 lhost kernel: [  665.662871] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:22:04 lhost kernel: [  665.662924] cfg80211:     (5735000 KHz - 5835000 KHz @ 40000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:22:05 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:22:05 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:22:05 lhost kernel: [  667.020515] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:22:05 lhost kernel: [  667.022053] wlan0: authenticated
+Nov 14 18:22:05 lhost kernel: [  667.023255] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:22:05 lhost kernel: [  667.031323] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:22:05 lhost kernel: [  667.031334] wlan0: associated
+Nov 14 18:22:05 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:22:05 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:22:05 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:22:05 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:22:06 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> associating
+Nov 14 18:22:06 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associating -> 4-way handshake
+Nov 14 18:22:06 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: 4-way handshake -> group handshake
+Nov 14 18:22:06 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: group handshake -> completed
+Nov 14 18:24:04 lhost kernel: [  785.500078] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:24:04 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:24:04 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:24:04 lhost kernel: [  785.509409] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:24:04 lhost kernel: [  785.509422] cfg80211: Restoring regulatory settings
+Nov 14 18:24:04 lhost kernel: [  785.509434] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:24:04 lhost kernel: [  785.530602] cfg80211: World regulatory domain updated:
+Nov 14 18:24:04 lhost kernel: [  785.530609] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:24:04 lhost kernel: [  785.530630] cfg80211:     (2457000 KHz - 2482000 KHz @ 20000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:24:04 lhost kernel: [  785.530640] cfg80211:     (2474000 KHz - 2494000 KHz @ 20000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:24:04 lhost kernel: [  785.530651] cfg80211:     (5170000 KHz - 5250000 KHz @ 40000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:24:04 lhost kernel: [  785.530661] cfg80211:     (5735000 KHz - 5835000 KHz @ 40000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:24:04 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:24:05 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:24:05 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:24:05 lhost kernel: [  787.044238] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:24:05 lhost kernel: [  787.045807] wlan0: authenticated
+Nov 14 18:24:05 lhost kernel: [  787.047763] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:24:05 lhost kernel: [  787.051072] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:24:05 lhost kernel: [  787.051083] wlan0: associated
+Nov 14 18:24:05 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:24:05 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:24:05 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:24:05 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:24:05 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> 4-way handshake
+Nov 14 18:24:06 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: 4-way handshake -> group handshake
+Nov 14 18:24:06 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: group handshake -> completed
+Nov 14 18:24:38 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:24:38 lhost kernel: [  819.504150] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:24:38 lhost kernel: [  819.506216] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:24:38 lhost kernel: [  819.506229] cfg80211: Restoring regulatory settings
+Nov 14 18:24:38 lhost kernel: [  819.506240] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:24:38 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:24:38 lhost kernel: [  819.530815] cfg80211: World regulatory domain updated:
+Nov 14 18:24:38 lhost kernel: [  819.530822] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:24:38 lhost kernel: [  819.530874] cfg80211:     (5735000 KHz - 5835000 KHz @ 40000 KHz), (300 mBi, 2000 mBm)
+Nov 14 18:24:38 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:24:39 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:24:39 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:24:39 lhost kernel: [  821.040617] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:24:39 lhost kernel: [  821.042211] wlan0: authenticated
+Nov 14 18:24:39 lhost kernel: [  821.047443] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:24:39 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:24:39 lhost kernel: [  821.073036] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:24:39 lhost kernel: [  821.073049] wlan0: associated
+Nov 14 18:24:39 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:24:39 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:24:39 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:24:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> associating
+Nov 14 18:24:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associating -> associated
+Nov 14 18:24:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associated -> 4-way handshake
+Nov 14 18:24:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: 4-way handshake -> group handshake
+Nov 14 18:24:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: group handshake -> completed
+Nov 14 18:25:40 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:25:40 lhost kernel: [  881.500275] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:25:40 lhost kernel: [  881.505232] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:25:40 lhost kernel: [  881.505245] cfg80211: Restoring regulatory settings
+Nov 14 18:25:40 lhost kernel: [  881.505256] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:25:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:25:40 lhost kernel: [  881.527711] cfg80211: World regulatory domain updated:
+Nov 14 18:25:40 lhost kernel: [  881.527717] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:25:40 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:25:41 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:25:41 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:25:41 lhost kernel: [  883.020124] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:25:41 lhost kernel: [  883.021745] wlan0: authenticated
+Nov 14 18:25:41 lhost kernel: [  883.024101] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:25:41 lhost kernel: [  883.026295] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:25:41 lhost kernel: [  883.026306] wlan0: associated
+Nov 14 18:25:41 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:25:41 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:25:41 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:25:41 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:25:41 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> associating
+Nov 14 18:25:41 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associating -> 4-way handshake
+Nov 14 18:25:41 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: 4-way handshake -> group handshake
+Nov 14 18:25:41 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: group handshake -> completed
+Nov 14 18:25:46 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:25:46 lhost kernel: [  887.500260] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:25:46 lhost kernel: [  887.502903] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:25:46 lhost kernel: [  887.502915] cfg80211: Restoring regulatory settings
+Nov 14 18:25:46 lhost kernel: [  887.502927] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:25:46 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:25:46 lhost kernel: [  887.518011] cfg80211: World regulatory domain updated:
+Nov 14 18:25:46 lhost kernel: [  887.518018] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:25:46 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:25:47 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:25:47 lhost kernel: [  889.040130] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:25:47 lhost kernel: [  889.041676] wlan0: authenticated
+Nov 14 18:25:47 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:25:47 lhost kernel: [  889.045322] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:25:47 lhost kernel: [  889.048854] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:25:47 lhost kernel: [  889.048865] wlan0: associated
+Nov 14 18:25:47 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:25:47 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:25:47 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:25:47 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:25:48 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> associating
+Nov 14 18:25:48 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associating -> associated
+Nov 14 18:25:48 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associated -> 4-way handshake
+Nov 14 18:25:48 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: 4-way handshake -> group handshake
+Nov 14 18:25:48 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: group handshake -> completed
+Nov 14 18:27:11 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:27:11 lhost kernel: [  972.504258] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:27:11 lhost kernel: [  972.508924] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:27:11 lhost kernel: [  972.508937] cfg80211: Restoring regulatory settings
+Nov 14 18:27:11 lhost kernel: [  972.508948] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:27:11 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:27:11 lhost kernel: [  972.531181] cfg80211: World regulatory domain updated:
+Nov 14 18:27:11 lhost kernel: [  972.531188] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:27:11 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:27:12 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:27:12 lhost kernel: [  974.032663] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:27:12 lhost kernel: [  974.034576] wlan0: authenticated
+Nov 14 18:27:12 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:27:12 lhost kernel: [  974.038590] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:27:12 lhost kernel: [  974.045106] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:27:12 lhost kernel: [  974.045118] wlan0: associated
+Nov 14 18:27:12 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:27:12 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:27:12 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:27:12 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:27:13 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> associated
+Nov 14 18:27:13 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: associated -> 4-way handshake
+Nov 14 18:27:13 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: 4-way handshake -> group handshake
+Nov 14 18:27:13 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: group handshake -> completed
+Nov 14 18:30:02 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:30:02 lhost kernel: [ 1143.504248] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:30:02 lhost kernel: [ 1143.508886] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:30:02 lhost kernel: [ 1143.508898] cfg80211: Restoring regulatory settings
+Nov 14 18:30:02 lhost kernel: [ 1143.508909] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:30:02 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: completed -> disconnected
+Nov 14 18:30:02 lhost kernel: [ 1143.532230] cfg80211: World regulatory domain updated:
+Nov 14 18:30:02 lhost kernel: [ 1143.532236] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:30:02 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: disconnected -> scanning
+Nov 14 18:30:03 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:30:03 lhost kernel: [ 1145.043102] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:30:03 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: scanning -> authenticating
+Nov 14 18:30:03 lhost kernel: [ 1145.092484] wlan0: authenticated
+Nov 14 18:30:03 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:30:03 lhost kernel: [ 1145.104640] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:30:03 lhost kernel: [ 1145.111939] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:30:03 lhost kernel: [ 1145.111951] wlan0: associated
+Nov 14 18:30:03 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:30:04 lhost NetworkManager[541]: <info> (wlan0): supplicant interface state: authenticating -> associating
+Nov 14 18:30:04 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:30:04 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:31:09 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:31:09 lhost kernel: [ 1210.500063] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:31:09 lhost kernel: [ 1210.505492] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:31:09 lhost kernel: [ 1210.505505] cfg80211: Restoring regulatory settings
+Nov 14 18:31:09 lhost kernel: [ 1210.505517] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:31:09 lhost kernel: [ 1210.528800] cfg80211: World regulatory domain updated:
+Nov 14 18:31:09 lhost kernel: [ 1210.528807] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:31:10 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:31:10 lhost kernel: [ 1212.018460] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:31:10 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:31:10 lhost kernel: [ 1212.028614] wlan0: authenticated
+Nov 14 18:31:10 lhost kernel: [ 1212.032472] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:31:10 lhost kernel: [ 1212.035761] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:31:10 lhost kernel: [ 1212.035772] wlan0: associated
+Nov 14 18:31:10 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:31:10 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:31:10 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:35:14 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:35:14 lhost kernel: [ 1455.500254] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:35:14 lhost kernel: [ 1455.513314] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:35:14 lhost kernel: [ 1455.513328] cfg80211: Restoring regulatory settings
+Nov 14 18:35:14 lhost kernel: [ 1455.513341] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:35:14 lhost kernel: [ 1455.527895] cfg80211: World regulatory domain updated:
+Nov 14 18:35:14 lhost kernel: [ 1455.527902] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:35:15 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:35:15 lhost kernel: [ 1457.012723] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:35:15 lhost kernel: [ 1457.015346] wlan0: authenticated
+Nov 14 18:35:15 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:35:15 lhost kernel: [ 1457.028300] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:35:15 lhost kernel: [ 1457.031439] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:35:15 lhost kernel: [ 1457.031450] wlan0: associated
+Nov 14 18:35:15 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:35:15 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:35:15 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:35:31 lhost kernel: [ 1472.500258] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:35:31 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:35:31 lhost kernel: [ 1472.510517] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:35:31 lhost kernel: [ 1472.510530] cfg80211: Restoring regulatory settings
+Nov 14 18:35:31 lhost kernel: [ 1472.510542] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:35:31 lhost kernel: [ 1472.524251] cfg80211: World regulatory domain updated:
+Nov 14 18:35:31 lhost kernel: [ 1472.524258] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:35:32 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:35:32 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:35:32 lhost kernel: [ 1474.024303] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:35:32 lhost kernel: [ 1474.025826] wlan0: authenticated
+Nov 14 18:35:32 lhost kernel: [ 1474.027326] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:35:32 lhost kernel: [ 1474.030387] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:35:32 lhost kernel: [ 1474.030398] wlan0: associated
+Nov 14 18:35:32 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:35:32 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:35:32 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:39:05 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:39:05 lhost kernel: [ 1686.504252] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:39:05 lhost kernel: [ 1686.514023] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:39:05 lhost kernel: [ 1686.514037] cfg80211: Restoring regulatory settings
+Nov 14 18:39:05 lhost kernel: [ 1686.514049] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:39:05 lhost kernel: [ 1686.526738] cfg80211: World regulatory domain updated:
+Nov 14 18:39:05 lhost kernel: [ 1686.526745] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:39:06 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:39:06 lhost kernel: [ 1688.044222] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:39:06 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:39:06 lhost kernel: [ 1688.049031] wlan0: authenticated
+Nov 14 18:39:06 lhost kernel: [ 1688.052498] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:39:06 lhost kernel: [ 1688.055490] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:39:06 lhost kernel: [ 1688.055500] wlan0: associated
+Nov 14 18:39:06 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:39:07 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:39:07 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:39:19 lhost kernel: [ 1700.500269] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:39:19 lhost kernel: [ 1700.501407] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:39:19 lhost kernel: [ 1700.501419] cfg80211: Restoring regulatory settings
+Nov 14 18:39:19 lhost kernel: [ 1700.501431] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:39:19 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:39:19 lhost kernel: [ 1700.516645] cfg80211: World regulatory domain updated:
+Nov 14 18:39:19 lhost kernel: [ 1700.516652] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:39:20 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:39:20 lhost kernel: [ 1702.035650] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:39:20 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:39:20 lhost kernel: [ 1702.038247] wlan0: authenticated
+Nov 14 18:39:20 lhost kernel: [ 1702.048114] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:39:20 lhost kernel: [ 1702.050283] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:39:20 lhost kernel: [ 1702.050295] wlan0: associated
+Nov 14 18:39:20 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:39:20 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:39:20 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:40:14 lhost kernel: [ 1755.504252] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:40:14 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:40:14 lhost kernel: [ 1755.522063] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:40:14 lhost kernel: [ 1755.522076] cfg80211: Restoring regulatory settings
+Nov 14 18:40:14 lhost kernel: [ 1755.522088] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:40:14 lhost kernel: [ 1755.535197] cfg80211: World regulatory domain updated:
+Nov 14 18:40:14 lhost kernel: [ 1755.535204] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:40:15 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:40:15 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:40:15 lhost kernel: [ 1757.084096] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:40:15 lhost kernel: [ 1757.085691] wlan0: authenticated
+Nov 14 18:40:15 lhost kernel: [ 1757.092115] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:40:15 lhost kernel: [ 1757.099941] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:40:15 lhost kernel: [ 1757.099952] wlan0: associated
+Nov 14 18:40:15 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:40:15 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:40:15 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:42:11 lhost kernel: [ 1872.500070] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:42:11 lhost kernel: [ 1872.501206] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:42:11 lhost kernel: [ 1872.501218] cfg80211: Restoring regulatory settings
+Nov 14 18:42:11 lhost kernel: [ 1872.501230] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:42:11 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:42:11 lhost kernel: [ 1872.530417] cfg80211: World regulatory domain updated:
+Nov 14 18:42:11 lhost kernel: [ 1872.530424] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:42:12 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:42:12 lhost kernel: [ 1874.022174] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:42:12 lhost kernel: [ 1874.023707] wlan0: authenticated
+Nov 14 18:42:12 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:42:12 lhost kernel: [ 1874.032332] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:42:12 lhost kernel: [ 1874.034510] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:42:12 lhost kernel: [ 1874.034521] wlan0: associated
+Nov 14 18:42:12 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:42:12 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:42:12 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:42:51 lhost kernel: [ 1912.500245] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:42:51 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:42:51 lhost kernel: [ 1912.517775] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:42:51 lhost kernel: [ 1912.517788] cfg80211: Restoring regulatory settings
+Nov 14 18:42:51 lhost kernel: [ 1912.517800] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:42:51 lhost kernel: [ 1912.532070] cfg80211: World regulatory domain updated:
+Nov 14 18:42:51 lhost kernel: [ 1912.532077] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:42:52 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:42:52 lhost kernel: [ 1914.036653] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:42:53 lhost kernel: [ 1914.236062] wlan0: authenticate with 23:1a:21:23:2c:19 (try 2)
+Nov 14 18:42:53 lhost kernel: [ 1914.255933] wlan0: authenticated
+Nov 14 18:42:53 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:42:53 lhost kernel: [ 1914.256991] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:42:53 lhost kernel: [ 1914.259154] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:42:53 lhost kernel: [ 1914.259165] wlan0: associated
+Nov 14 18:42:53 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:42:53 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:42:53 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:43:02 lhost kernel: [ 1923.504263] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:43:02 lhost kernel: [ 1923.505402] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:43:02 lhost kernel: [ 1923.505413] cfg80211: Restoring regulatory settings
+Nov 14 18:43:02 lhost kernel: [ 1923.505425] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:43:02 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:43:02 lhost kernel: [ 1923.520852] cfg80211: World regulatory domain updated:
+Nov 14 18:43:02 lhost kernel: [ 1923.520859] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:43:03 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:43:03 lhost kernel: [ 1925.028650] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:43:03 lhost kernel: [ 1925.030251] wlan0: authenticated
+Nov 14 18:43:03 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:43:03 lhost kernel: [ 1925.035393] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:43:03 lhost kernel: [ 1925.042801] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:43:03 lhost kernel: [ 1925.042813] wlan0: associated
+Nov 14 18:43:03 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:43:03 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:43:03 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:43:48 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:43:48 lhost kernel: [ 1969.500266] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:43:48 lhost kernel: [ 1969.509678] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:43:48 lhost kernel: [ 1969.509692] cfg80211: Restoring regulatory settings
+Nov 14 18:43:48 lhost kernel: [ 1969.509704] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:43:48 lhost kernel: [ 1969.522692] cfg80211: World regulatory domain updated:
+Nov 14 18:43:48 lhost kernel: [ 1969.522699] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:43:49 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:43:49 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:43:49 lhost kernel: [ 1971.044518] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:43:49 lhost kernel: [ 1971.046082] wlan0: authenticated
+Nov 14 18:43:49 lhost kernel: [ 1971.047620] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:43:49 lhost kernel: [ 1971.049795] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:43:49 lhost kernel: [ 1971.049805] wlan0: associated
+Nov 14 18:43:49 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:43:49 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:43:49 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:44:47 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:44:47 lhost kernel: [ 2028.500082] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:44:47 lhost kernel: [ 2028.508227] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:44:47 lhost kernel: [ 2028.508240] cfg80211: Restoring regulatory settings
+Nov 14 18:44:47 lhost kernel: [ 2028.509607] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:44:47 lhost kernel: [ 2028.526805] cfg80211: World regulatory domain updated:
+Nov 14 18:44:47 lhost kernel: [ 2028.526812] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:44:48 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:44:48 lhost kernel: [ 2030.021167] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:44:48 lhost kernel: [ 2030.027447] wlan0: authenticated
+Nov 14 18:44:48 lhost wpa_supplicant[1014]: Trying to associate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:44:48 lhost kernel: [ 2030.036615] wlan0: associate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:44:49 lhost kernel: [ 2030.236055] wlan0: associate with 23:1a:21:23:2c:19 (try 2)
+Nov 14 18:44:49 lhost kernel: [ 2030.238287] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:44:49 lhost kernel: [ 2030.238298] wlan0: associated
+Nov 14 18:44:49 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:44:49 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:44:49 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:45:05 lhost kernel: [ 2046.500252] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:45:05 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:45:05 lhost kernel: [ 2046.518612] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:45:05 lhost kernel: [ 2046.518625] cfg80211: Restoring regulatory settings
+Nov 14 18:45:05 lhost kernel: [ 2046.518637] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:45:05 lhost kernel: [ 2046.531405] cfg80211: World regulatory domain updated:
+Nov 14 18:45:05 lhost kernel: [ 2046.531412] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:45:06 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:45:06 lhost kernel: [ 2048.048101] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:45:06 lhost kernel: [ 2048.049700] wlan0: authenticated
+Nov 14 18:45:06 lhost kernel: [ 2048.054847] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:45:06 lhost kernel: [ 2048.054859] wlan0: associated
+Nov 14 18:45:06 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:45:06 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:45:06 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:45:34 lhost kernel: [ 2075.504264] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:45:34 lhost kernel: [ 2075.505432] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:45:34 lhost kernel: [ 2075.505444] cfg80211: Restoring regulatory settings
+Nov 14 18:45:34 lhost kernel: [ 2075.505456] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:45:34 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:45:34 lhost kernel: [ 2075.529721] cfg80211: World regulatory domain updated:
+Nov 14 18:45:34 lhost kernel: [ 2075.529728] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:45:35 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:45:35 lhost kernel: [ 2077.056228] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:45:35 lhost kernel: [ 2077.069769] wlan0: authenticated
+Nov 14 18:45:35 lhost kernel: [ 2077.074613] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:45:35 lhost kernel: [ 2077.074624] wlan0: associated
+Nov 14 18:45:35 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:45:35 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:45:35 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:45:50 lhost kernel: [ 2091.500262] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:45:50 lhost kernel: [ 2091.501609] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:45:50 lhost kernel: [ 2091.501621] cfg80211: Restoring regulatory settings
+Nov 14 18:45:50 lhost kernel: [ 2091.501633] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:45:50 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:45:50 lhost kernel: [ 2091.516732] cfg80211: World regulatory domain updated:
+Nov 14 18:45:50 lhost kernel: [ 2091.516739] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:45:51 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:45:51 lhost kernel: [ 2093.024316] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:45:51 lhost kernel: [ 2093.043525] wlan0: authenticated
+Nov 14 18:45:51 lhost kernel: [ 2093.052660] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:45:51 lhost kernel: [ 2093.052671] wlan0: associated
+Nov 14 18:45:51 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:45:51 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:45:51 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:45:59 lhost kernel: [ 2100.504255] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:45:59 lhost kernel: [ 2100.512855] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:45:59 lhost kernel: [ 2100.512880] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:45:59 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:45:59 lhost kernel: [ 2100.527621] cfg80211: World regulatory domain updated:
+Nov 14 18:45:59 lhost kernel: [ 2100.527628] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:46:00 lhost wpa_supplicant[1014]: Trying to authenticate with 23:1a:21:23:2c:19 (SSID='BlackDiamond' freq=2417 MHz)
+Nov 14 18:46:00 lhost kernel: [ 2102.028539] wlan0: authenticate with 23:1a:21:23:2c:19 (try 1)
+Nov 14 18:46:00 lhost kernel: [ 2102.052362] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:46:00 lhost kernel: [ 2102.052374] wlan0: associated
+Nov 14 18:46:00 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:46:00 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:46:00 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:46:18 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:46:18 lhost kernel: [ 2119.500266] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:46:18 lhost kernel: [ 2119.503323] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:46:18 lhost kernel: [ 2119.503349] cfg80211: Calling CRDA to update world regulatory domain
+Nov 14 18:46:18 lhost kernel: [ 2119.524105] cfg80211: World regulatory domain updated:
+Nov 14 18:46:18 lhost kernel: [ 2119.524112] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:46:19 lhost kernel: [ 2121.026489] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:46:19 lhost kernel: [ 2121.026500] wlan0: associated
+Nov 14 18:46:19 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:46:19 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:46:19 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:46:43 lhost kernel: [ 2144.500268] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:46:43 lhost kernel: [ 2144.501444] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:46:43 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:46:43 lhost kernel: [ 2144.516943] cfg80211: World regulatory domain updated:
+Nov 14 18:46:43 lhost kernel: [ 2144.516950] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:46:44 lhost kernel: [ 2146.030815] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:46:44 lhost kernel: [ 2146.030827] wlan0: associated
+Nov 14 18:46:44 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:46:44 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:46:44 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:47:22 lhost kernel: [ 2183.500254] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:47:22 lhost kernel: [ 2183.501403] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:47:22 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:47:22 lhost kernel: [ 2183.525899] cfg80211: World regulatory domain updated:
+Nov 14 18:47:22 lhost kernel: [ 2183.525906] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:47:23 lhost kernel: [ 2185.061195] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:47:23 lhost kernel: [ 2185.061206] wlan0: associated
+Nov 14 18:47:23 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:47:23 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:47:23 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:48:18 lhost kernel: [ 2239.500073] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:48:18 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:48:18 lhost kernel: [ 2239.513894] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:48:18 lhost kernel: [ 2239.527262] cfg80211: World regulatory domain updated:
+Nov 14 18:48:18 lhost kernel: [ 2239.527269] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:48:19 lhost kernel: [ 2241.043262] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:48:19 lhost kernel: [ 2241.043273] wlan0: associated
+Nov 14 18:48:19 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:48:19 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:48:19 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:48:27 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:48:27 lhost kernel: [ 2248.500265] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:48:27 lhost kernel: [ 2248.502250] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:48:27 lhost kernel: [ 2248.517536] cfg80211: World regulatory domain updated:
+Nov 14 18:48:27 lhost kernel: [ 2248.517543] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:48:29 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:48:29 lhost kernel: [ 2250.248273] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:48:29 lhost kernel: [ 2250.248284] wlan0: associated
+Nov 14 18:48:29 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:48:29 lhost wpa_supplicant[1014]: CTRL-EVENT-CONNECTED - Connection to 23:1a:21:23:2c:19 completed (reauth) [id=0 id_str=]
+Nov 14 18:49:04 lhost wpa_supplicant[1014]: CTRL-EVENT-DISCONNECTED bssid=23:1a:21:23:2c:19 reason=4
+Nov 14 18:49:04 lhost kernel: [ 2285.504166] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:49:04 lhost kernel: [ 2285.505326] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:49:04 lhost kernel: [ 2285.530239] cfg80211: World regulatory domain updated:
+Nov 14 18:49:04 lhost kernel: [ 2285.530246] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:49:05 lhost kernel: [ 2287.031058] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:49:05 lhost kernel: [ 2287.031069] wlan0: associated
+Nov 14 18:49:05 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:49:05 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:50:47 lhost kernel: [ 2388.500266] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:50:47 lhost kernel: [ 2388.503568] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:50:47 lhost kernel: [ 2388.516927] cfg80211: World regulatory domain updated:
+Nov 14 18:50:47 lhost kernel: [ 2388.516934] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:50:49 lhost kernel: [ 2390.242714] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:50:49 lhost kernel: [ 2390.242726] wlan0: associated
+Nov 14 18:50:49 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:50:49 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:50:59 lhost kernel: [ 2400.504253] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:50:59 lhost kernel: [ 2400.508258] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:50:59 lhost kernel: [ 2400.521324] cfg80211: World regulatory domain updated:
+Nov 14 18:50:59 lhost kernel: [ 2400.521330] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:51:00 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:51:00 lhost kernel: [ 2402.048206] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:51:00 lhost kernel: [ 2402.048217] wlan0: associated
+Nov 14 18:51:00 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:53:12 lhost kernel: [ 2533.504250] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:53:12 lhost kernel: [ 2533.506493] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:53:12 lhost kernel: [ 2533.521776] cfg80211: World regulatory domain updated:
+Nov 14 18:53:12 lhost kernel: [ 2533.521783] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:53:13 lhost kernel: [ 2535.058514] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:53:13 lhost kernel: [ 2535.058524] wlan0: associated
+Nov 14 18:53:13 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:53:13 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:53:25 lhost kernel: [ 2546.500244] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:53:25 lhost kernel: [ 2546.504554] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:53:25 lhost kernel: [ 2546.517498] cfg80211: World regulatory domain updated:
+Nov 14 18:53:25 lhost kernel: [ 2546.517505] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:53:26 lhost kernel: [ 2548.021661] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:53:26 lhost kernel: [ 2548.021672] wlan0: associated
+Nov 14 18:53:26 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:53:26 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:54:08 lhost kernel: [ 2589.500253] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:54:08 lhost kernel: [ 2589.510169] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:54:08 lhost kernel: [ 2589.529371] cfg80211: World regulatory domain updated:
+Nov 14 18:54:08 lhost kernel: [ 2589.529378] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:54:09 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:54:09 lhost kernel: [ 2591.033025] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:54:09 lhost kernel: [ 2591.033035] wlan0: associated
+Nov 14 18:54:09 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:55:34 lhost kernel: [ 2675.500267] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:55:34 lhost kernel: [ 2675.508223] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:55:34 lhost kernel: [ 2675.526607] cfg80211: World regulatory domain updated:
+Nov 14 18:55:34 lhost kernel: [ 2675.526614] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:55:35 lhost kernel: [ 2677.022454] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+Nov 14 18:55:35 lhost kernel: [ 2677.022464] wlan0: associated
+Nov 14 18:55:35 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:55:35 lhost wpa_supplicant[1014]: WPA: Key negotiation completed with 23:1a:21:23:2c:19 [PTK=TKIP GTK=TKIP]
+Nov 14 18:55:54 lhost kernel: [ 2695.500252] ieee80211 phy0: wlan0: No probe response from AP 23:1a:21:23:2c:19 after 500ms, disconnecting.
+Nov 14 18:55:54 lhost kernel: [ 2695.501740] cfg80211: All devices are disconnected, going to restore regulatory settings
+Nov 14 18:55:54 lhost kernel: [ 2695.516604] cfg80211: World regulatory domain updated:
+Nov 14 18:55:54 lhost kernel: [ 2695.516611] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
+Nov 14 18:55:55 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
+Nov 14 18:55:55 lhost kernel: [ 2697.036807] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)

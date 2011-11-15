@@ -57,17 +57,18 @@ class Transformer:
             style = region_map[region]
             start = region[0]
             end = region[1] + 1
-            
+
             if pos < start:
                 self._append_to(region_strings, line, pos, start)
                 self._append_to(region_strings, line, start, end, style)
             else:
                 self._append_to(region_strings, line, start, end, style)
 
+
             pos = end
 
-        if pos < len(line) - 1:
-            self._append_to(region_strings, line, pos, len(line) - 1)
+        if pos <= len(line) - 1:
+            self._append_to(region_strings, line, pos, len(line))
         
         styled_line = ''.join(region_strings)
         return styled_line
