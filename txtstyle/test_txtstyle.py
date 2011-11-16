@@ -240,7 +240,7 @@ class RegionMatcherTests(unittest.TestCase):
 
 class ConfParserTests(unittest.TestCase):
     def setUp(self):
-        self.confparser = ConfParser('.test.txts.conf')
+        self.confparser = ConfParser('testdata/test.txts.conf')
         self.expected_styles = []
 
     def tearDown(self):
@@ -319,7 +319,7 @@ class TransformerTests(unittest.TestCase):
             Style("\[(.*)\]", ['grey', 'bold']),
             ]
         self.transformer = transformer.Transformer(styles)
-        self.lines = self.get_lines('test-files/test-syslog')
+        self.lines = self.get_lines('testdata/test-syslog')
     
     def get_lines(self, fname):
         f = open(fname)
