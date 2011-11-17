@@ -6,8 +6,8 @@ import sys
 import time
 import argparse
 
-from confparser import ConfParser, ConfParserException
-from transformer import *
+from txtstyle.confparser import ConfParser, ConfParserException
+from txtstyle.transformer import Transformer
 
 _DEFAULT_CONF_FILE = '~/.txts.conf'
 
