@@ -240,7 +240,12 @@ class RegionMatcherTests(unittest.TestCase):
 
 class ConfParserTests(unittest.TestCase):
     def setUp(self):
-        self.confparser = ConfParser('testdata/test.txts.conf')
+        conf = open('testdata/test.txts.conf')
+        try:
+            self.confparser = ConfParser(conf.readlines())
+        finally:
+            conf.close()
+        
         self.expected_styles = []
 
     def tearDown(self):

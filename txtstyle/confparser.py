@@ -21,8 +21,8 @@ class ConfParserException(Exception):
 
 class ConfParser:
 
-    def __init__(self, conf_file):
-        self.conf = conf_file
+    def __init__(self, conf_lines):
+        self.conf_lines = conf_lines
 
     def get_styles(self, style_name):
         style_defs = self._get_style_defs(style_name)
@@ -52,11 +52,10 @@ class ConfParser:
         raise ConfParserException("Invalid style definition: %s" % style_def)
 
     def _get_style_defs(self, style_name):
-        lines = self._get_conf_file_lines()
         style_defs = []
         found_style = False
 
-        for line in lines:
+        for line in self.conf_lines:
             line = line.strip()
             if line == '' or line.startswith('#'):
                 continue
@@ -81,9 +80,3 @@ class ConfParser:
             return True
         
         return False
-
-    def _get_conf_file_lines(self):
-        f = open(self.conf)
-        lines = f.readlines()
-        f.close()
-        return lines
