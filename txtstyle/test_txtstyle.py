@@ -252,10 +252,10 @@ class ConfParserTests(unittest.TestCase):
 
     def test_get_first(self):
         styles = self.confparser.get_styles('first')
-        self.expect_style('some error', ['red'])
-        self.expect_style('\d\d-\d\d-\d\d\d\d', ['blue'])
-        self.expect_style('some pattern', ['green'])
-        self.expect_style('other pattern', ['underline'])
+        self.expect_style(r'some error', ['red'])
+        self.expect_style(r'\d\d-\d\d-\d\d\d\d', ['blue'])
+        self.expect_style(r'some pattern', ['green'])
+        self.expect_style(r'\[(xyz.*x+y?z+)\]', ['underline'])
         self.assert_styles(styles)
         
     def test_get_second(self):
@@ -265,9 +265,9 @@ class ConfParserTests(unittest.TestCase):
 
     def test_get_third(self):
         styles = self.confparser.get_styles('third')
-        self.expect_style('\d+', ['on-red'])
-        self.expect_style('.*(foo).*', ['grey'])
-        self.expect_style(': single: quotes', ['yellow'])
+        self.expect_style(r':on-red : \d+', ['on-red'])
+        self.expect_style(r'\\:\\[\s+]foo.*(foo).*bar\\\\', ['grey'])
+        self.expect_style(r': single: quotes', ['yellow'])
         self.assert_styles(styles)
 
     def test_get_fourth(self):
@@ -290,7 +290,12 @@ class ConfParserTests(unittest.TestCase):
 
     def test_get_seventh(self):
         styles = self.confparser.get_styles('seventh')
-        self.expect_style('two attributes', ['blue', 'on-white'])
+        self.expect_style(r':.*\d\s\'\"', ['blue', 'on-white'])
+        self.assert_styles(styles)
+
+    def test_get_eighth(self):
+        styles = self.confparser.get_styles('eighth')
+        self.expect_style(r'org.[\w+|\.]+', ['red'])
         self.assert_styles(styles)
 
     def test_get_undefined(self):

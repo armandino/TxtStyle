@@ -9,7 +9,7 @@ import transformer
 # blue: "some pattern \d+"
 # red: 'some \w+ with single quotes'
 #
-__STYLE_DEF__ = re.compile('(.*):.*[\'|"](.*)[\'|"]')
+__STYLE_DEF__ = re.compile('(.*):\s*[\'|"](.*)[\'|"]')
 __STYLE_HEADER__ = re.compile('\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]')
 
 class ConfParserException(Exception):
