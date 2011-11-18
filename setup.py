@@ -2,8 +2,8 @@ from distutils.core import setup
 
 setup(
     name='TxtStyle',
-    version='0.1.0',
-    author='Arman  Sharif',
+    version='0.1.1',
+    author='Arman Sharif',
     author_email='armandino@gmail.com',
     packages=['txtstyle'],
     scripts=['bin/txts'],

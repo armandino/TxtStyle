@@ -1,5 +1,5 @@
-from collections import OrderedDict
 from regionmatcher import RegionMatcher
+from ordereddict import OrderedDict
 
 class LineStyleProcessor:
 

@@ -1,6 +1,6 @@
 import re
 import unittest
-from collections import OrderedDict
+from ordereddict import OrderedDict
 
 from confparser import ConfParser, ConfParserException
 from linestyleprocessor import LineStyleProcessor
