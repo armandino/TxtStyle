@@ -55,7 +55,7 @@ class Txts:
     def transform(self):
         if self.filepath:
             self.transform_file()
-        else:
+        elif not sys.stdin.isatty():
             self.transform_pipe()
 
     def transform_file(self):
