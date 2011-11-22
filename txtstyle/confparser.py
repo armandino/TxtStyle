@@ -9,8 +9,8 @@ import transformer
 # blue: "some pattern \d+"
 # red: 'some \w+ with single quotes'
 #
-__STYLE_DEF__ = re.compile('(.*):\s*[\'|"](.*)[\'|"]')
-__STYLE_HEADER__ = re.compile('\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]')
+_STYLE_DEF = re.compile('(.*):\s*[\'|"](.*)[\'|"]')
+_STYLE_HEADER = re.compile('\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]')
 
 class ConfParserException(Exception):
     def __init__(self, message):
@@ -42,7 +42,7 @@ class ConfParser:
                                               % attr)
 
     def _parse_style(self, style_def):
-        match = re.match(__STYLE_DEF__, style_def)
+        match = re.match(_STYLE_DEF, style_def)
         if match:
             parsed_transforms = match.group(1).strip()
             pattern = match.group(2).strip()
@@ -73,7 +73,7 @@ class ConfParser:
         return style_defs
         
     def _is_style_header(self, line, style_name=None):
-        match = re.match(__STYLE_HEADER__, line)
+        match = re.match(_STYLE_HEADER, line)
         if match:
             if style_name is not None:
                 return style_name == match.group(1)

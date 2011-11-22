@@ -31,7 +31,7 @@ Usage
 Examples
 --------
 
-  # Apply style 'syslog' defined in the default config file: ~/.txts.conf
+  # Apply style 'syslog' (defined in the default config file: ~/.txts.conf)
   txts /var/log/syslog -n syslog
 
   # Alternatively, file can be piped
