@@ -1,0 +1,149 @@
+#!/usr/bin/env python
+
+import errno
+import os
+import sys
+import time
+import argparse
+
+from txtstyle.confparser import ConfParser, ConfParserException
+from txtstyle.transformer import Transformer
+
+_DEFAULT_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
+_DEFAULT_CONF = r"""\
+# Available styles attributes:
+#
+# bold, underline, hidden
+# grey, red, green, yellow, blue, magenta, cyan, white
+# on-grey, on-red, on-green, on-yellow, on-blue, on-magenta, on-cyan, on-white
+
+[Style="syslog"]
+on-magenta: "^\w\w\w \d\d\s?"
+bold on-blue: "\d+:\d\d:\d+"
+yellow: "\d+\.\d+\.\d+\.\d+"
+red: ".*<warn>.*"
+red on-white: "\((.*)\)"
+grey: "\[(.*)\]"
+
+[Style="java"]
+red: ".*(Exception).*"
+green bold: "\(\w+\.java:\d+\)"
+grey on-white: "\d+:\d\d:\d+(,\d+)?"
+yellow: "com\.[\w+|\.]+"
+blue: "org\.[\w+|\.]+"
+"""
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        prog='TxtStyle',
+        description='Prettifies output of console programs.')
+
+    parser.add_argument('filepath', nargs='?')
+    parser.add_argument('-n', nargs=1)
+    parser.add_argument('-c', nargs=1)
+    return parser.parse_args()
+
+def get_conf_lines(confpath):
+    conf = openfile(confpath)
+    try:
+        return conf.readlines()
+    finally:
+        conf.close()
+
+def openfile(filepath):
+    try:
+        return open(filepath)
+    except IOError, e:
+        if e.errno == errno.ENOENT:
+            sys.stderr.write("File not found: %s\n" % filepath)
+        else:
+            sys.stderr.write("%s\n" % e)
+        sys.exit(e.errno)
+
+def get_styles(conf_parser, style_def_name):
+    try:
+        return conf_parser.get_styles(style_def_name)
+    except ConfParserException, e:
+        sys.stderr.write("%s\n" % e)
+        sys.exit(1)
+
+
+class Txts:
+
+    def __init__(self, styles, filepath=None):
+        self.transformer = Transformer(styles)
+        self.filepath = filepath
+
+    def transform(self):
+        if self.filepath:
+            self.transform_file()
+        elif not sys.stdin.isatty():
+            self.transform_pipe()
+
+    def transform_file(self):
+        f = openfile(self.filepath)
+        try:
+            while True:
+                line = f.readline()
+                if not line:
+                    break
+                # don't style if output is not tty
+                # TODO: add flag similar to grep's always use color
+                if sys.stdout.isatty():
+                    self.__style(line)
+                else:
+                    sys.stdout.write(line)
+        except KeyboardInterrupt:
+            pass
+        finally:
+            f.close()
+        
+
+    def transform_pipe(self):
+        try:
+            while True:
+                line = sys.stdin.readline()
+                if not line:
+                    break
+                self.__style(line)
+        except KeyboardInterrupt:
+            pass
+
+    def __style(self, line):
+        styled_line = self.transformer.style(line.strip('\n'))
+        sys.stdout.write(styled_line + '\n')
+
+
+def create_default_conf_if_not_exists():
+    if not os.path.isfile(_DEFAULT_CONF_FILE):
+        f = open(_DEFAULT_CONF_FILE, 'w+')
+        try:
+            f.write(_DEFAULT_CONF)
+        finally:
+            f.close()
+
+def get_conf_path(args):
+    if args.c:
+        return args.c[0]
+    else:
+        create_default_conf_if_not_exists()
+        return _DEFAULT_CONF_FILE
+
+def main():
+    args = parse_args()
+    styles = []
+
+    if args.n:
+        conf_path = get_conf_path(args)
+        
+        conf_lines = get_conf_lines(conf_path)
+        conf_parser = ConfParser(conf_lines)
+        style_def_name = args.n[0]
+        styles = get_styles(conf_parser, style_def_name)
+
+    txts = Txts(styles, args.filepath)
+    txts.transform()
+
+if __name__ == "__main__":
+    main()
+
