@@ -548,3 +548,5 @@ Nov 14 18:55:54 lhost kernel: [ 2695.516604] cfg80211: World regulatory domain u
 Nov 14 18:55:54 lhost kernel: [ 2695.516611] cfg80211:     (start_freq - end_freq @ bandwidth), (max_antenna_gain, max_eirp)
 Nov 14 18:55:55 lhost wpa_supplicant[1014]: Associated with 23:1a:21:23:2c:19
 Nov 14 18:55:55 lhost kernel: [ 2697.036807] wlan0: RX ReassocResp from 23:1a:21:23:2c:19 (capab=0x411 status=0 aid=6)
+
+INFO  QueueingPublisher to http://localhost:8080/searchserver/category 2012-04-16 14:01:28,804 QueueingSolrDocumentPublisher$PublisherTask:135 - Updated 1 documents against http://localhost:8080/searchserver/category

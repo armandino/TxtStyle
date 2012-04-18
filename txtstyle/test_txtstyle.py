@@ -204,6 +204,15 @@ class RegionMatcherTests(unittest.TestCase):
                              (11,12), (14,15), (17,18), # time
                              (20,25)], results)
         
+    def test_http_regex(self):
+        s = "INFO  SomeeeeeClassssss to http://localhost:8080/xxxxxxxxxxxx/yyyyyyyy 2012-04-16 14:01:28,804 SomeeeeeeeeeClassssssssssssss$SomeeeeeClass:135 - Updated 2 documents against http://localhost:8080/xxxxxxxxxxxx/yyyyyyyy"
+        r = regex("http:[\w+|/+|:]+")
+
+        tokens = self._get_unique_search_tokens(s, r)
+        results = self.find_regions(s, r)
+        self.assert_results([(27,69), (173,215)], results)
+        print results
+
     def test_text_inside_brackets(self):
         s = "text (inside) brackets"
         r = regex("\((.*)\)")
@@ -322,6 +331,7 @@ class TransformerTests(unittest.TestCase):
     def setUp(self):
         Style = transformer.Style
         styles = [
+            Style("http:[\w+|/+|:]+", ["red"]),
             Style("^\w\w\w \d\d\s?", ['white', 'on-magenta']),
             Style("\d\d:\d\d:\d\d", ['bold', 'on-blue']),
             Style(".*<warn>.*", ['yellow']),
@@ -329,7 +339,7 @@ class TransformerTests(unittest.TestCase):
             Style("\[(.*)\]", ['grey', 'bold']),
             ]
         self.transformer = transformer.Transformer(styles)
-        self.lines = self.get_lines('testdata/test-syslog')
+        self.lines = self.get_lines('testdata/test-log')
     
     def get_lines(self, fname):
         f = open(fname)
