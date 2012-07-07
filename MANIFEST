@@ -1,0 +1,9 @@
+README.txt
+setup.py
+txts
+txtstyle/__init__.py
+txtstyle/confparser.py
+txtstyle/linestyleprocessor.py
+txtstyle/ordereddict.py
+txtstyle/regionmatcher.py
+txtstyle/transformer.py

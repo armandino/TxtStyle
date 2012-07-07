@@ -10,10 +10,6 @@ import transformer
 def regex(pattern):
     return re.compile(pattern)
 
-#
-# TODO: enable __tests
-#
-
 class LineStyleProcessorTests(unittest.TestCase):
     def setUp(self):
         self.line = "This is a long string forty chars long.."
@@ -168,8 +164,22 @@ class RegionMatcherTests(unittest.TestCase):
         self.assert_results([(2,3), (5,6), (9,10),
                              (13,14), (17,18), (19,20)], results)
 
+    def test_special_case_regex_with_multiple_token_matches(self):
+        #    01234567890123456789012345678
+        s = '20-2011-11-11 22:08:52.074932'
+        
+        # token '20' matches 2 times and '11' 3 times
+        expected = [(0,1), (3,4), (3,6), (5,6), (8,9), (11,12), (14,15), (17,18), (20,21), (23,28)]
+        results = self.find_regions(s, regex('\d+'))
+        self.assert_results(expected, results)
 
     def test_find_regions_with_simple_regex(self):
+        results = self.find_regions('x-11-11', regex('\d+'))
+        self.assert_results([(2,3), (5,6)], results)
+
+        results = self.find_regions('01-3456-11-11', regex('\d+'))
+        self.assert_results([(0,1), (3,6), (8,9), (11,12)], results)
+
         results = self.find_regions('0123456789 nums', regex('\d+'))
         self.assert_results([(0,9)], results)
 
@@ -188,22 +198,7 @@ class RegionMatcherTests(unittest.TestCase):
         results = self.find_regions('foo boo', regex('o'))
         self.assert_results([(1,1), (2,2), (5,5), (6,6)], results)
 
-    # TODO: fix test and re-run all tests
-    def __test_FIX_BROKEN_1_match_digit_in_timestamp_string(self):
-        #    0         1         2
-        #    01234567890123456789012345
-        s = "20-2011-11-11 22:08:52.074932"
-        
-        tokens = self._get_unique_search_tokens(s, regex("\d+"))
-        results = self.find_regions(s, regex("\d+"))
 
-        print "TOKENS", tokens    # ['2011', '11', '22', '08', '52', '074932']
-        print "RESULTS", results  # (0,3), (2,3), (5,6)
-        
-        self.assert_results([(0,3), (4,5), (8,9),       # date
-                             (11,12), (14,15), (17,18), # time
-                             (20,25)], results)
-        
     def test_http_regex(self):
         s = "INFO  SomeeeeeClassssss to http://localhost:8080/xxxxxxxxxxxx/yyyyyyyy 2012-04-16 14:01:28,804 SomeeeeeeeeeClassssssssssssss$SomeeeeeClass:135 - Updated 2 documents against http://localhost:8080/xxxxxxxxxxxx/yyyyyyyy"
         r = regex("http:[\w+|/+|:]+")
@@ -211,7 +206,6 @@ class RegionMatcherTests(unittest.TestCase):
         tokens = self._get_unique_search_tokens(s, r)
         results = self.find_regions(s, r)
         self.assert_results([(27,69), (173,215)], results)
-        print results
 
     def test_text_inside_brackets(self):
         s = "text (inside) brackets"

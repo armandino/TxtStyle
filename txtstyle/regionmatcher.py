@@ -36,7 +36,6 @@ class RegionMatcher:
         else:
             return search_tokens
 
-
     def _find_regions(self, s, searchstr):
         regions = []
         offset = 0
@@ -86,6 +85,9 @@ class RegionMatcher:
                 end = len(searchstr) * 2 - 1
             else:
                 end = s.find(remainder) - 1
+                # when searching through multiple occurrences, e.g. '-11' in 'foo-11-11'
+                while (end < start and end >= 0):
+                    end = s.find(remainder, end + len(remainder), len(s)) - 1
 
         result = (start + offset, end + offset)
         results.append(result)
