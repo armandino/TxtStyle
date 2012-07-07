@@ -71,6 +71,7 @@ class RegionMatcher:
             # escape in case searchstr has regex characters in it
             remainder = re.sub(re.escape(searchstr), '', remainder, 1)
 
+        # Calculate region (start, end)
         if remainder == '':
             end = len(s) - 1
         else:
@@ -85,9 +86,12 @@ class RegionMatcher:
                 end = len(searchstr) * 2 - 1
             else:
                 end = s.find(remainder) - 1
-                # when searching through multiple occurrences, e.g. '-11' in 'foo-11-11'
-                while (end < start and end >= 0):
-                    end = s.find(remainder, end + len(remainder), len(s)) - 1
+
+                if (end < start):
+                    end = start - 1
+                    # when searching through multiple occurrences, e.g. '-11' in 'foo-11-11'
+                    while (end < start and end >= 0):
+                        end = s.find(remainder, end + len(remainder), len(s)) - 1
 
         result = (start + offset, end + offset)
         results.append(result)

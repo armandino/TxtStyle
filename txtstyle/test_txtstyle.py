@@ -197,7 +197,9 @@ class RegionMatcherTests(unittest.TestCase):
 
         results = self.find_regions('foo boo', regex('o'))
         self.assert_results([(1,1), (2,2), (5,5), (6,6)], results)
-
+        
+        results = self.find_regions(" '192.168.99.1'", regex('\d+\.\d+\.\d+\.\d+'))
+        self.assert_results([(2,13)], results)
 
     def test_http_regex(self):
         s = "INFO  SomeeeeeClassssss to http://localhost:8080/xxxxxxxxxxxx/yyyyyyyy 2012-04-16 14:01:28,804 SomeeeeeeeeeClassssssssssssss$SomeeeeeClass:135 - Updated 2 documents against http://localhost:8080/xxxxxxxxxxxx/yyyyyyyy"

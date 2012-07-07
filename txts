@@ -99,7 +99,11 @@ class Txts:
         except KeyboardInterrupt:
             pass
         finally:
-            f.close()
+            try:
+                sys.stdout.close()
+                f.close()
+            except:
+                pass
         
 
     def transform_pipe(self):
@@ -111,6 +115,8 @@ class Txts:
                 self.__style(line)
         except KeyboardInterrupt:
             pass
+        finally:
+            sys.stdin.close()
 
     def __style(self, line):
         styled_line = self.transformer.style(line.strip('\n'))
