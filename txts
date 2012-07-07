@@ -27,10 +27,13 @@ grey: "\[(.*)\]"
 
 [Style="java"]
 red: ".*(Exception).*"
+green: "INFO|DEBUG|WARN"
 green bold: "\(\w+\.java:\d+\)"
-grey on-white: "\d+:\d\d:\d+(,\d+)?"
+grey : "\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d(,\d\d\d)?"
+yellow: "[a-zA-Z]+:\d+"
 yellow: "com\.[\w+|\.]+"
-blue: "org\.[\w+|\.]+"
+cyan: "org\.[\w+|\.]+"
+blue: "\[(.*)\]"
 """
 
 def parse_args():
