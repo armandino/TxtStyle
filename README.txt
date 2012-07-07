@@ -10,6 +10,14 @@ using regular expressions.
 Installation
 ============
 
+From source:
+
+$ git clone git://github.com/armandino/TxtStyle.git
+$ cd TxtStyle
+$ sudo python setup.py install
+
+From the archive:
+
 $ tar xvf TxtStyle-x.y.z.tar.gz
 $ cd TxtStyle-x.y.z
 $ sudo python setup.py install
@@ -39,10 +47,3 @@ Examples
 
   # Apply 'mystyle' defined in 'another.txts.conf'
   txts myapp.log -c /path/to/another.txts.conf -n mystyle
-
-
-Source
-======
-
-$ git clone git://github.com/armandino/TxtStyle.git
-
