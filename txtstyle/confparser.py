@@ -30,16 +30,7 @@ class ConfParser:
         for style_def in style_defs:
             style = self._parse_style(style_def)
             styles.append(style)
-        
-        self._validate_styles(styles)
         return styles
-
-    def _validate_styles(self, styles):
-        for style in styles:
-            for attr in style.transforms:
-                if attr not in transformer.__STYLES__:
-                    raise ConfParserException('Invalid style attribute: "%s"'
-                                              % attr)
 
     def _parse_style(self, style_def):
         match = re.match(_STYLE_DEF, style_def)
@@ -53,7 +44,7 @@ class ConfParser:
 
     def _get_style_defs(self, style_name):
         style_defs = []
-        found_style = False
+        is_style_header = False
 
         for line in self.conf_lines:
             line = line.strip()
@@ -61,13 +52,13 @@ class ConfParser:
                 continue
             
             if self._is_style_header(line, style_name):
-                found_style = True
-            elif found_style and self._is_style_header(line):
+                is_style_header = True
+            elif is_style_header and self._is_style_header(line):
                 break # next style def
-            elif found_style:
+            elif is_style_header:
                 style_defs.append(line)
         
-        if not found_style:
+        if not is_style_header:
             raise ConfParserException('Style "%s" is not defined' % style_name)
 
         return style_defs

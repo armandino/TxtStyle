@@ -28,9 +28,18 @@ from linestyleprocessor import LineStyleProcessor
 
 class Style:
 
-    def __init__(self, pattern, transforms):
+    def __init__(self, pattern, transform_keys):
         self.regex_obj = re.compile(pattern)
-        self.transforms = transforms
+        # list of transformations to apply e.g. bold, white, on-blue
+        self.transforms = []
+
+        if transform_keys:
+            for key in transform_keys:
+                if key in __STYLES__:
+                    self.transforms.append(__STYLES__[key])
+                else:
+                    raise Exception('Invalid style attribute: "%s"' % key)
+
 
 class Transformer:
 
@@ -64,7 +73,6 @@ class Transformer:
             else:
                 self._append_to(region_strings, line, start, end, style)
 
-
             pos = end
 
         if pos <= len(line) - 1:
@@ -76,7 +84,7 @@ class Transformer:
     def _append_to(self, region_strings, line, start, end, style=None):
         if style:
             for transform in style.transforms:
-                region_strings.append(__STYLES__[transform])
+                region_strings.append(transform)
         else:
             region_strings.append(__DEFAULT__)
             

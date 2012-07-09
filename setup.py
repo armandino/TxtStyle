@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='TxtStyle',
-    version='0.1.3',
+    version='0.1.4',
     author='Arman Sharif',
     author_email='armandino@gmail.com',
     packages=['txtstyle'],

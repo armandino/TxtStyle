@@ -2,7 +2,7 @@ import re
 import unittest
 from ordereddict import OrderedDict
 
-from confparser import ConfParser, ConfParserException
+from confparser import ConfParser
 from linestyleprocessor import LineStyleProcessor
 from regionmatcher import RegionMatcher
 import transformer
@@ -238,14 +238,14 @@ class ConfParserTests(unittest.TestCase):
         try:
             styles = self.confparser.get_styles('fifth')
             self.fail('should fail on invalid definition')
-        except ConfParserException, e:
+        except Exception, e:
             self.assertEqual(e.message, 'Invalid style definition: green "some pattern"')
         
     def test_get_sixth(self):
         try:
             styles = self.confparser.get_styles('sixth')
             self.fail('should fail on invalid style attribute')
-        except ConfParserException, e:
+        except Exception, e:
             self.assertEqual(e.message, 'Invalid style attribute: "some-bad-attribute"')
 
     def test_get_seventh(self):
@@ -262,7 +262,7 @@ class ConfParserTests(unittest.TestCase):
         try:
             styles = self.confparser.get_styles('FOO')
             self.fail('should fail on undefined  style name')
-        except ConfParserException, e:
+        except Exception, e:
             self.assertEqual(e.message, 'Style "FOO" is not defined')
 
     def assert_styles(self, styles):
