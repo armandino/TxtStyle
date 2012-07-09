@@ -26,25 +26,25 @@ class LineStyleProcessor:
         ordered by region in ascending order.
         """
         region_map = {}
-        index_occupied = [False for i in range(len(line))]
+        occupied_indexes = [False for i in range(len(line))]
         for style, regions in style_map.items():
-            
             for region in regions:
-                region_indexes = range(region[0], region[1] + 1) # inclusive range
-                overlaps = self._region_overlaps(region_indexes, index_occupied)
+                overlaps = self._region_overlaps(region, occupied_indexes)
                 
                 if not overlaps:
-                    self._occupy_indexes(region_indexes, index_occupied)
+                    region_indexes = range(region[0], region[1] + 1) # inclusive range
+                    self._occupy_indexes(region_indexes, occupied_indexes)
                     region_map[region] = style
         return region_map
 
-    def _region_overlaps(self, region_indexes, index_occupied):
-        for i in region_indexes:
-            if index_occupied[i]:
-                return True
-        return False
+    def _region_overlaps(self, region, occupied_indexes):
+        """\
+        Returns true if any value with the region bounds is True.
+        """
+        start, end = region[0], region[1] + 1
+        return any(occupied_indexes[start : end])
 
-    def _occupy_indexes(self, region_indexes, index_occupied):
+    def _occupy_indexes(self, region_indexes, occupied_indexes):
         for i in region_indexes:
-            index_occupied[i] = True
+            occupied_indexes[i] = True
 
