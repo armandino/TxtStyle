@@ -2,7 +2,6 @@ import re
 import unittest
 
 from confparser import ConfParser
-from linestyleprocessor import StyleRegions
 from linestyleprocessor import LineStyleProcessor
 from regionmatcher import RegionMatcher
 import transformer
@@ -12,72 +11,56 @@ def regex(pattern):
 
 class LineStyleProcessorTests(unittest.TestCase):
     def setUp(self):
-        self.line = "This is a long string forty chars long.."
-        
-        assert len(self.line) == 40
         self.lineStyleProcessor = LineStyleProcessor()
-        self.style_regions = []
 
-    def tearDown(self):
-        self.lineStyleProcessor = None
-        self.style_regions = None
+    def test_get_elected_regions(self):
+        #       0123456789012345678901234567890123456789
+        line = "This is a long string forty chars long.."
+        
+        s1 = transformer.Style(regex("This"), None)
+        s2 = transformer.Style(regex("is"), None)
+        s3 = transformer.Style(regex("s"), None)
 
-    def add_style(self, regions):
-        empty_regex = regex("")
-        style = transformer.Style(empty_regex, None)
-        self.style_regions.append(StyleRegions(style, regions))
-        return style
-
-    def test_get_region_map(self):
-        s1 = self.add_style([(1,2),(7,12),(19,25)])
-        s2 = self.add_style([(4,7)])    # overlaps
-        s3 = self.add_style([(12,15)])  # overlaps
-        s4 = self.add_style([(25,29)])  # overlaps
-        s5 = self.add_style([(26,28)])
-        s6 = self.add_style([(26,28)])  # overlaps
-        s7 = self.add_style([(29,29)])
-        s8 = self.add_style([(13,15)])
-
-        region_map = self.lineStyleProcessor._get_elected_region_map(
-            self.line, self.style_regions)
+        styles = [s1, s2, s3]
+        
+        region_map = self.lineStyleProcessor.get_elected_regions(
+            line, styles)
         
         regions = region_map.keys()
         regions.sort()
         
-        self.assert_results([(1,2), (7,12), (13,15),
-                             (19,25), (26,28), (29,29)], regions)
+        self.assert_results([(0,3), (5,6), (15,15),
+                             (32,32)], regions)
         
-        self.assertEqual(region_map[(1,2)], s1)
-        self.assertEqual(region_map[(7,12)], s1)
-        self.assertEqual(region_map[(19,25)], s1)
-        self.assertEqual(region_map[(26,28)], s5)
-        self.assertEqual(region_map[(29,29)], s7)
-        self.assertEqual(region_map[(13,15)], s8)
+        self.assertEqual(region_map[(0,3)], s1)
+        self.assertEqual(region_map[(5,6)], s2)
+        self.assertEqual(region_map[(15,15)], s3)
+        self.assertEqual(region_map[(32,32)], s3)
 
-    def test_get_region_map_reverse_order(self):
-        s1 = self.add_style([(13,15)])
-        s2 = self.add_style([(29,29)])
-        s3 = self.add_style([(26,28)])
-        s4 = self.add_style([(26,28)]) # overlaps
-        s5 = self.add_style([(25,29)]) # overlaps
-        s6 = self.add_style([(12,15)]) # overlaps
-        s7 = self.add_style([(4,7)])
-        s8 = self.add_style([(1,2),(7,12),(19,25)]) # overlaps except: (1,2)
 
-        region_map = self.lineStyleProcessor._get_elected_region_map(
-            self.line, self.style_regions)
+    def test_get_elected_regions_reverse_order(self):
+        #       0123456789012345678901234567890123456789
+        line = "This is a long string forty chars long.."
+        
+        s1 = transformer.Style(regex("s"), None)
+        s2 = transformer.Style(regex("is"), None)
+        s3 = transformer.Style(regex("This"), None)
+
+        styles = [s1, s2, s3]
+        
+        region_map = self.lineStyleProcessor.get_elected_regions(
+            line, styles)
+        
         regions = region_map.keys()
         regions.sort()
-
-        self.assert_results([(1,2), (4,7), (13,15),
-                             (19,25), (26,28), (29,29)], regions)
         
-        self.assertEqual(region_map[(1,2)], s8)
-        self.assertEqual(region_map[(4,7)], s7)
-        self.assertEqual(region_map[(13,15)], s1)
-        self.assertEqual(region_map[(19,25)], s8)
-        self.assertEqual(region_map[(26,28)], s3)
-        self.assertEqual(region_map[(29,29)], s2)
+        self.assert_results([(3,3), (6,6), (15,15),
+                             (32,32)], regions)
+        
+        self.assertEqual(region_map[(3,3)], s1)
+        self.assertEqual(region_map[(6,6)], s1)
+        self.assertEqual(region_map[(15,15)], s1)
+        self.assertEqual(region_map[(32,32)], s1)
 
     def assert_results(self, expected_results, results):
         self.assertEquals(len(expected_results), len(results))
