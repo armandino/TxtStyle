@@ -51,7 +51,7 @@ def get_conf_lines(confpath):
     try:
         return conf.readlines()
     finally:
-        conf.close()
+        errorsafe_close(conf)
 
 def openfile(filepath):
     try:
@@ -63,13 +63,18 @@ def openfile(filepath):
             sys.stderr.write("%s\n" % e)
         sys.exit(e.errno)
 
+def errorsafe_close(closable):
+    try:
+        closable.close()
+    except:
+        pass
+
 def get_styles(conf_parser, style_def_name):
     try:
         return conf_parser.get_styles(style_def_name)
     except ConfParserException, e:
         sys.stderr.write("%s\n" % e)
         sys.exit(1)
-
 
 class Txts:
 
@@ -98,12 +103,14 @@ class Txts:
                     sys.stdout.write(line)
         except KeyboardInterrupt:
             pass
-        finally:
-            try:
-                sys.stdout.close()
-                f.close()
-            except:
+        except IOError, e:
+            if e.errno == errno.EPIPE:
                 pass
+            else:
+                raise e
+        finally:
+            errorsafe_close(f)
+            errorsafe_close(sys.stdout)
         
 
     def transform_pipe(self):
@@ -116,26 +123,26 @@ class Txts:
         except KeyboardInterrupt:
             pass
         finally:
-            sys.stdin.close()
+            errorsafe_close(sys.stdin)
 
     def __style(self, line):
         styled_line = self.transformer.style(line.strip('\n'))
         sys.stdout.write(styled_line + '\n')
 
 
-def create_default_conf_if_not_exists():
+def create_default_conf_if_none_exists():
     if not os.path.isfile(_DEFAULT_CONF_FILE):
         f = open(_DEFAULT_CONF_FILE, 'w+')
         try:
             f.write(_DEFAULT_CONF)
         finally:
-            f.close()
+            errorsafe_close(f)
 
 def get_conf_path(args):
     if args.c:
         return args.c[0]
     else:
-        create_default_conf_if_not_exists()
+        create_default_conf_if_none_exists()
         return _DEFAULT_CONF_FILE
 
 def main():

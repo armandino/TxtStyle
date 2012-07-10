@@ -3,7 +3,6 @@ import unittest
 
 from confparser import ConfParser
 from linestyleprocessor import LineStyleProcessor
-from regionmatcher import RegionMatcher
 import transformer
 
 def regex(pattern):
@@ -12,6 +11,8 @@ def regex(pattern):
 class LineStyleProcessorTests(unittest.TestCase):
     def setUp(self):
         self.lineStyleProcessor = LineStyleProcessor()
+        self.find_regions = self.lineStyleProcessor.find_regions
+
 
     def test_get_elected_regions(self):
         #       0123456789012345678901234567890123456789
@@ -66,17 +67,6 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.assertEquals(len(expected_results), len(results))
         for i, result in enumerate(results):
             self.assertEqual(expected_results[i], result)
-
-
-class RegionMatcherTests(unittest.TestCase):
-
-    def setUp(self):
-        regionmatcher = RegionMatcher()
-        self.find_regions = regionmatcher.find_regions
-        self.find_regions = regionmatcher.find_regions
-
-    def tearDown(self):
-        self.find_regions = None
 
     def test_repeated_invocation_returns_new_list(self):
         results1 = self.find_regions('string', 'in')
