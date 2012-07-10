@@ -1,8 +1,8 @@
 import re
 import unittest
-from ordereddict import OrderedDict
 
 from confparser import ConfParser
+from linestyleprocessor import StyleRegions
 from linestyleprocessor import LineStyleProcessor
 from regionmatcher import RegionMatcher
 import transformer
@@ -16,16 +16,16 @@ class LineStyleProcessorTests(unittest.TestCase):
         
         assert len(self.line) == 40
         self.lineStyleProcessor = LineStyleProcessor()
-        self.style_map = OrderedDict()
+        self.style_regions = []
 
     def tearDown(self):
         self.lineStyleProcessor = None
-        self.style_map = None
+        self.style_regions = None
 
     def add_style(self, regions):
         empty_regex = regex("")
         style = transformer.Style(empty_regex, None)
-        self.style_map[style] = regions
+        self.style_regions.append(StyleRegions(style, regions))
         return style
 
     def test_get_region_map(self):
@@ -39,7 +39,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         s8 = self.add_style([(13,15)])
 
         region_map = self.lineStyleProcessor._get_elected_region_map(
-            self.line, self.style_map)
+            self.line, self.style_regions)
         
         regions = region_map.keys()
         regions.sort()
@@ -65,7 +65,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         s8 = self.add_style([(1,2),(7,12),(19,25)]) # overlaps except: (1,2)
 
         region_map = self.lineStyleProcessor._get_elected_region_map(
-            self.line, self.style_map)
+            self.line, self.style_regions)
         regions = region_map.keys()
         regions.sort()
 
