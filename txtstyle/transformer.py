@@ -56,39 +56,34 @@ class Transformer:
         return self._transform(line, elected_regions)
 
     def _transform(self, line, region_map):
-        styled_line = ''
         regions = region_map.keys()
         regions.sort()
         
         pos = 0
-        region_strings = []
+        styled_line = []
         for region in regions:
             style = region_map[region]
-            start = region[0]
-            end = region[1] + 1
+            start, end = region[0], region[1] + 1
 
             if pos < start:
-                self._append_to(region_strings, line, pos, start)
-                self._append_to(region_strings, line, start, end, style)
+                self._append_to(styled_line, line, pos, start)
+                self._append_to(styled_line, line, start, end, style)
             else:
-                self._append_to(region_strings, line, start, end, style)
+                self._append_to(styled_line, line, start, end, style)
 
             pos = end
 
         if pos <= len(line) - 1:
-            self._append_to(region_strings, line, pos, len(line))
+            self._append_to(styled_line, line, pos, len(line))
         
-        styled_line = ''.join(region_strings)
-        return styled_line
+        return ''.join(styled_line)
 
-    def _append_to(self, region_strings, line, start, end, style=None):
+    def _append_to(self, styled_line, line, start, end, style=None):
         if style:
-            for transform in style.transforms:
-                region_strings.append(transform)
+            styled_line.append(''.join(style.transforms))
         else:
-            region_strings.append(__DEFAULT__)
+            styled_line.append(__DEFAULT__)
             
-        region = line[start : end]
-        region_strings.append(region)
-        region_strings.append(__DEFAULT__)
+        styled_line.append(line[start : end])
+        styled_line.append(__DEFAULT__)
         
