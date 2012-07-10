@@ -14,7 +14,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.find_regions = self.lineStyleProcessor.find_regions
 
 
-    def test_get_elected_regions(self):
+    def test_get_region_map(self):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         
@@ -24,7 +24,7 @@ class LineStyleProcessorTests(unittest.TestCase):
 
         styles = [s1, s2, s3]
         
-        region_map = self.lineStyleProcessor.get_elected_regions(
+        region_map = self.lineStyleProcessor.get_region_map(
             line, styles)
         
         regions = region_map.keys()
@@ -39,7 +39,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.assertEqual(region_map[(32,32)], s3)
 
 
-    def test_get_elected_regions_reverse_order(self):
+    def test_get_region_map_reverse_order(self):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         
@@ -49,7 +49,7 @@ class LineStyleProcessorTests(unittest.TestCase):
 
         styles = [s1, s2, s3]
         
-        region_map = self.lineStyleProcessor.get_elected_regions(
+        region_map = self.lineStyleProcessor.get_region_map(
             line, styles)
         
         regions = region_map.keys()

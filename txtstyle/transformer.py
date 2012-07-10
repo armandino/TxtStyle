@@ -51,11 +51,7 @@ class Transformer:
         if not self.styles:
             return line
 
-        elected_regions = self.line_style_processor.get_elected_regions(
-            line, self.styles)
-        return self._transform(line, elected_regions)
-
-    def _transform(self, line, region_map):
+        region_map = self.line_style_processor.get_region_map(line, self.styles)
         regions = region_map.keys()
         regions.sort()
         

@@ -2,23 +2,22 @@ import re
 
 class LineStyleProcessor:
 
-    def get_elected_regions(self, line, styles):
+    def get_region_map(self, line, styles):
         region_map = {}
-        occupied_indexes = [False for i in range(len(line))]
+        occupied = [False for i in range(len(line))]
 
         for style in styles:
-            candidate_regions = self.find_regions(line, style.regex_obj)
+            regions = self.find_regions(line, style.regex_obj)
 
-            for region in candidate_regions:
+            for region in regions:
                 start, end = region[0], region[1] + 1
-                overlaps = any(occupied_indexes[start : end])
+                overlaps = any(occupied[start : end])
 
                 if not overlaps:
                     for i in range(start, end):
-                        occupied_indexes[i] = True
+                        occupied[i] = True
                     region_map[region] = style
 
-        # region map represents elected regions (i.e. no overlaps)
         return region_map
 
     def find_regions(self, line, regex_obj):
