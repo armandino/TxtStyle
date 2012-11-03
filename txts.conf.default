@@ -1,0 +1,23 @@
+# Available styles attributes:
+#
+# bold, underline, hidden
+# grey, red, green, yellow, blue, magenta, cyan, white
+# on-grey, on-red, on-green, on-yellow, on-blue, on-magenta, on-cyan, on-white
+
+[Style="syslog"]
+on-magenta: "^\w\w\w \d\d\s?"
+bold on-blue: "\d+:\d\d:\d+"
+yellow: "\d+\.\d+\.\d+\.\d+"
+red: ".*<warn>.*"
+red on-white: "\((.*)\)"
+grey: "\[(.*)\]"
+
+[Style="java"]
+red: ".*(Exception).*"
+green: "INFO|DEBUG|WARN"
+green bold: "\(\w+\.java:\d+\)"
+grey : "\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d(,\d\d\d)?"
+yellow: "[a-zA-Z]+:\d+"
+yellow: "com\.[\w+|\.]+"
+cyan: "org\.[\w+|\.]+"
+blue: "\[(.*)\]"

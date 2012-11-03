@@ -2,6 +2,7 @@
 
 import errno
 import os
+import shutil
 import sys
 import time
 import argparse
@@ -9,72 +10,8 @@ import argparse
 from txtstyle.confparser import ConfParser, ConfParserException
 from txtstyle.transformer import Transformer
 
-_DEFAULT_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
-_DEFAULT_CONF = r"""\
-# Available styles attributes:
-#
-# bold, underline, hidden
-# grey, red, green, yellow, blue, magenta, cyan, white
-# on-grey, on-red, on-green, on-yellow, on-blue, on-magenta, on-cyan, on-white
-
-[Style="syslog"]
-on-magenta: "^\w\w\w \d\d\s?"
-bold on-blue: "\d+:\d\d:\d+"
-yellow: "\d+\.\d+\.\d+\.\d+"
-red: ".*<warn>.*"
-red on-white: "\((.*)\)"
-grey: "\[(.*)\]"
-
-[Style="java"]
-red: ".*(Exception).*"
-green: "INFO|DEBUG|WARN"
-green bold: "\(\w+\.java:\d+\)"
-grey : "\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d(,\d\d\d)?"
-yellow: "[a-zA-Z]+:\d+"
-yellow: "com\.[\w+|\.]+"
-cyan: "org\.[\w+|\.]+"
-blue: "\[(.*)\]"
-"""
-
-def parse_args():
-    parser = argparse.ArgumentParser(
-        prog='TxtStyle',
-        description='Prettifies output of console programs.')
-
-    parser.add_argument('filepath', nargs='?')
-    parser.add_argument('-n', nargs=1)
-    parser.add_argument('-c', nargs=1)
-    return parser.parse_args()
-
-def get_conf_lines(confpath):
-    conf = openfile(confpath)
-    try:
-        return conf.readlines()
-    finally:
-        errorsafe_close(conf)
-
-def openfile(filepath):
-    try:
-        return open(filepath)
-    except IOError, e:
-        if e.errno == errno.ENOENT:
-            sys.stderr.write("File not found: %s\n" % filepath)
-        else:
-            sys.stderr.write("%s\n" % e)
-        sys.exit(e.errno)
-
-def errorsafe_close(closable):
-    try:
-        closable.close()
-    except:
-        pass
-
-def get_styles(conf_parser, style_def_name):
-    try:
-        return conf_parser.get_styles(style_def_name)
-    except ConfParserException, e:
-        sys.stderr.write("%s\n" % e)
-        sys.exit(1)
+_USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
+_DEFAULT_CONF_FILE = 'txts.conf.default'
 
 class Txts:
 
@@ -89,29 +26,27 @@ class Txts:
             self.transform_pipe()
 
     def transform_file(self):
-        f = openfile(self.filepath)
         try:
-            while True:
-                line = f.readline()
-                if not line:
-                    break
-                # don't style if output is not tty
-                # TODO: add flag similar to grep's always use color
-                if sys.stdout.isatty():
-                    self.__style(line)
-                else:
-                    sys.stdout.write(line)
+            with open(self.filepath, 'r') as infile:
+                for line in infile:
+                    # don't style if output is not tty
+                    # TODO: add flag similar to grep's always use color
+                    if sys.stdout.isatty():
+                        self.__style(line)
+                    else:
+                        sys.stdout.write(line)
         except KeyboardInterrupt:
             pass
         except IOError, e:
-            if e.errno == errno.EPIPE:
+            if e.errno == errno.ENOENT:
+                sys.stderr.write("File not found: %s\n" % self.filepath)
+            elif e.errno == errno.EPIPE:
+                # broken pipe
                 pass
             else:
-                raise e
-        finally:
-            errorsafe_close(f)
-            errorsafe_close(sys.stdout)
-        
+                #raise e
+                sys.stderr.write("%s\n" % e)
+            sys.exit(e.errno)
 
     def transform_pipe(self):
         try:
@@ -123,36 +58,55 @@ class Txts:
         except KeyboardInterrupt:
             pass
         finally:
-            errorsafe_close(sys.stdin)
+            sys.stdin.close()
 
     def __style(self, line):
         styled_line = self.transformer.style(line.strip('\n'))
         sys.stdout.write(styled_line + '\n')
 
 
-def create_default_conf_if_none_exists():
-    if not os.path.isfile(_DEFAULT_CONF_FILE):
-        f = open(_DEFAULT_CONF_FILE, 'w+')
-        try:
-            f.write(_DEFAULT_CONF)
-        finally:
-            errorsafe_close(f)
+def parse_args():
+    parser = argparse.ArgumentParser(
+        prog='TxtStyle',
+        description='Prettifies output of console programs.')
+
+    parser.add_argument('filepath', nargs='?')
+    parser.add_argument('-n', nargs=1)
+    parser.add_argument('-c', nargs=1)
+    return parser.parse_args()
+
+def get_styles(conf_parser, style_def_name):
+    try:
+        return conf_parser.get_styles(style_def_name)
+    except ConfParserException, e:
+        sys.stderr.write("%s\n" % e)
+        sys.exit(1)
+
+def get_conf_lines(args):
+    confpath = get_conf_path(args)
+    with open(confpath, 'r') as f:
+        return f.readlines()
 
 def get_conf_path(args):
     if args.c:
-        return args.c[0]
+        # User-specified conf file
+        filepath = args.c[0]
+        if not os.path.isfile(filepath):
+            sys.stderr.write("File not found: %s\n" % filepath)
+            sys.exit(errno.ENOENT)
+        return filepath
     else:
-        create_default_conf_if_none_exists()
-        return _DEFAULT_CONF_FILE
+        # User-home conf file (~/.txt.conf)
+        if not os.path.isfile(_USER_HOME_CONF_FILE):
+            shutil.copyfile(_DEFAULT_CONF_FILE, _USER_HOME_CONF_FILE)
+        return _USER_HOME_CONF_FILE
 
 def main():
     args = parse_args()
     styles = []
 
     if args.n:
-        conf_path = get_conf_path(args)
-        
-        conf_lines = get_conf_lines(conf_path)
+        conf_lines = get_conf_lines(args)
         conf_parser = ConfParser(conf_lines)
         style_def_name = args.n[0]
         styles = get_styles(conf_parser, style_def_name)
