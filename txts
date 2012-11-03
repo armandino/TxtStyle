@@ -15,9 +15,10 @@ _DEFAULT_CONF_FILE = 'txts.conf.default'
 
 class Txts:
 
-    def __init__(self, styles, filepath=None):
+    def __init__(self, styles, filepath=None, color_always=False):
         self.transformer = Transformer(styles)
         self.filepath = filepath
+        self.color_always = color_always
 
     def transform(self):
         if self.filepath:
@@ -29,9 +30,7 @@ class Txts:
         try:
             with open(self.filepath, 'r') as infile:
                 for line in infile:
-                    # don't style if output is not tty
-                    # TODO: add flag similar to grep's always use color
-                    if sys.stdout.isatty():
+                    if sys.stdout.isatty() or self.color_always:
                         self.__style(line)
                     else:
                         sys.stdout.write(line)
@@ -44,7 +43,6 @@ class Txts:
                 # broken pipe
                 pass
             else:
-                #raise e
                 sys.stderr.write("%s\n" % e)
             sys.exit(e.errno)
 
@@ -70,9 +68,10 @@ def parse_args():
         prog='TxtStyle',
         description='Prettifies output of console programs.')
 
-    parser.add_argument('filepath', nargs='?')
-    parser.add_argument('-n', nargs=1)
-    parser.add_argument('-c', nargs=1)
+    parser.add_argument('filepath', nargs='?', help='Path to a file.')
+    parser.add_argument('-n', nargs=1, help='Name of a style to apply.')
+    parser.add_argument('-c', nargs=1, help='Path to style configuration file. Defaults to: ~/.txt.conf')
+    parser.add_argument('--color-always', help='Always use color. Similar to grep --color=always.', action='store_true')
     return parser.parse_args()
 
 def get_styles(conf_parser, style_def_name):
@@ -111,7 +110,7 @@ def main():
         style_def_name = args.n[0]
         styles = get_styles(conf_parser, style_def_name)
 
-    txts = Txts(styles, args.filepath)
+    txts = Txts(styles, args.filepath, args.color_always)
     txts.transform()
 
 if __name__ == "__main__":
