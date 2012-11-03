@@ -9,6 +9,7 @@ import argparse
 
 from txtstyle.confparser import ConfParser, ConfParserException
 from txtstyle.transformer import Transformer
+from txtstyle.transformer import Style
 
 _USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
 _DEFAULT_CONF_FILE = 'txts.conf.default'
@@ -22,18 +23,15 @@ class Txts:
 
     def transform(self):
         if self.filepath:
-            self.transform_file()
+            self._transform_file()
         elif not sys.stdin.isatty():
-            self.transform_pipe()
+            self._transform_pipe()
 
-    def transform_file(self):
+    def _transform_file(self):
         try:
             with open(self.filepath, 'r') as infile:
                 for line in infile:
-                    if sys.stdout.isatty() or self.color_always:
-                        self.__style(line)
-                    else:
-                        sys.stdout.write(line)
+                    self._style(line)
         except KeyboardInterrupt:
             pass
         except IOError, e:
@@ -46,21 +44,25 @@ class Txts:
                 sys.stderr.write("%s\n" % e)
             sys.exit(e.errno)
 
-    def transform_pipe(self):
+    def _transform_pipe(self):
         try:
             while True:
                 line = sys.stdin.readline()
                 if not line:
                     break
-                self.__style(line)
+                self._style(line)
         except KeyboardInterrupt:
             pass
         finally:
             sys.stdin.close()
 
-    def __style(self, line):
-        styled_line = self.transformer.style(line.strip('\n'))
-        sys.stdout.write(styled_line + '\n')
+    def _style(self, line):
+        if sys.stdout.isatty() or self.color_always:
+            styled_line = self.transformer.style(line.strip('\n'))
+            sys.stdout.write(styled_line + '\n')
+        else:
+            sys.stdout.write(line)
+
 
 
 def parse_args():
@@ -69,8 +71,12 @@ def parse_args():
         description='Prettifies output of console programs.')
 
     parser.add_argument('filepath', nargs='?', help='Path to a file.')
-    parser.add_argument('-n', nargs=1, help='Name of a style to apply.')
-    parser.add_argument('-c', nargs=1, help='Path to style configuration file. Defaults to: ~/.txt.conf')
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('-n', '--name', nargs=1, help='Name of the style to apply.')
+    group.add_argument('-r', '--regex', nargs=1, help='Highlight text based on the given regular expression.')
+
+    parser.add_argument('-c', '--conf', nargs=1, help='Path to a conf file. Default is: ~/.txt.conf')
     parser.add_argument('--color-always', help='Always use color. Similar to grep --color=always.', action='store_true')
     return parser.parse_args()
 
@@ -87,9 +93,9 @@ def get_conf_lines(args):
         return f.readlines()
 
 def get_conf_path(args):
-    if args.c:
+    if args.conf:
         # User-specified conf file
-        filepath = args.c[0]
+        filepath = args.conf[0]
         if not os.path.isfile(filepath):
             sys.stderr.write("File not found: %s\n" % filepath)
             sys.exit(errno.ENOENT)
@@ -104,11 +110,15 @@ def main():
     args = parse_args()
     styles = []
 
-    if args.n:
+    if args.name:
         conf_lines = get_conf_lines(args)
         conf_parser = ConfParser(conf_lines)
-        style_def_name = args.n[0]
+        style_def_name = args.name[0]
         styles = get_styles(conf_parser, style_def_name)
+    elif args.regex:
+        regex = args.regex[0]
+        transforms = ['red', 'bold']
+        styles = [Style(regex, transforms)]
 
     txts = Txts(styles, args.filepath, args.color_always)
     txts.transform()
