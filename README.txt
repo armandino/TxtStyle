@@ -25,19 +25,25 @@ $ sudo python setup.py install
 
 Usage
 =====
+TxtStyle [-n NAME | -r REGEX] [-c CONF] [--color-always] [filepath]
 
-  txts [file] [-n style] [-c configfile]
+  filepath                 Path to a file.
 
-     file: Path to file to prettify
+  -n NAME, --name NAME     Name of the style to apply.
+                           If not specified text is printed unprocessed
 
-     n:    Style name
-           If not specified text is printed unprocessed
+  -r REGEX, --regex REGEX  Highlight text based on the given regular expression.
 
-     c:    Path to configuration file
-           If not specified the default is ~/.txts.conf
+  -c CONF, --conf CONF     Path to a conf file. Default is: ~/.txt.conf
+
+  --color-always           Always use color. Similar to grep --color=always.
+
 
 Examples
 --------
+
+  # Highlight given regex
+  txts -r 'Foo|Bar' filename
 
   # Apply style 'syslog' (defined in the default config file: ~/.txts.conf)
   txts /var/log/syslog -n syslog
@@ -47,3 +53,6 @@ Examples
 
   # Apply 'mystyle' defined in 'another.txts.conf'
   txts myapp.log -c /path/to/another.txts.conf -n mystyle
+
+  # Force color if output is piped to another script
+  txts -n syslog /var/log/syslog --color-always | less -R
