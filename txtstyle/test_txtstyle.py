@@ -231,6 +231,11 @@ class ConfParserTests(unittest.TestCase):
         self.expect_style(r'org.[\w+|\.]+', ['red'])
         self.assert_styles(styles)
 
+    def test_get_ninth(self):
+        styles = self.confparser.get_styles('ninth')
+        self.expect_style(r'Exception', ['red', 'bold'])
+        self.assert_styles(styles, True)
+
     def test_get_undefined(self):
         try:
             styles = self.confparser.get_styles('FOO')
@@ -238,12 +243,13 @@ class ConfParserTests(unittest.TestCase):
         except Exception, e:
             self.assertEqual(e.message, 'Style "FOO" is not defined')
 
-    def assert_styles(self, styles):
+    def assert_styles(self, styles, apply_to_whole_line=False):
         self.assertEquals(len(self.expected_styles), len(styles))
         for i, style in enumerate(styles):
             expected = self.expected_styles[i]
             self.assertEqual(expected.regex_obj.pattern, style.regex_obj.pattern)
             self.assertEqual(expected.transforms, style.transforms)
+            self.assertEquals(apply_to_whole_line, style.apply_to_whole_line)
 
 
 class TransformerTests(unittest.TestCase):

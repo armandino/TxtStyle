@@ -28,10 +28,11 @@ from linestyleprocessor import LineStyleProcessor
 
 class Style:
 
-    def __init__(self, pattern, transform_keys):
+    def __init__(self, pattern, transform_keys, apply_to_whole_line=False):
         self.regex_obj = re.compile(pattern)
         # list of transformations to apply e.g. bold, white, on-blue
         self.transforms = []
+        self.apply_to_whole_line = apply_to_whole_line
 
         if transform_keys:
             for key in transform_keys:

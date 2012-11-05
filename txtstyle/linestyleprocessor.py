@@ -4,10 +4,22 @@ class LineStyleProcessor:
 
     def get_region_map(self, line, styles):
         region_map = {}
-        occupied = [False for i in range(len(line))]
+        line_is_clean = True
+        line_length = len(line)
+        occupied = [False for i in range(line_length)]
 
         for style in styles:
             regions = self.find_regions(line, style.regex_obj)
+
+            if style.apply_to_whole_line and regions:
+                if line_is_clean:
+                    region = (0, len(line) - 1)
+                    region_map[region] = style
+                    break # can't apply any more styles
+                else:
+                    # skip since other styles
+                    # have already been applied
+                    continue
 
             for region in regions:
                 start, end = region[0], region[1] + 1
@@ -17,6 +29,7 @@ class LineStyleProcessor:
                     for i in range(start, end):
                         occupied[i] = True
                     region_map[region] = style
+                    line_is_clean = False
 
         return region_map
 

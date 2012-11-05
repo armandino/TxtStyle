@@ -8,8 +8,8 @@ import transformer
 #
 # blue: "some pattern \d+"
 # red: 'some \w+ with single quotes'
-#
-_STYLE_DEF = re.compile('(.*):\s*[\'|"](.*)[\'|"]')
+# !green on-yellow: "! applies style to the whole line"
+_STYLE_DEF = re.compile('(!?)([\w|\s|-]+):\s*[\'|"](.+)[\'|"]')
 _STYLE_HEADER = re.compile('\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]')
 
 class ConfParserException(Exception):
@@ -35,10 +35,11 @@ class ConfParser:
     def _parse_style(self, style_def):
         match = re.match(_STYLE_DEF, style_def)
         if match:
-            parsed_transforms = match.group(1).strip()
-            pattern = match.group(2).strip()
+            apply_to_whole_line = match.group(1).strip() == '!'
+            parsed_transforms = match.group(2).strip()
+            pattern = match.group(3).strip()
             transforms = parsed_transforms.split()
-            return transformer.Style(pattern, transforms)
+            return transformer.Style(pattern, transforms, apply_to_whole_line)
         
         raise ConfParserException("Invalid style definition: %s" % style_def)
 

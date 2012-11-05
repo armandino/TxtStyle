@@ -1,23 +1,30 @@
 # Available styles attributes:
 #
-# bold, underline, hidden
-# grey, red, green, yellow, blue, magenta, cyan, white
-# on-grey, on-red, on-green, on-yellow, on-blue, on-magenta, on-cyan, on-white
+# - bold, underline, hidden
+# - grey, red, green, yellow, blue, magenta, cyan, white
+# - on-grey, on-red, on-green, on-yellow, on-blue, on-magenta, on-cyan, on-white
+#
+# The order of style definitions matters (higher precedence at the top).
+#
+# If a stlye definition starts with ! then the whole line will be styled if it
+# matches the given regex, and not just the match itself.
+#
 
 [Style="syslog"]
+!red bold: "<warn>"
 on-magenta: "^\w\w\w \d\d\s?"
 bold on-blue: "\d+:\d\d:\d+"
 yellow: "\d+\.\d+\.\d+\.\d+"
-red: ".*<warn>.*"
-red on-white: "\((.*)\)"
-grey: "\[(.*)\]"
+red on-white: "\([^\)]+\)"
+grey: "\[[^\]]+\]"
 
 [Style="java"]
-red: ".*(Exception).*"
+!red: "Exception"
 green: "INFO|DEBUG|WARN"
 green bold: "\(\w+\.java:\d+\)"
 grey : "\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d(,\d\d\d)?"
 yellow: "[a-zA-Z]+:\d+"
 yellow: "com\.[\w+|\.]+"
 cyan: "org\.[\w+|\.]+"
-blue: "\[(.*)\]"
+blue: "\[[^\]]+\]"
+
