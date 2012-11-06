@@ -285,8 +285,8 @@ class TransformerTests(unittest.TestCase):
     def remove_styles(self, line):
         unstyled = line.replace(r'\x1b[m', '', 1000)
         unstyled = unstyled.replace("\\'", "'", 1000)
-        for style_key in transformer.__STYLES__:
-            transform = transformer.__STYLES__[style_key]
+        for style_key in transformer._STYLES:
+            transform = transformer._STYLES[style_key]
             escape_code = transform.encode('string_escape')
             unstyled = unstyled.replace(escape_code, '', 1000)
         return unstyled

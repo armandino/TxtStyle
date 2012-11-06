@@ -1,30 +1,46 @@
-# http://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
-__STYLES__ = {
-    "bold" : "\033[1m",
-    "underline" : "\033[4m",
-    "hidden" : "\033[4m",
-    "grey" : "\033[30m", 
-    "red" : "\033[31m",
-    "green" : "\033[32m",
-    "yellow" : "\033[33m",
-    "blue" : "\033[34m",
-    "magenta" : "\033[35m",
-    "cyan" : "\033[36m",
-    "white" : "\033[37m",
-    "on-grey" : "\033[40m", 
-    "on-red" : "\033[41m",
-    "on-green" : "\033[42m",
-    "on-yellow" : "\033[43m",
-    "on-blue" : "\033[44m",
-    "on-magenta" : "\033[45m",
-    "on-cyan" : "\033[46m",
-    "on-white" : "\033[47m"
-    }
-
-__DEFAULT__ = "\033[m"
-
 import re
 from linestyleprocessor import LineStyleProcessor
+
+_DEFAULT = "\033[m"
+_FOREGROUND = '38'
+_BACKGROUND = '48'
+
+# http://tldp.org/HOWTO/Bash-Prompt-HOWTO/x329.html
+def _create_style_map():
+    def add_256_colors(style_map, color_type):
+        for i in range(1, 256):
+            key = str(i) if color_type is _FOREGROUND else "on-%i" % i
+            style_map[key] = "\x1b[%s;5;%im" % (color_type, i)
+
+    # named styles
+    style_map = {
+        "bold" : "\033[1m",
+        "underline" : "\033[4m",
+        "hidden" : "\033[4m",
+        "grey" : "\033[30m",
+        "red" : "\033[31m",
+        "green" : "\033[32m",
+        "yellow" : "\033[33m",
+        "blue" : "\033[34m",
+        "magenta" : "\033[35m",
+        "cyan" : "\033[36m",
+        "white" : "\033[37m",
+        "on-grey" : "\033[40m",
+        "on-red" : "\033[41m",
+        "on-green" : "\033[42m",
+        "on-yellow" : "\033[43m",
+        "on-blue" : "\033[44m",
+        "on-magenta" : "\033[45m",
+        "on-cyan" : "\033[46m",
+        "on-white" : "\033[47m"
+        }
+    
+    # 256 numeric colors
+    add_256_colors(style_map, _FOREGROUND)
+    add_256_colors(style_map, _BACKGROUND)
+    return style_map
+
+_STYLES = _create_style_map()
 
 class Style:
 
@@ -36,8 +52,8 @@ class Style:
 
         if transform_keys:
             for key in transform_keys:
-                if key in __STYLES__:
-                    self.transforms.append(__STYLES__[key])
+                if key in _STYLES:
+                    self.transforms.append(_STYLES[key])
                 else:
                     raise Exception('Invalid style attribute: "%s"' % key)
 
@@ -79,8 +95,8 @@ class Transformer:
         if style:
             styled_line.append(''.join(style.transforms))
         else:
-            styled_line.append(__DEFAULT__)
+            styled_line.append(_DEFAULT)
             
         styled_line.append(line[start : end])
-        styled_line.append(__DEFAULT__)
+        styled_line.append(_DEFAULT)
         
