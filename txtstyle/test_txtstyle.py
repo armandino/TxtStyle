@@ -217,9 +217,9 @@ class ConfParserTests(unittest.TestCase):
     def test_get_sixth(self):
         try:
             styles = self.confparser.get_styles('sixth')
-            self.fail('should fail on invalid style attribute')
+            self.fail('should fail on invalid style key')
         except Exception, e:
-            self.assertEqual(e.message, 'Invalid style attribute: "some-bad-attribute"')
+            self.assertEqual(e.message, 'Invalid style key: "some-bad-key"')
 
     def test_get_seventh(self):
         styles = self.confparser.get_styles('seventh')

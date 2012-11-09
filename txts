@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 
+import argparse
 import errno
 import os
-import shutil
 import sys
 import time
-import argparse
 
 from txtstyle.confparser import ConfParser, ConfParserException
+from txtstyle.palette import Palette
 from txtstyle.transformer import Transformer
 from txtstyle.transformer import Style
+from txtstyle.txtsconf import *
 
 _USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
-_DEFAULT_CONF_FILE = 'txts.conf.default'
 
 class Txts:
 
@@ -73,6 +73,7 @@ def parse_args():
     parser.add_argument('filepath', nargs='?', help='Path to a file.')
 
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('-p', '--palette', help='Print a palette of available styles.', action='store_true')
     group.add_argument('-n', '--name', nargs=1, help='Name of the style to apply.')
     group.add_argument('-r', '--regex', nargs=1, help='Highlight text based on the given regular expression.')
 
@@ -103,14 +104,17 @@ def get_conf_path(args):
     else:
         # User-home conf file (~/.txt.conf)
         if not os.path.isfile(_USER_HOME_CONF_FILE):
-            shutil.copyfile(_DEFAULT_CONF_FILE, _USER_HOME_CONF_FILE)
+            with open(_USER_HOME_CONF_FILE, 'w+') as f:
+                f.write(DEFAULT_CONF)
         return _USER_HOME_CONF_FILE
 
 def main():
     args = parse_args()
     styles = []
 
-    if args.name:
+    if args.palette:
+        Palette().print_palette()
+    elif args.name:
         conf_lines = get_conf_lines(args)
         conf_parser = ConfParser(conf_lines)
         style_def_name = args.name[0]
