@@ -44,11 +44,11 @@ class Palette:
         self._separator()
         print "                %sNamed styles%s" % (NAMED_STYLE_MAP['bold'], DEFAULT_STYLE)
         self._separator()
-        self.justify("bold", "underline")
-        self.justify("grey", "red", "green", "yellow")
-        self.justify("blue", "magenta", "cyan", "white")
-        self.justify("on-grey", "on-red", "on-green", "on-yellow")
-        self.justify("on-blue", "on-magenta", "on-cyan", "on-white")
+        self._justify("bold", "underline")
+        self._justify("grey", "red", "green", "yellow")
+        self._justify("blue", "magenta", "cyan", "white")
+        self._justify("on-grey", "on-red", "on-green", "on-yellow")
+        self._justify("on-blue", "on-magenta", "on-cyan", "on-white")
 
     def _number_based_styles(self):
         print
@@ -62,7 +62,7 @@ class Palette:
         print
         self._separator()
 
-    def justify(self, *words):
+    def _justify(self, *words):
         wordcount = len(words)
         charcount = len(''.join(words))
         fillsize = _LINE_LENGTH - charcount
