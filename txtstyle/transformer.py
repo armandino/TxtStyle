@@ -34,6 +34,9 @@ class Style:
                 else:
                     raise Exception('Invalid style key: "%s"' % key)
 
+    def __repr__(self):
+        return "Style[\"%s\", apply_to_whole_line = %s]" % \
+            (self.regex_obj.pattern, self.apply_to_whole_line)
 
 class Transformer:
 

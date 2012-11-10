@@ -9,8 +9,8 @@ import transformer
 # blue: "some pattern \d+"
 # red: 'some \w+ with single quotes'
 # !green on-yellow: "! applies style to the whole line"
-_STYLE_DEF = re.compile('(!?)([\w|\s|-]+):\s*[\'|"](.+)[\'|"]')
-_STYLE_HEADER = re.compile('\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]')
+_STYLE_DEF = re.compile('^(!?)([\w|\s|-]+):\s*[\'|"](.+)[\'|"]$')
+_STYLE_HEADER = re.compile('^\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]$')
 
 class ConfParserException(Exception):
     def __init__(self, message):

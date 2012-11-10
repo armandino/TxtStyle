@@ -10,5 +10,5 @@ setup(
     url='https://github.com/armandino/TxtStyle',
     license='LICENSE.txt',
     description='Command line tool for prettifying  output of console programs.',
-    long_description=open('README.txt').read()
+    long_description=open('README.md').read()
 )

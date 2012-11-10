@@ -180,8 +180,20 @@ class ConfParserTests(unittest.TestCase):
         self.confparser = None
         self.expected_styles = None
 
-    def expect_style(self, pattern, transforms):
-        self.expected_styles.append(transformer.Style(pattern, transforms))
+    def expect_style(self, pattern, transforms, apply_to_whole_line=False):
+        self.expected_styles.append(transformer.Style(pattern, transforms, apply_to_whole_line))
+
+    def test_example_style(self):
+        styles = self.confparser.get_styles('example')
+        self.expect_style(r'error', ['red'], True)
+        self.expect_style(r'evil\.org', ['red'])
+        self.expect_style(r'\d{4}-\d\d-\d\d', ['green'])
+        self.expect_style(r'\d\d:\d\d:\d\d', ['green', 'bold'])
+        self.expect_style(r'\d+\.\d+\.\d+\.\d+(:\d+)?', ['yellow', 'underline'])
+        self.expect_style(r'\[samplesession\]', ['magenta'])
+        self.expect_style(r'\[[^\]]+\]', ['blue'])
+        self.expect_style(r'\b\d+\b', ['cyan', 'bold'])
+        self.assert_styles(styles)
 
     def test_get_first(self):
         styles = self.confparser.get_styles('first')
@@ -200,7 +212,7 @@ class ConfParserTests(unittest.TestCase):
         styles = self.confparser.get_styles('third')
         self.expect_style(r':on-red : \d+', ['on-red'])
         self.expect_style(r'\\:\\[\s+]foo.*(foo).*bar\\\\', ['grey'])
-        self.expect_style(r': single: quotes', ['yellow'])
+        self.expect_style(r': double: quotes', ['yellow'])
         self.assert_styles(styles)
 
     def test_get_fourth(self):
@@ -224,6 +236,7 @@ class ConfParserTests(unittest.TestCase):
     def test_get_seventh(self):
         styles = self.confparser.get_styles('seventh')
         self.expect_style(r':.*\d\s\'\"', ['blue', 'on-white'])
+        self.expect_style(r'\"', ['125', 'on-245'])
         self.assert_styles(styles)
 
     def test_get_eighth(self):
@@ -233,8 +246,18 @@ class ConfParserTests(unittest.TestCase):
 
     def test_get_ninth(self):
         styles = self.confparser.get_styles('ninth')
-        self.expect_style(r'Exception', ['red', 'bold'])
-        self.assert_styles(styles, True)
+        self.expect_style(r'error', ['red'], True)
+        self.expect_style(r'another error', ['red', 'bold'], True)
+        self.assert_styles(styles)
+
+    def test_get_tenth(self):
+        expected = 'Invalid style definition: red: "bad" # can\'t comment here'
+        try:
+            styles = self.confparser.get_styles('tenth')
+            self.expect_style(r'illegal comment', ['red'])
+            self.assert_styles(styles)
+        except Exception, e:
+            self.assertEqual(e.message, expected)
 
     def test_get_undefined(self):
         try:
@@ -243,13 +266,14 @@ class ConfParserTests(unittest.TestCase):
         except Exception, e:
             self.assertEqual(e.message, 'Style "FOO" is not defined')
 
-    def assert_styles(self, styles, apply_to_whole_line=False):
+    def assert_styles(self, styles):
         self.assertEquals(len(self.expected_styles), len(styles))
         for i, style in enumerate(styles):
             expected = self.expected_styles[i]
             self.assertEqual(expected.regex_obj.pattern, style.regex_obj.pattern)
             self.assertEqual(expected.transforms, style.transforms)
-            self.assertEquals(apply_to_whole_line, style.apply_to_whole_line)
+            msg = "Expected apply_to_whole_line=%s for %r" % (expected.apply_to_whole_line, style)
+            self.assertEquals(expected.apply_to_whole_line, style.apply_to_whole_line, msg)
 
 
 class TransformerTests(unittest.TestCase):

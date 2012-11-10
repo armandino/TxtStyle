@@ -1,0 +1,32 @@
+2007-10-07 14:24:41 [samplesession] [dns 53/udp/tcp] [172.16.1.5] connect
+2007-10-07 14:24:41 [samplesession] [dns 53/udp/tcp] [172.16.1.5] recv: Query Type A, Class IN, Name evil.org
+2007-10-07 14:24:41 [samplesession] [dns 53/udp/tcp] [172.16.1.5] send: evil.org 3600 IN A 172.16.1.1
+2007-10-07 14:24:41 [samplesession] [dns 53/udp/tcp] [172.16.1.5] disconnect
+2007-10-07 14:24:41 [samplesession] [dns 53/udp/tcp] [172.16.1.5] stat: 1 qtype=A qclass=IN qname=evil.org
+2007-10-07 14:24:41 [samplesession] [http 80/tcp] [172.16.1.5:1031] connect
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] recv: GET /mal.exe HTTP/1.1
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] recv: Accept: */*
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] recv: Accept-Encoding: gzip, deflate
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] recv: Host: evil.org
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] recv: Connection: Keep-Alive
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] info: Request URL: http://evil.org/mal.exe
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] send: 200 OK
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] send: Connection: Close
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] send: Content-Length: 24576
+2007-10-07 14:24:44 [samplesession] [http 80/tcp] [172.16.1.5:1031] disconnect
+2007-10-07 14:26:00 [samplesession] [dns 53/udp/tcp] [172.16.1.5] connect
+2007-10-07 14:26:00 [samplesession] [dns 53/udp/tcp] [172.16.1.5] recv: Query Type A, Class IN, Name mail.evil.org
+2007-10-07 14:26:00 [samplesession] [dns 53/udp/tcp] [172.16.1.5] send: mail.evil.org 3600 IN A 172.16.1.1
+2007-10-07 14:26:00 [samplesession] [dns 53/udp/tcp] [172.16.1.5] disconnect
+2007-10-07 14:26:00 [samplesession] [dns 53/udp/tcp] [172.16.1.5] stat: 1 qtype=A qclass=IN qname=mail.evil.org
+2007-10-07 14:26:00 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] connect
+2007-10-07 14:26:00 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] send: 220 mail.inetsim.org INetSim SMTP Mailer ready.
+2007-10-07 14:26:00 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] recv: EHLO 172.16.1.5
+2007-10-07 14:26:00 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] send: 250-mail.inetsim.org
+2007-10-07 14:26:00 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] send: 250 ETRN
+2007-10-07 14:26:00 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] recv: AUTH LOGIN
+2007-10-07 14:26:01 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] send: 334 VXNlcm5hbWU6
+2007-10-07 14:26:01 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] error: connection lost
+2007-10-07 14:26:01 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] recv: .
+2007-10-07 14:26:01 [samplesession] [smtp 25/tcp] [172.16.1.5:1036] send: 250 Ok: queued as 470E1658
+
