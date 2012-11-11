@@ -4,6 +4,8 @@
 It makes it easier to visually scan log files. Or it can be simply used
 to make output prettier.
 
+![TxtStyle](http://goo.gl/HcyUs)
+
 ## Try it out
 
     git clone git://github.com/armandino/TxtStyle.git
@@ -20,6 +22,10 @@ Color ifconfig output
 Color calendar
 
     cal 2012 | ./txts -n calendar
+
+Color ps output
+
+    ps aux | txts -n ps
 
 ## Install
 
@@ -65,7 +71,7 @@ Highlight text using the `-r` (or `--regex`) option. For example
 `TxtStyle` does not apply styles if output is piped to another command.
 To force color if the output is piped, use `--color-always` option:
 
-    txts -n syslog /var/log/syslog --color-always | less -R
+    ps aux | txts -n ps --color-always | less -R
 
 Print basic help
 

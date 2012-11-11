@@ -20,11 +20,8 @@ def _create_style_map():
 _STYLES = _create_style_map()
 
 class BaseStyle(object):
-
-    def __init__(self, transform_keys, apply_to_whole_line=False):
+    def __init__(self, transform_keys):
         self.transforms = []
-        self.apply_to_whole_line = apply_to_whole_line
-
         if transform_keys:
             for key in transform_keys:
                 if key in _STYLES:
@@ -32,15 +29,25 @@ class BaseStyle(object):
                 else:
                     raise Exception('Invalid style key: "%s"' % key)
 
-class Style(BaseStyle):
 
+class RegexStyle(BaseStyle):
     def __init__(self, pattern, transform_keys, apply_to_whole_line=False):
-        super(Style, self).__init__(transform_keys, apply_to_whole_line)
+        super(RegexStyle, self).__init__(transform_keys)
         self.regex_obj = re.compile(pattern)
+        self.apply_to_whole_line = apply_to_whole_line
 
     def __repr__(self):
-        return "Style[\"%s\", apply_to_whole_line = %s]" % \
+        return "RegexStyle[\"%s\", apply_to_whole_line = %s]" % \
             (self.regex_obj.pattern, self.apply_to_whole_line)
+
+
+class IndexStyle(BaseStyle):
+    """ Takes a list of indexes i.e. (start,end) tuples and transform keys.
+    """
+    def __init__(self, regions, transform_keys):
+        super(IndexStyle, self).__init__(transform_keys)
+        self.regions = regions
+
 
 class Transformer(object):
 

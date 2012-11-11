@@ -10,7 +10,6 @@ DEFAULT_CONF = """
 #
 # If a stlye definition starts with '!' then the whole line will be styled
 # if it matches the given regex, and not just the match itself.
-#
 
 [Style="example"]
 # Print in red any line containing the word 'error'
@@ -43,14 +42,6 @@ bold: "\d{4}"
 160 bold: "Su"
 220 bold: "\w+"
 
-[Style="syslog"]
-!red bold: "<warn>"
-on-magenta: "^\w\w\w \d\d\s?"
-bold on-blue: "\d+:\d\d:\d+"
-yellow: "\d+\.\d+\.\d+\.\d+"
-red on-white: "\([^\)]+\)"
-grey: "\[[^\]]+\]"
-
 [Style="java"]
 !red: "Exception"
 #green: "INFO|DEBUG|WARN"
@@ -61,5 +52,19 @@ yellow: "[a-zA-Z]+:\d+"
 yellow: "com\.[\w+|\.]+"
 cyan: "org\.[\w+|\.]+"
 blue: "\[[^\]]+\]"
+
+[Style="ps"]
+!white bold on-19: regex("USER       PID")
+118: index(0-8)
+160 bold: index(9-13)
+215: index(15-18)
+115: index(20-24)
+162: index(25-31)
+118: index(32-36)
+207: index(38-45)
+225: index(47-50)
+45 bold: index(52-56)
+120: index(59-63)
+125: index(64-9000)
 
 """

@@ -1,23 +1,10 @@
 import os
 import re
-
 import transformer
 
-#
-# Style definition examples:
-#
-# blue: "some pattern \d+"
-# red: 'some \w+ with single quotes'
-# !green on-yellow: "! applies style to the whole line"
-_STYLE_DEF = re.compile('^(!?)([\w|\s|-]+):\s*[\'|"](.+)[\'|"]$')
 _STYLE_HEADER = re.compile('^\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]$')
-
-class ConfParserException(Exception):
-    def __init__(self, message):
-        self.message = message
-
-    def __str__(self):
-        return repr(self.message)
+_REGEX_STYLE_DEF = re.compile('^(!?)([\w|\s|-]+):\s*regex\([\'|"](.+)[\'|"]\)$')
+_INDEX_STYLE_DEF = re.compile('^([\w|\s|-]+):\s*index\((.+)\)$')
 
 class ConfParser(object):
 
@@ -33,15 +20,38 @@ class ConfParser(object):
         return styles
 
     def _parse_style(self, style_def):
-        match = re.match(_STYLE_DEF, style_def)
+        match = re.match(_REGEX_STYLE_DEF, style_def)
         if match:
-            apply_to_whole_line = match.group(1).strip() == '!'
-            parsed_transforms = match.group(2).strip()
-            pattern = match.group(3).strip()
-            transforms = parsed_transforms.split()
-            return transformer.Style(pattern, transforms, apply_to_whole_line)
-        
+            return self._parse_regex_style(match)
+
+        match = re.match(_INDEX_STYLE_DEF, style_def)
+        if match:
+            return self._parse_index_style(match)
+
         raise ConfParserException("Invalid style definition: %s" % style_def)
+
+    def _parse_regex_style(self, match):
+        apply_to_whole_line = match.group(1).strip() == '!'
+        transforms = match.group(2).strip().split()
+        pattern = match.group(3).strip()
+        return transformer.RegexStyle(pattern, transforms, apply_to_whole_line)
+
+    def _parse_index_style(self, match):
+        transforms = match.group(1).strip().split()
+        # regionlist example: "0-10, 20-25, 50-100"
+        regionlist = match.group(2).strip().split(',')
+        regions = []
+        for regionitem in regionlist:
+            idx = regionitem.split('-')
+            if len(idx) != 2:
+                ConfParserException("Invalid style definition: %s" % style_def)
+            region = (int(idx[0].strip()), int(idx[1].strip()))
+            regions.append(region)
+
+        if not regions:
+            ConfParserException("Invalid style definition: %s" % style_def)
+
+        return transformer.IndexStyle(regions, transforms)
 
     def _get_style_defs(self, style_name):
         style_defs = []
@@ -72,3 +82,11 @@ class ConfParser(object):
             return True
         
         return False
+
+
+class ConfParserException(Exception):
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return repr(self.message)

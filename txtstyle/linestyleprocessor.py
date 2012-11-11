@@ -1,4 +1,5 @@
 import re
+import transformer
 
 class LineStyleProcessor(object):
 
@@ -9,11 +10,18 @@ class LineStyleProcessor(object):
         occupied = [False for i in range(line_length)]
 
         for style in styles:
-            regions = self.find_regions(line, style.regex_obj)
+            regions = []
+            apply_to_whole_line = False
 
-            if style.apply_to_whole_line and regions:
+            if isinstance(style, transformer.IndexStyle):
+                regions = style.regions
+            else:
+                regions = self.find_regions(line, style.regex_obj)
+                apply_to_whole_line = style.apply_to_whole_line
+
+            if apply_to_whole_line and regions:
                 if line_is_clean:
-                    region = (0, len(line) - 1)
+                    region = (0, line_length - 1)
                     region_map[region] = style
                     break # can't apply any more styles
                 else:
@@ -22,7 +30,8 @@ class LineStyleProcessor(object):
                     continue
 
             for region in regions:
-                start, end = region[0], region[1] + 1
+                start = region[0]
+                end = min(region[1] + 1, line_length)
                 overlaps = any(occupied[start : end])
 
                 if not overlaps:

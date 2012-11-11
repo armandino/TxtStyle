@@ -9,7 +9,7 @@ import time
 from txtstyle.confparser import ConfParser, ConfParserException
 from txtstyle.palette import Palette
 from txtstyle.transformer import Transformer
-from txtstyle.transformer import Style
+from txtstyle.transformer import RegexStyle
 from txtstyle.txtsconf import *
 
 _USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
@@ -122,7 +122,7 @@ def main():
     elif args.regex:
         regex = args.regex[0]
         transforms = ['red', 'bold']
-        styles = [Style(regex, transforms)]
+        styles = [RegexStyle(regex, transforms)]
 
     txts = Txts(styles, args.filepath, args.color_always)
     txts.transform()

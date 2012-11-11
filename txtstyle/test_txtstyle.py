@@ -18,9 +18,9 @@ class LineStyleProcessorTests(unittest.TestCase):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         
-        s1 = transformer.Style(regex("This"), None)
-        s2 = transformer.Style(regex("is"), None)
-        s3 = transformer.Style(regex("s"), None)
+        s1 = transformer.RegexStyle(regex("This"), None)
+        s2 = transformer.RegexStyle(regex("is"), None)
+        s3 = transformer.RegexStyle(regex("s"), None)
 
         styles = [s1, s2, s3]
         
@@ -43,14 +43,13 @@ class LineStyleProcessorTests(unittest.TestCase):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         
-        s1 = transformer.Style(regex("s"), None)
-        s2 = transformer.Style(regex("is"), None)
-        s3 = transformer.Style(regex("This"), None)
+        s1 = transformer.RegexStyle(regex("s"), None)
+        s2 = transformer.RegexStyle(regex("is"), None)
+        s3 = transformer.RegexStyle(regex("This"), None)
 
         styles = [s1, s2, s3]
         
-        region_map = self.lineStyleProcessor.get_region_map(
-            line, styles)
+        region_map = self.lineStyleProcessor.get_region_map(line, styles)
         
         regions = region_map.keys()
         regions.sort()
@@ -62,6 +61,35 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.assertEqual(region_map[(6,6)], s1)
         self.assertEqual(region_map[(15,15)], s1)
         self.assertEqual(region_map[(32,32)], s1)
+
+    def test_get_region_map_index_style(self):
+        line = "some string"
+        
+        s1 = transformer.IndexStyle([
+                (1,5), (4,10), (15,20), (35,40), (45,50)], None)
+        s2 = transformer.IndexStyle([
+                (1,3), (4,6), (7,14), (41,44), (55,60)], None)
+        s3 = transformer.IndexStyle([
+                (60,65)], None)
+
+        styles = [s1, s2, s3]
+        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+        
+        regions = region_map.keys()
+        regions.sort()
+        
+        self.assert_results([(1,5), (7,14), (15,20),
+                             (35,40), (41,44), (45,50),
+                             (55,60), (60,65)], regions) # (60,65)?
+        
+        self.assertEqual(region_map[(1,5)], s1)
+        self.assertEqual(region_map[(7,14)], s2)
+        self.assertEqual(region_map[(15,20)], s1)
+        self.assertEqual(region_map[(35,40)], s1)
+        self.assertEqual(region_map[(41,44)], s2)
+        self.assertEqual(region_map[(45,50)], s1)
+        self.assertEqual(region_map[(55,60)], s2)
+        self.assertEqual(region_map[(60,65)], s3)
 
     def assert_results(self, expected_results, results):
         self.assertEquals(len(expected_results), len(results))
@@ -180,40 +208,43 @@ class ConfParserTests(unittest.TestCase):
         self.confparser = None
         self.expected_styles = None
 
-    def expect_style(self, pattern, transforms, apply_to_whole_line=False):
-        self.expected_styles.append(transformer.Style(pattern, transforms, apply_to_whole_line))
+    def expect_regex_style(self, pattern, transforms, apply_to_whole_line=False):
+        self.expected_styles.append(transformer.RegexStyle(pattern, transforms, apply_to_whole_line))
+
+    def expect_index_style(self, regions, transforms):
+        self.expected_styles.append(transformer.IndexStyle(regions, transforms))
 
     def test_example_style(self):
         styles = self.confparser.get_styles('example')
-        self.expect_style(r'error', ['red'], True)
-        self.expect_style(r'evil\.org', ['red'])
-        self.expect_style(r'\d{4}-\d\d-\d\d', ['green'])
-        self.expect_style(r'\d\d:\d\d:\d\d', ['green', 'bold'])
-        self.expect_style(r'\d+\.\d+\.\d+\.\d+(:\d+)?', ['yellow', 'underline'])
-        self.expect_style(r'\[samplesession\]', ['magenta'])
-        self.expect_style(r'\[[^\]]+\]', ['blue'])
-        self.expect_style(r'\b\d+\b', ['cyan', 'bold'])
-        self.assert_styles(styles)
+        self.expect_regex_style(r'error', ['red'], True)
+        self.expect_regex_style(r'evil\.org', ['red'])
+        self.expect_regex_style(r'\d{4}-\d\d-\d\d', ['green'])
+        self.expect_regex_style(r'\d\d:\d\d:\d\d', ['green', 'bold'])
+        self.expect_regex_style(r'\d+\.\d+\.\d+\.\d+(:\d+)?', ['yellow', 'underline'])
+        self.expect_regex_style(r'\[samplesession\]', ['magenta'])
+        self.expect_regex_style(r'\[[^\]]+\]', ['blue'])
+        self.expect_regex_style(r'\b\d+\b', ['cyan', 'bold'])
+        self.assert_regex_styles(styles)
 
     def test_get_first(self):
         styles = self.confparser.get_styles('first')
-        self.expect_style(r'some error', ['red'])
-        self.expect_style(r'\d\d-\d\d-\d\d\d\d', ['blue'])
-        self.expect_style(r'some pattern', ['green'])
-        self.expect_style(r'\[(xyz.*x+y?z+)\]', ['underline'])
-        self.assert_styles(styles)
+        self.expect_regex_style(r'some error', ['red'])
+        self.expect_regex_style(r'\d\d-\d\d-\d\d\d\d', ['blue'])
+        self.expect_regex_style(r'some pattern', ['green'])
+        self.expect_regex_style(r'\[(xyz.*x+y?z+)\]', ['underline'])
+        self.assert_regex_styles(styles)
         
     def test_get_second(self):
         styles = self.confparser.get_styles('second')
-        self.expect_style('\w+', ['blue'])
-        self.assert_styles(styles)
+        self.expect_regex_style('\w+', ['blue'])
+        self.assert_regex_styles(styles)
 
     def test_get_third(self):
         styles = self.confparser.get_styles('third')
-        self.expect_style(r':on-red : \d+', ['on-red'])
-        self.expect_style(r'\\:\\[\s+]foo.*(foo).*bar\\\\', ['grey'])
-        self.expect_style(r': double: quotes', ['yellow'])
-        self.assert_styles(styles)
+        self.expect_regex_style(r':on-red : \d+', ['on-red'])
+        self.expect_regex_style(r'\\:\\[\s+]foo.*(foo).*bar\\\\', ['grey'])
+        self.expect_regex_style(r': double: quotes', ['yellow'])
+        self.assert_regex_styles(styles)
 
     def test_get_fourth(self):
         styles = self.confparser.get_styles('fourth')
@@ -224,7 +255,7 @@ class ConfParserTests(unittest.TestCase):
             styles = self.confparser.get_styles('fifth')
             self.fail('should fail on invalid definition')
         except Exception, e:
-            self.assertEqual(e.message, 'Invalid style definition: green "some pattern"')
+            self.assertEqual(e.message, 'Invalid style definition: green regex("some pattern")')
         
     def test_get_sixth(self):
         try:
@@ -235,29 +266,44 @@ class ConfParserTests(unittest.TestCase):
 
     def test_get_seventh(self):
         styles = self.confparser.get_styles('seventh')
-        self.expect_style(r':.*\d\s\'\"', ['blue', 'on-white'])
-        self.expect_style(r'\"', ['125', 'on-245'])
-        self.assert_styles(styles)
+        self.expect_regex_style(r':.*\d\s\'\"', ['blue', 'on-white'])
+        self.expect_regex_style(r'\"', ['125', 'on-245'])
+        self.assert_regex_styles(styles)
 
     def test_get_eighth(self):
         styles = self.confparser.get_styles('eighth')
-        self.expect_style(r'org.[\w+|\.]+', ['red'])
-        self.assert_styles(styles)
+        self.expect_regex_style(r'org.[\w+|\.]+', ['red'])
+        self.assert_regex_styles(styles)
 
     def test_get_ninth(self):
         styles = self.confparser.get_styles('ninth')
-        self.expect_style(r'error', ['red'], True)
-        self.expect_style(r'another error', ['red', 'bold'], True)
-        self.assert_styles(styles)
+        self.expect_regex_style(r'error', ['red'], True)
+        self.expect_regex_style(r'another error', ['red', 'bold'], True)
+        self.assert_regex_styles(styles)
 
     def test_get_tenth(self):
-        expected = 'Invalid style definition: red: "bad" # can\'t comment here'
+        expected = 'Invalid style definition: red: regex("bad") # can\'t comment here'
         try:
             styles = self.confparser.get_styles('tenth')
-            self.expect_style(r'illegal comment', ['red'])
-            self.assert_styles(styles)
+            self.fail('should fail on invalid style definition')
         except Exception, e:
             self.assertEqual(e.message, expected)
+
+    def test_get_eleventh(self):
+        styles = self.confparser.get_styles('eleventh')
+        self.expect_index_style([(0,8)], ['green'])
+        self.expect_index_style([(9,13)], ['160', 'bold'])
+        self.expect_index_style([(15,18)], ['215'])
+        self.expect_index_style([(20,24)], ['115'])
+        self.expect_index_style([(26,31)], ['162'])
+        self.expect_index_style([(65,200)], ['48'])
+        self.assert_index_styles(styles)
+
+    def test_get_twelfth(self):
+        styles = self.confparser.get_styles('twelfth')
+        self.expect_index_style([(0,8)], ['18', 'on-45'])
+        self.expect_index_style([(13,18), (20,22)], ['yellow'])
+        self.assert_index_styles(styles)
 
     def test_get_undefined(self):
         try:
@@ -266,7 +312,7 @@ class ConfParserTests(unittest.TestCase):
         except Exception, e:
             self.assertEqual(e.message, 'Style "FOO" is not defined')
 
-    def assert_styles(self, styles):
+    def assert_regex_styles(self, styles):
         self.assertEquals(len(self.expected_styles), len(styles))
         for i, style in enumerate(styles):
             expected = self.expected_styles[i]
@@ -275,17 +321,24 @@ class ConfParserTests(unittest.TestCase):
             msg = "Expected apply_to_whole_line=%s for %r" % (expected.apply_to_whole_line, style)
             self.assertEquals(expected.apply_to_whole_line, style.apply_to_whole_line, msg)
 
+    def assert_index_styles(self, styles):
+        self.assertEquals(len(self.expected_styles), len(styles))
+        for i, style in enumerate(styles):
+            expected = self.expected_styles[i]
+            self.assertEqual(expected.regions, style.regions)
+            self.assertEqual(expected.transforms, style.transforms)
+
 
 class TransformerTests(unittest.TestCase):
     def setUp(self):
-        Style = transformer.Style
+        RegexStyle = transformer.RegexStyle
         styles = [
-            Style("http:[\w+|/+|:]+", ["red"]),
-            Style("^\w\w\w \d\d\s?", ['white', 'on-magenta']),
-            Style("\d\d:\d\d:\d\d", ['bold', 'on-blue']),
-            Style(".*<warn>.*", ['yellow']),
-            Style("\((.*)\)", ['red', 'on-white']),
-            Style("\[(.*)\]", ['grey', 'bold']),
+            RegexStyle("http:[\w+|/+|:]+", ["red"]),
+            RegexStyle("^\w\w\w \d\d\s?", ['white', 'on-magenta']),
+            RegexStyle("\d\d:\d\d:\d\d", ['bold', 'on-blue']),
+            RegexStyle(".*<warn>.*", ['yellow']),
+            RegexStyle("\((.*)\)", ['red', 'on-white']),
+            RegexStyle("\[(.*)\]", ['grey', 'bold']),
             ]
         self.transformer = transformer.Transformer(styles)
         self.lines = self.get_lines('testdata/test-log')
