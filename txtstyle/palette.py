@@ -28,7 +28,7 @@ NAMED_STYLE_MAP = {
 
 _LINE_LENGTH = 47
 
-class Palette:
+class Palette(object):
 
     def print_palette(self):
         self._named_styles()

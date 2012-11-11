@@ -19,7 +19,7 @@ class ConfParserException(Exception):
     def __str__(self):
         return repr(self.message)
 
-class ConfParser:
+class ConfParser(object):
 
     def __init__(self, conf_lines):
         self.conf_lines = conf_lines

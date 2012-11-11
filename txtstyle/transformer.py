@@ -19,11 +19,9 @@ def _create_style_map():
 
 _STYLES = _create_style_map()
 
-class Style:
+class BaseStyle(object):
 
-    def __init__(self, pattern, transform_keys, apply_to_whole_line=False):
-        self.regex_obj = re.compile(pattern)
-        # list of transformations to apply e.g. bold, white, on-blue
+    def __init__(self, transform_keys, apply_to_whole_line=False):
         self.transforms = []
         self.apply_to_whole_line = apply_to_whole_line
 
@@ -34,11 +32,17 @@ class Style:
                 else:
                     raise Exception('Invalid style key: "%s"' % key)
 
+class Style(BaseStyle):
+
+    def __init__(self, pattern, transform_keys, apply_to_whole_line=False):
+        super(Style, self).__init__(transform_keys, apply_to_whole_line)
+        self.regex_obj = re.compile(pattern)
+
     def __repr__(self):
         return "Style[\"%s\", apply_to_whole_line = %s]" % \
             (self.regex_obj.pattern, self.apply_to_whole_line)
 
-class Transformer:
+class Transformer(object):
 
     def __init__(self, styles):
         self.styles = styles

@@ -1,6 +1,6 @@
 import re
 
-class LineStyleProcessor:
+class LineStyleProcessor(object):
 
     def get_region_map(self, line, styles):
         region_map = {}
