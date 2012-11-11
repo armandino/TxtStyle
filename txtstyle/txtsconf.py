@@ -28,6 +28,20 @@ blue: "\[[^\]]+\]"
 # Catch-all for any remaining standalone numbers
 cyan bold: "\b\d+\b"
 
+[Style="ifconfig"]
+yellow bold: "\d+\.\d+\.\d+\.\d+(:\d+)?"
+green bold: "(eth|wlan|lo)\d?"
+blue bold: "(\d\d:?){6}"
+red: "errors:\d+"
+magenta: "[a-zA-Z]+:\d+"
+cyan bold: "RX|TX|Link|inet\d?"
+
+[Style="calendar"]
+bold: "\d{4}"
+172 bold underline: "Jan\w+|Feb\w+|Mar\w+|Apr\w+|May|Jun\w|Jul\w|Aug\w+|Sep\w+|Oct\w+|Nov\w+|Dec\w+"
+229: "\d\d?"
+160 bold: "Su"
+220 bold: "\w+"
 
 [Style="syslog"]
 !red bold: "<warn>"
