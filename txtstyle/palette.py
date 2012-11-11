@@ -56,7 +56,7 @@ class Palette:
         print "               %sNumeric styles%s" % (NAMED_STYLE_MAP['bold'], DEFAULT_STYLE)
         self._separator()
         for i in range(1, 256):
-            sys.stdout.write("\x1b[38;5;%im [%03d]" % (i, i))
+            sys.stdout.write("\x1b[38;5;%im [%3i]" % (i, i))
             if i % 8 == 0:
                 print
         print
