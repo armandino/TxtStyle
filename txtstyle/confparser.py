@@ -4,7 +4,8 @@ import transformer
 
 _STYLE_HEADER = re.compile('^\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]$')
 _REGEX_STYLE_DEF = re.compile('^(!?)([\w|\s|-]+):\s*regex\([\'|"](.+)[\'|"]\)$')
-_INDEX_STYLE_DEF = re.compile('^([\w|\s|-]+):\s*index\((.+)\)$')
+_INDEX_STYLE_DEF = re.compile('^([\w|\s|-]+):\s*index\(\s*(.+)\s*\)$')
+
 
 class ConfParser(object):
 
@@ -26,7 +27,7 @@ class ConfParser(object):
 
         match = re.match(_INDEX_STYLE_DEF, style_def)
         if match:
-            return self._parse_index_style(match)
+            return self._parse_index_style(style_def, match)
 
         raise ConfParserException("Invalid style definition: %s" % style_def)
 
@@ -36,20 +37,26 @@ class ConfParser(object):
         pattern = match.group(3).strip()
         return transformer.RegexStyle(pattern, transforms, apply_to_whole_line)
 
-    def _parse_index_style(self, match):
+    def _parse_index_style(self, style_def, match):
         transforms = match.group(1).strip().split()
-        # regionlist example: "0-10, 20-25, 50-100"
+        # regionlist example: "0-10, 20-25, 50-"
         regionlist = match.group(2).strip().split(',')
         regions = []
         for regionitem in regionlist:
             idx = regionitem.split('-')
-            if len(idx) != 2:
-                ConfParserException("Invalid style definition: %s" % style_def)
-            region = (int(idx[0].strip()), int(idx[1].strip()))
+            if 1 > len(idx) > 2:
+                raise ConfParserException("Invalid style definition: %s" % style_def)
+            start = int(idx[0].strip())
+            end = int(idx[1].strip()) if idx[1] else None
+            if end and start >= end: # TODO: validate through regex
+                raise ConfParserException(
+                    "Invalid style definition: %s (Start index [%r] >= end index [%r])"
+                    % (style_def, start, end))
+            region = (start, end)
             regions.append(region)
 
         if not regions:
-            ConfParserException("Invalid style definition: %s" % style_def)
+            raise ConfParserException("Invalid style definition: %s" % style_def)
 
         return transformer.IndexStyle(regions, transforms)
 

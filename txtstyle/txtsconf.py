@@ -55,16 +55,16 @@ blue: "\[[^\]]+\]"
 
 [Style="ps"]
 !white bold on-19: regex("USER       PID")
-118: index(0-8)
-160 bold: index(9-13)
-215: index(15-18)
-115: index(20-24)
-162: index(25-31)
-118: index(32-36)
-207: index(38-45)
-225: index(47-50)
-45 bold: index(52-56)
-120: index(59-63)
-125: index(64-9000)
+118: index(0-9)
+160 bold: index(9-14)
+215: index(15-19)
+115: index(20-25)
+162: index(25-32)
+118: index(32-37)
+207: index(38-46)
+225: index(47-51)
+45 bold: index(52-57)
+120: index(59-64)
+125: index(64-)
 
 """

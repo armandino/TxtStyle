@@ -30,10 +30,15 @@ class LineStyleProcessor(object):
                     continue
 
             for region in regions:
-                start = region[0]
-                end = min(region[1] + 1, line_length)
-                overlaps = any(occupied[start : end])
+                start, end = region[0], region[1]
+                if start >= line_length:
+                    continue
 
+                if end is None or end > line_length:
+                    end = line_length
+                    region = (start, end)
+
+                overlaps = any(occupied[start : end])
                 if not overlaps:
                     for i in range(start, end):
                         occupied[i] = True
@@ -52,5 +57,5 @@ class LineStyleProcessor(object):
         if isinstance(regex_obj, re._pattern_type) and not regex_obj.pattern:
             return []
 
-        return [(m.start(0), m.end(0) - 1) for m in re.finditer(regex_obj, line)]
+        return [(m.start(0), m.end(0)) for m in re.finditer(regex_obj, line)]
 

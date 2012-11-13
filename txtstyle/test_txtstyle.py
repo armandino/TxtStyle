@@ -30,13 +30,13 @@ class LineStyleProcessorTests(unittest.TestCase):
         regions = region_map.keys()
         regions.sort()
         
-        self.assert_results([(0,3), (5,6), (15,15),
-                             (32,32)], regions)
+        self.assert_results([(0,4), (5,7), (15,16),
+                             (32,33)], regions)
         
-        self.assertEqual(region_map[(0,3)], s1)
-        self.assertEqual(region_map[(5,6)], s2)
-        self.assertEqual(region_map[(15,15)], s3)
-        self.assertEqual(region_map[(32,32)], s3)
+        self.assertEqual(region_map[(0,4)], s1)
+        self.assertEqual(region_map[(5,7)], s2)
+        self.assertEqual(region_map[(15,16)], s3)
+        self.assertEqual(region_map[(32,33)], s3)
 
 
     def test_get_region_map_reverse_order(self):
@@ -54,16 +54,55 @@ class LineStyleProcessorTests(unittest.TestCase):
         regions = region_map.keys()
         regions.sort()
         
-        self.assert_results([(3,3), (6,6), (15,15),
-                             (32,32)], regions)
+        self.assert_results([(3,4), (6,7), (15,16),
+                             (32,33)], regions)
         
-        self.assertEqual(region_map[(3,3)], s1)
-        self.assertEqual(region_map[(6,6)], s1)
-        self.assertEqual(region_map[(15,15)], s1)
-        self.assertEqual(region_map[(32,32)], s1)
+        self.assertEqual(region_map[(3,4)], s1)
+        self.assertEqual(region_map[(6,7)], s1)
+        self.assertEqual(region_map[(15,16)], s1)
+        self.assertEqual(region_map[(32,33)], s1)
+
+    def test_get_region_map_index_style_when_start_is_equal_to_line_length(self):
+        line = "blip"
+        region = (len(line), len(line) + 1)
+        s1 = transformer.IndexStyle([region], None)
+        region_map = self.lineStyleProcessor.get_region_map(line, [s1])
+        regions = region_map.keys()
+        self.assert_results([], regions)
+
+
+    def test_get_region_map_index_style_when_end_is_greater_than_line_length(self):
+        #       01234567890123456
+        line = "a short string..."
+
+        region = (7,20)
+        self.assertTrue(region[1] > len(line))
+
+        s1 = transformer.IndexStyle([region], None)
+        styles = [s1]
+        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+
+        regions = region_map.keys()
+
+        self.assert_results([(7,17)], regions)
+        self.assertEqual(region_map[(7,17)], s1)
+
+    def test_get_region_map_index_style_when_end_is_none(self):
+        line = "end is None, and therefore defaults to line length"
+        region = (0, None)
+
+        s1 = transformer.IndexStyle([region], None)
+        styles = [s1]
+        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+
+        regions = region_map.keys()
+        expected_end = len(line)
+        self.assert_results([(0, expected_end)], regions)
+        self.assertEqual(region_map[(0, expected_end)], s1)
+
 
     def test_get_region_map_index_style(self):
-        line = "some string"
+        line = "a test string that needs to be longer than 65 characters.........."
         
         s1 = transformer.IndexStyle([
                 (1,5), (4,10), (15,20), (35,40), (45,50)], None)
@@ -100,8 +139,8 @@ class LineStyleProcessorTests(unittest.TestCase):
         results1 = self.find_regions('string', 'in')
         results2 = self.find_regions('string', 'in')
         self.assertIsNot(results1, results2)
-        self.assert_results([(3,4)], results1)
-        self.assert_results([(3,4)], results2)
+        self.assert_results([(3,5)], results1)
+        self.assert_results([(3,5)], results2)
 
     def test_missing_searchstr_return_empty_results(self):
         results = self.find_regions('some string', '')
@@ -125,69 +164,69 @@ class LineStyleProcessorTests(unittest.TestCase):
 
     def test_smart_simple_cases(self):
         results = self.find_regions('this is...', 'this')
-        self.assert_results([(0,3)], results)
+        self.assert_results([(0,4)], results)
 
         results = self.find_regions('my string', 'string')
-        self.assert_results([(3,8)], results)
+        self.assert_results([(3,9)], results)
 
     def test_single_char_match(self):
         results = self.find_regions('a', 'a')
-        self.assert_results([(0,0)], results)
+        self.assert_results([(0,1)], results)
 
         results = self.find_regions('aaaaa', 'a')
-        self.assert_results([(0,0), (1,1), (2,2), (3,3), (4,4)], results)
+        self.assert_results([(0,1), (1,2), (2,3), (3,4), (4,5)], results)
 
         results = self.find_regions('axaxa', 'a')
-        self.assert_results([(0,0), (2,2), (4,4)], results)
+        self.assert_results([(0,1), (2,3), (4,5)], results)
 
         results = self.find_regions('foo', 'f')
-        self.assert_results([(0,0)], results)
+        self.assert_results([(0,1)], results)
 
         results = self.find_regions('foo', 'o')
-        self.assert_results([(1,1), (2,2)], results)
+        self.assert_results([(1,2), (2,3)], results)
         
     def test_consecutive_matches(self):
         results = self.find_regions('isisis', 'is')
-        self.assert_results([(0,1), (2,3), (4,5)], results)
+        self.assert_results([(0,2), (2,4), (4,6)], results)
 
         results = self.find_regions('isisisis', 'is')
-        self.assert_results([(0,1), (2,3), (4,5), (6,7)], results)
+        self.assert_results([(0,2), (2,4), (4,6), (6,8)], results)
 
         results = self.find_regions('x isis', 'is')
-        self.assert_results([(2,3), (4,5)], results)
+        self.assert_results([(2,4), (4,6)], results)
         #                              0         1         2
         #                              012345678901234567890
         results = self.find_regions('this is his list isis', 'is')
-        self.assert_results([(2,3), (5,6), (9,10),
-                             (13,14), (17,18), (19,20)], results)
+        self.assert_results([(2,4), (5,7), (9,11),
+                             (13,15), (17,19), (19,21)], results)
 
     def test_find_regions_with_simple_regex(self):
         results = self.find_regions('x-11-11', regex('\d+'))
-        self.assert_results([(2,3), (5,6)], results)
+        self.assert_results([(2,4), (5,7)], results)
 
         results = self.find_regions('01-3456-11-11', regex('\d+'))
-        self.assert_results([(0,1), (3,6), (8,9), (11,12)], results)
+        self.assert_results([(0,2), (3,7), (8,10), (11,13)], results)
 
         results = self.find_regions('0123456789 nums', regex('\d+'))
-        self.assert_results([(0,9)], results)
+        self.assert_results([(0,10)], results)
 
         results = self.find_regions('0123456789', regex('\d+'))
-        self.assert_results([(0,9)], results)
+        self.assert_results([(0,10)], results)
 
         results = self.find_regions('some string', regex('\w+'))
-        self.assert_results([(0,3), (5,10)], results)
+        self.assert_results([(0,4), (5,11)], results)
 
         results = self.find_regions('some long string', regex('long'))
-        self.assert_results([(5,8)], results)
+        self.assert_results([(5,9)], results)
 
         results = self.find_regions('foo boo', regex('o+'))
-        self.assert_results([(1,2), (5,6)], results)
+        self.assert_results([(1,3), (5,7)], results)
 
         results = self.find_regions('foo boo', regex('o'))
-        self.assert_results([(1,1), (2,2), (5,5), (6,6)], results)
+        self.assert_results([(1,2), (2,3), (5,6), (6,7)], results)
         
         results = self.find_regions(" '192.168.99.1'", regex('\d+\.\d+\.\d+\.\d+'))
-        self.assert_results([(2,13)], results)
+        self.assert_results([(2,14)], results)
 
     def assert_results(self, expected_results, results):
         self.assertEquals(len(expected_results), len(results))
@@ -251,11 +290,8 @@ class ConfParserTests(unittest.TestCase):
         assert styles == []
 
     def test_get_fifth(self):
-        try:
-            styles = self.confparser.get_styles('fifth')
-            self.fail('should fail on invalid definition')
-        except Exception, e:
-            self.assertEqual(e.message, 'Invalid style definition: green regex("some pattern")')
+        self.assert_style_error(
+            'fifth', 'Invalid style definition: green regex("some pattern")')
         
     def test_get_sixth(self):
         try:
@@ -282,12 +318,9 @@ class ConfParserTests(unittest.TestCase):
         self.assert_regex_styles(styles)
 
     def test_get_tenth(self):
-        expected = 'Invalid style definition: red: regex("bad") # can\'t comment here'
-        try:
-            styles = self.confparser.get_styles('tenth')
-            self.fail('should fail on invalid style definition')
-        except Exception, e:
-            self.assertEqual(e.message, expected)
+        expected_error = 'Invalid style definition: red:' \
+            + ' regex("bad") # can\'t comment here'
+        self.assert_style_error('tenth', expected_error)
 
     def test_get_eleventh(self):
         styles = self.confparser.get_styles('eleventh')
@@ -305,12 +338,12 @@ class ConfParserTests(unittest.TestCase):
         self.expect_index_style([(13,18), (20,22)], ['yellow'])
         self.assert_index_styles(styles)
 
+    def test_get_thirteenth(self):
+        self.assert_style_error(
+            'thirteenth', 'Invalid style definition: blue: index()')
+
     def test_get_undefined(self):
-        try:
-            styles = self.confparser.get_styles('FOO')
-            self.fail('should fail on undefined  style name')
-        except Exception, e:
-            self.assertEqual(e.message, 'Style "FOO" is not defined')
+        self.assert_style_error('FOO', 'Style "FOO" is not defined')
 
     def assert_regex_styles(self, styles):
         self.assertEquals(len(self.expected_styles), len(styles))
@@ -328,6 +361,12 @@ class ConfParserTests(unittest.TestCase):
             self.assertEqual(expected.regions, style.regions)
             self.assertEqual(expected.transforms, style.transforms)
 
+    def assert_style_error(self, style, expected_error_msg):
+        try:
+            styles = self.confparser.get_styles(style)
+            self.fail('should fail on invalid style definition')
+        except Exception, e:
+            self.assertEqual(e.message, expected_error_msg)
 
 class TransformerTests(unittest.TestCase):
     def setUp(self):

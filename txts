@@ -14,7 +14,7 @@ from txtstyle.txtsconf import *
 
 _USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
 
-class Txts:
+class Txts(object):
 
     def __init__(self, styles, filepath=None, color_always=False):
         self.transformer = Transformer(styles)

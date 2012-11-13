@@ -67,7 +67,7 @@ class Transformer(object):
         styled_line = []
         for region in regions:
             style = region_map[region]
-            start, end = region[0], region[1] + 1
+            start, end = region[0], region[1]
 
             if pos < start:
                 self._append_to(styled_line, line, pos, start)

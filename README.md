@@ -33,28 +33,33 @@ To install, execute the setup script in the `TxtsStyle` directory:
 
     sudo python2 setup.py install
 
-(An alternative is to simply put the `txts` script on the `PATH`)
+(Alternatively, simply put the `txts` script on the `PATH`)
 
 ## Define your own styles
 
-`TxtStyle` works by styling lines of text using regular expressions.
-Styles are defined in the conf file under user's home directory:
+`TxtStyle` reads styles from a conf file under user's home directory:
 
     ~/.txts.conf
 
 There are some example styles defined out of the box.
 To define your own, add styles to the conf and reference them by name.
 
-For example, add "mystyle"
+For example, add "mystyle":
 
     [Style="mystyle"]
-    red: "foo"
-    green bold: "bar"
-    grey on-yellow: "baz"
+    blue: index(0-6)
+    red: regex("foo")
+    green bold: regex("bar")
+    grey on-yellow: regex("baz")
 
-and then apply the style using the `txts -n` (or `txts --name`) option:
+`TxtStyle` works by styling lines of text using regular expressions
+and/or string indexes. So `index(0-6)` highlights a substring of a line
+and `regex("pattern")` highlights text matching the pattern.
 
-    echo "My foo, bar, and baz." | txts -n mystyle
+Save the conf file with "mystyle" and run `txts` with
+the `-n` (or `--name`) option:
+
+    echo "Styling foo, bar, and baz." | txts -n mystyle
 
 `TxtStyle` configuration supports a small set of **named** color keys
 (such as `red`, `blue`, `yellow`) and an extended set of **numeric** keys
