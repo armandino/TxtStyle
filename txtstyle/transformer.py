@@ -21,13 +21,14 @@ _STYLES = _create_style_map()
 
 class BaseStyle(object):
     def __init__(self, transform_keys):
-        self.transforms = []
+        transforms = []
         if transform_keys:
             for key in transform_keys:
                 if key in _STYLES:
-                    self.transforms.append(_STYLES[key])
+                    transforms.append(_STYLES[key])
                 else:
                     raise Exception('Invalid style key: "%s"' % key)
+        self.transforms = ''.join(transforms)
 
 
 class RegexStyle(BaseStyle):
@@ -84,7 +85,7 @@ class Transformer(object):
 
     def _append_to(self, styled_line, line, start, end, style=None):
         if style:
-            styled_line.append(''.join(style.transforms))
+            styled_line.append(style.transforms)
         else:
             styled_line.append(DEFAULT_STYLE)
             
