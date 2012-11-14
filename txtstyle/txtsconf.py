@@ -13,45 +13,44 @@ DEFAULT_CONF = """
 
 [Style="example"]
 # Print in red any line containing the word 'error'
-!red: "error"
-red: "evil\.org"
+!red: regex("error")
+red: regex("evil\.org")
 # Date
-green: "\d{4}-\d\d-\d\d"
+green: regex("\d{4}-\d\d-\d\d")
 # Time
-green bold: "\d\d:\d\d:\d\d"
+green bold: regex("\d\d:\d\d:\d\d")
 # IP address (and port number if present)
-yellow underline: "\d+\.\d+\.\d+\.\d+(:\d+)?"
-magenta: "\[samplesession\]"
+yellow underline: regex("\d+\.\d+\.\d+\.\d+(:\d+)?")
+magenta: regex("\[samplesession\]")
 # Catch-all for anything else inside [square brackets]
-blue: "\[[^\]]+\]"
+blue: regex("\[[^\]]+\]")
 # Catch-all for any remaining standalone numbers
-cyan bold: "\b\d+\b"
+cyan bold: regex("\b\d+\b")
 
 [Style="ifconfig"]
-yellow bold: "\d+\.\d+\.\d+\.\d+(:\d+)?"
-green bold: "(eth|wlan|lo)\d?"
-blue bold: "(\d\d:?){6}"
-red: "errors:\d+"
-magenta: "[a-zA-Z]+:\d+"
-cyan bold: "RX|TX|Link|inet\d?"
+yellow bold: regex("\d+\.\d+\.\d+\.\d+(:\d+)?")
+green bold: regex("(eth|wlan|lo)\d?")
+blue bold: regex("(\d\d:?){6}")
+red: regex("errors:\d+")
+magenta: regex("[a-zA-Z]+:\d+")
+cyan bold: regex("RX|TX|Link|inet\d?")
 
 [Style="calendar"]
-bold: "\d{4}"
-172 bold underline: "Jan\w+|Feb\w+|Mar\w+|Apr\w+|May|Jun\w|Jul\w|Aug\w+|Sep\w+|Oct\w+|Nov\w+|Dec\w+"
-229: "\d\d?"
-160 bold: "Su"
-220 bold: "\w+"
+bold: regex("\d{4}")
+172 bold underline: regex("Jan\w+|Feb\w+|Mar\w+|Apr\w+|May|Jun\w|Jul\w|Aug\w+|Sep\w+|Oct\w+|Nov\w+|Dec\w+")
+229: regex("\d\d?")
+160 bold: regex("Su")
+220 bold: regex("\w+")
 
 [Style="java"]
-!red: "Exception"
-#green: "INFO|DEBUG|WARN"
-white on-129 bold: "INFO|DEBUG"
-green bold: "\(\w+\.java:\d+\)"
-grey : "\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d(,\d\d\d)?"
-yellow: "[a-zA-Z]+:\d+"
-yellow: "com\.[\w+|\.]+"
-cyan: "org\.[\w+|\.]+"
-blue: "\[[^\]]+\]"
+!red: regex("Exception")
+white on-129 bold: regex("INFO|DEBUG|WARN")
+green bold: regex("\(\w+\.java:\d+\)")
+grey : regex("\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d(,\d\d\d)?")
+yellow: regex("[a-zA-Z]+:\d+")
+yellow: regex("com\.[\w+|\.]+")
+cyan: regex("org\.[\w+|\.]+")
+blue: regex("\[[^\]]+\]")
 
 [Style="ps"]
 !white bold on-19: regex("USER       PID")
