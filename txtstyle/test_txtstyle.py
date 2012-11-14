@@ -3,7 +3,7 @@ import unittest
 
 from confparser import ConfParser
 from linestyleprocessor import LineStyleProcessor
-import transformer
+from transformer import _STYLES, IndexStyle, RegexStyle, Transformer
 
 def regex(pattern):
     return re.compile(pattern)
@@ -18,9 +18,9 @@ class LineStyleProcessorTests(unittest.TestCase):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         
-        s1 = transformer.RegexStyle(regex("This"), None)
-        s2 = transformer.RegexStyle(regex("is"), None)
-        s3 = transformer.RegexStyle(regex("s"), None)
+        s1 = RegexStyle(regex("This"), None)
+        s2 = RegexStyle(regex("is"), None)
+        s3 = RegexStyle(regex("s"), None)
 
         styles = [s1, s2, s3]
         
@@ -43,9 +43,9 @@ class LineStyleProcessorTests(unittest.TestCase):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         
-        s1 = transformer.RegexStyle(regex("s"), None)
-        s2 = transformer.RegexStyle(regex("is"), None)
-        s3 = transformer.RegexStyle(regex("This"), None)
+        s1 = RegexStyle(regex("s"), None)
+        s2 = RegexStyle(regex("is"), None)
+        s3 = RegexStyle(regex("This"), None)
 
         styles = [s1, s2, s3]
         
@@ -65,7 +65,7 @@ class LineStyleProcessorTests(unittest.TestCase):
     def test_get_region_map_index_style_when_start_is_equal_to_line_length(self):
         line = "blip"
         region = (len(line), len(line) + 1)
-        s1 = transformer.IndexStyle([region], None)
+        s1 = IndexStyle([region], None)
         region_map = self.lineStyleProcessor.get_region_map(line, [s1])
         regions = region_map.keys()
         self.assert_results([], regions)
@@ -78,7 +78,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         region = (7,20)
         self.assertTrue(region[1] > len(line))
 
-        s1 = transformer.IndexStyle([region], None)
+        s1 = IndexStyle([region], None)
         styles = [s1]
         region_map = self.lineStyleProcessor.get_region_map(line, styles)
 
@@ -91,7 +91,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         line = "end is None, and therefore defaults to line length"
         region = (0, None)
 
-        s1 = transformer.IndexStyle([region], None)
+        s1 = IndexStyle([region], None)
         styles = [s1]
         region_map = self.lineStyleProcessor.get_region_map(line, styles)
 
@@ -104,11 +104,11 @@ class LineStyleProcessorTests(unittest.TestCase):
     def test_get_region_map_index_style(self):
         line = "a test string that needs to be longer than 65 characters.........."
         
-        s1 = transformer.IndexStyle([
+        s1 = IndexStyle([
                 (1,5), (4,10), (15,20), (35,40), (45,50)], None)
-        s2 = transformer.IndexStyle([
+        s2 = IndexStyle([
                 (1,3), (4,6), (7,14), (41,44), (55,60)], None)
-        s3 = transformer.IndexStyle([
+        s3 = IndexStyle([
                 (60,65)], None)
 
         styles = [s1, s2, s3]
@@ -248,10 +248,10 @@ class ConfParserTests(unittest.TestCase):
         self.expected_styles = None
 
     def expect_regex_style(self, pattern, transforms, apply_to_whole_line=False):
-        self.expected_styles.append(transformer.RegexStyle(pattern, transforms, apply_to_whole_line))
+        self.expected_styles.append(RegexStyle(pattern, transforms, apply_to_whole_line))
 
     def expect_index_style(self, regions, transforms):
-        self.expected_styles.append(transformer.IndexStyle(regions, transforms))
+        self.expected_styles.append(IndexStyle(regions, transforms))
 
     def test_example_style(self):
         styles = self.confparser.get_styles('example')
@@ -369,8 +369,45 @@ class ConfParserTests(unittest.TestCase):
             self.assertEqual(e.message, expected_error_msg)
 
 class TransformerTests(unittest.TestCase):
-    def setUp(self):
-        RegexStyle = transformer.RegexStyle
+    
+    def test_substring_style(self):
+        input_line = "some text..."
+        # <red>some<default> text...<default>
+        expected_output_line = "\033[31msome\033[m text...\033[m"
+
+        self.assert_styled_line([IndexStyle([(0,4)], ["red"])],
+                                input_line, expected_output_line)
+
+        self.assert_styled_line([RegexStyle("some", ["red"])],
+                                input_line, expected_output_line)
+        
+
+    def test_whole_line_style(self):
+        input_line = "some text..."
+        # <red>some text...<default>
+        expected_output_line = "\033[31msome text...\033[m"
+
+        self.assert_styled_line([RegexStyle("some", ["red"], apply_to_whole_line=True)],
+                                input_line, expected_output_line)
+
+        self.assert_styled_line([RegexStyle("some text...", ["red"], apply_to_whole_line=False)],
+                                input_line, expected_output_line)
+
+        self.assert_styled_line([IndexStyle([(0, len(input_line))], ["red"])],
+                                input_line, expected_output_line)
+
+        # if end > line length, default to line length 
+        self.assert_styled_line([IndexStyle([(0, 99999)], ["red"])],
+                                input_line, expected_output_line)
+
+    def assert_styled_line(self, styles, input_line, expected_output_line):
+        transformer = Transformer(styles)
+        actual_output_line = transformer.style(input_line)
+        self.assertEquals(expected_output_line, actual_output_line)
+
+    def test_removing_styles_is_equal_to_original_line(self):
+        """Style a line, remove escape sequences and compare to the original
+        """
         styles = [
             RegexStyle("http:[\w+|/+|:]+", ["red"]),
             RegexStyle("^\w\w\w \d\d\s?", ['white', 'on-magenta']),
@@ -379,33 +416,30 @@ class TransformerTests(unittest.TestCase):
             RegexStyle("\((.*)\)", ['red', 'on-white']),
             RegexStyle("\[(.*)\]", ['grey', 'bold']),
             ]
-        self.transformer = transformer.Transformer(styles)
-        self.lines = self.get_lines('testdata/test-log')
-    
-    def get_lines(self, fname):
-        f = open(fname)
-        lines = f.readlines()
-        f.close()
-        return lines
+        transformer = Transformer(styles)
+        lines = self.get_lines('testdata/test-log')
 
-    def test_removing_styles_is_equal_to_original_line(self):
-        """Style a line, remove escape sequences and compare to the original
-        """
-        for original_line in self.lines:
+        for original_line in lines:
             original_line = original_line.strip('\n')
-            styled_line = self.transformer.style(original_line)
+            styled_line = transformer.style(original_line)
             styled_line = styled_line.encode('string_escape')
             unstyled_line = self.remove_styles(styled_line)
             self.assertEqual(original_line, unstyled_line)
 
     def remove_styles(self, line):
+        
         unstyled = line.replace(r'\x1b[m', '', 1000)
         unstyled = unstyled.replace("\\'", "'", 1000)
-        for style_key in transformer._STYLES:
-            transform = transformer._STYLES[style_key]
+        for style_key in _STYLES:
+            transform = _STYLES[style_key]
             escape_code = transform.encode('string_escape')
             unstyled = unstyled.replace(escape_code, '', 1000)
         return unstyled
+
+    def get_lines(self, fname):
+        with open(fname, 'r') as f:
+            return f.readlines()
+
 
 if __name__ == "__main__":
     unittest.main()

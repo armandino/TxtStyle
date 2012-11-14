@@ -21,7 +21,7 @@ class LineStyleProcessor(object):
 
             if apply_to_whole_line and regions:
                 if line_is_clean:
-                    region = (0, line_length - 1)
+                    region = (0, line_length)
                     region_map[region] = style
                     break # can't apply any more styles
                 else:

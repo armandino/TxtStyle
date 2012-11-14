@@ -86,8 +86,6 @@ class Transformer(object):
     def _append_to(self, styled_line, line, start, end, style=None):
         if style:
             styled_line.append(style.transforms)
-        else:
-            styled_line.append(DEFAULT_STYLE)
             
         styled_line.append(line[start : end])
         styled_line.append(DEFAULT_STYLE)
