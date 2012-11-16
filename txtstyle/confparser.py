@@ -14,11 +14,7 @@ class ConfParser(object):
 
     def get_styles(self, style_name):
         style_defs = self._get_style_defs(style_name)
-        styles = []
-        for style_def in style_defs:
-            style = self._parse_style(style_def)
-            styles.append(style)
-        return styles
+        return [self._parse_style(s) for s in style_defs]
 
     def _parse_style(self, style_def):
         match = re.match(_REGEX_STYLE_DEF, style_def)
@@ -80,15 +76,10 @@ class ConfParser(object):
             raise ConfParserException('Style "%s" is not defined' % style_name)
 
         return style_defs
-        
+
     def _is_style_header(self, line, style_name=None):
         match = re.match(_STYLE_HEADER, line)
-        if match:
-            if style_name is not None:
-                return style_name == match.group(1)
-            return True
-        
-        return False
+        return match and (style_name is None or style_name == match.group(1))
 
 
 class ConfParserException(Exception):

@@ -20,16 +20,13 @@ def _create_style_map():
 _STYLES = _create_style_map()
 
 class BaseStyle(object):
-    def __init__(self, transform_keys):
-        transforms = []
-        if transform_keys:
-            for key in transform_keys:
-                if key in _STYLES:
-                    transforms.append(_STYLES[key])
-                else:
-                    raise Exception('Invalid style key: "%s"' % key)
-        self.transforms = ''.join(transforms)
 
+    def __init__(self, keys=[]):
+        def error(key):
+             raise Exception('Invalid style key: "%s"' % key)
+
+        transforms = [(_STYLES[k] if k in _STYLES else error(k)) for k in keys]
+        self.transforms = ''.join(transforms)
 
 class RegexStyle(BaseStyle):
     def __init__(self, pattern, transform_keys, apply_to_whole_line=False):

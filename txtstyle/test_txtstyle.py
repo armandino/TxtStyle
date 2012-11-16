@@ -17,10 +17,11 @@ class LineStyleProcessorTests(unittest.TestCase):
     def test_get_region_map(self):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
-        
-        s1 = RegexStyle(regex("This"), None)
-        s2 = RegexStyle(regex("is"), None)
-        s3 = RegexStyle(regex("s"), None)
+        red = ['red']
+
+        s1 = RegexStyle(regex("This"), red)
+        s2 = RegexStyle(regex("is"), red)
+        s3 = RegexStyle(regex("s"), red)
 
         styles = [s1, s2, s3]
         
@@ -42,11 +43,11 @@ class LineStyleProcessorTests(unittest.TestCase):
     def test_get_region_map_reverse_order(self):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
-        
-        s1 = RegexStyle(regex("s"), None)
-        s2 = RegexStyle(regex("is"), None)
-        s3 = RegexStyle(regex("This"), None)
+        red = ['red']
 
+        s1 = RegexStyle(regex("s"), red)
+        s2 = RegexStyle(regex("is"), red)
+        s3 = RegexStyle(regex("This"), red)
         styles = [s1, s2, s3]
         
         region_map = self.lineStyleProcessor.get_region_map(line, styles)
@@ -65,7 +66,7 @@ class LineStyleProcessorTests(unittest.TestCase):
     def test_get_region_map_index_style_when_start_is_equal_to_line_length(self):
         line = "blip"
         region = (len(line), len(line) + 1)
-        s1 = IndexStyle([region], None)
+        s1 = IndexStyle([region], ['red'])
         region_map = self.lineStyleProcessor.get_region_map(line, [s1])
         regions = region_map.keys()
         self.assert_results([], regions)
@@ -78,7 +79,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         region = (7,20)
         self.assertTrue(region[1] > len(line))
 
-        s1 = IndexStyle([region], None)
+        s1 = IndexStyle([region], ['red'])
         styles = [s1]
         region_map = self.lineStyleProcessor.get_region_map(line, styles)
 
@@ -91,7 +92,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         line = "end is None, and therefore defaults to line length"
         region = (0, None)
 
-        s1 = IndexStyle([region], None)
+        s1 = IndexStyle([region], ['red'])
         styles = [s1]
         region_map = self.lineStyleProcessor.get_region_map(line, styles)
 
@@ -105,11 +106,11 @@ class LineStyleProcessorTests(unittest.TestCase):
         line = "a test string that needs to be longer than 65 characters.........."
         
         s1 = IndexStyle([
-                (1,5), (4,10), (15,20), (35,40), (45,50)], None)
+                (1,5), (4,10), (15,20), (35,40), (45,50)], ['red'])
         s2 = IndexStyle([
-                (1,3), (4,6), (7,14), (41,44), (55,60)], None)
+                (1,3), (4,6), (7,14), (41,44), (55,60)], ['red'])
         s3 = IndexStyle([
-                (60,65)], None)
+                (60,65)], ['red'])
 
         styles = [s1, s2, s3]
         region_map = self.lineStyleProcessor.get_region_map(line, styles)
