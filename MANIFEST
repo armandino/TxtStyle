@@ -7,3 +7,4 @@ txtstyle/linestyleprocessor.py
 txtstyle/palette.py
 txtstyle/regionmatcher.py
 txtstyle/transformer.py
+txtstyle/version.py

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 DEFAULT_CONF = """
 # Available styles keys:

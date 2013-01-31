@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+#
 # http://linuxtidbits.wordpress.com/2008/08/13/output-color-on-bash-scripts-advanced/
 # The ANSI sequence: {ESC}[{attr};{bg};{256colors};{fg}m
 

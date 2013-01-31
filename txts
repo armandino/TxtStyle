@@ -1,4 +1,19 @@
 #!/usr/bin/env python2
+# -*- coding: utf-8 -*-
+#
+# Copyright 2013 Arman Sharif
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 import argparse
 import errno
@@ -11,6 +26,12 @@ from txtstyle.palette import Palette
 from txtstyle.transformer import Transformer
 from txtstyle.transformer import RegexStyle
 from txtstyle.txtsconf import *
+from txtstyle.version import VERSION
+
+VERSION_INFO="""TxtStyle version %s.
+Copyright (C) 2013 Arman Sharif.
+Apache License v2.0 or later: <http://www.apache.org/licenses/LICENSE-2.0>
+""" % VERSION
 
 _USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
 
@@ -79,6 +100,9 @@ def parse_args():
 
     parser.add_argument('-c', '--conf', nargs=1, help='Path to a conf file. Default is: ~/.txt.conf')
     parser.add_argument('--color-always', help='Always use color. Similar to grep --color=always.', action='store_true')
+
+    version_group = parser.add_mutually_exclusive_group()
+    version_group.add_argument('--version', help='Print version information', action='store_true')
     return parser.parse_args()
 
 def get_styles(conf_parser, style_def_name):
@@ -112,8 +136,12 @@ def main():
     args = parse_args()
     styles = []
 
-    if args.palette:
+    if args.version:
+        sys.stdout.write(VERSION_INFO)
+        sys.exit(0)
+    elif args.palette:
         Palette().print_palette()
+        sys.exit(0)
     elif args.name:
         conf_lines = get_conf_lines(args)
         conf_parser = ConfParser(conf_lines)

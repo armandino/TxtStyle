@@ -35,6 +35,10 @@ assert_exit_code 0 "./txts --color-always $test_log"
 assert_exit_code 0 "./txts --color-always -n java $test_log"
 assert_exit_code 0 "./txts --color-always -r 'some pattern' $test_log"
 
+# --version
+assert_exit_code 0 "./txts --version"
+assert_exit_code 2 "./txts -v"
+
 #
 # Verify errors
 #

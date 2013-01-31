@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import re
 from linestyleprocessor import LineStyleProcessor
 from palette import DEFAULT_STYLE, NAMED_STYLE_MAP

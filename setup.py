@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from distutils.core import setup
+from txtstyle.version import VERSION
 
 setup(
     name='TxtStyle',
-    version='0.4.0',
+    version=VERSION,
     author='Arman Sharif',
     author_email='armandino@gmail.com',
     packages=['txtstyle'],
@@ -12,3 +15,4 @@ setup(
     description='Command line tool for prettifying  output of console programs.',
     long_description=open('README.md').read()
 )
+
