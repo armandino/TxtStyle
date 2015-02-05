@@ -73,6 +73,17 @@ Highlight text using the `-r` (or `--regex`) option. For example
 
     echo "A Foo and a Bar" | txts -r "Foo|Bar"
 
+will color both Foo and Bar in red. If you use the `-r` option
+multiple times, each of the specified regexps will have a different
+color, as in:
+
+    echo "A Foo and a Bar" | txts -r Foo -r Bar
+
+You can also specify multiple regexps with the `-R` (or `--regex-rest`)
+option with the very same result:
+
+    echo "A Foo and a Bar" | txts -R Foo Bar
+
 `TxtStyle` does not apply styles if output is piped to another command.
 To force color if the output is piped, use `--color-always` option:
 
