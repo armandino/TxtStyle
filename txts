@@ -20,6 +20,7 @@ import errno
 import os
 import sys
 import time
+import itertools
 
 from txtstyle.confparser import ConfParser, ConfParserException
 from txtstyle.palette import Palette
@@ -96,8 +97,8 @@ def parse_args():
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-p', '--palette', help='Print a palette of available styles.', action='store_true')
     group.add_argument('-n', '--name', nargs=1, help='Name of the style to apply.')
-    group.add_argument('-r', '--regex', nargs=1, help='Highlight text based on the given regular expression.')
-
+    group.add_argument('-r', '--regex', nargs=1, action='append', help='Highlight text based on the given regular expression.')
+    group.add_argument('-R', '--regex-rest', nargs='*', dest="regex", action="append", help='Highlight texts based on regexps given (consumed until the end of the commandline).')
     parser.add_argument('-c', '--conf', nargs=1, help='Path to a conf file. Default is: ~/.txt.conf')
     parser.add_argument('--color-always', help='Always use color. Similar to grep --color=always.', action='store_true')
 
@@ -132,6 +133,12 @@ def get_conf_path(args):
                 f.write(DEFAULT_CONF)
         return _USER_HOME_CONF_FILE
 
+def loop_default_colors():
+    while True:
+        for style in ['bold','underline']:
+            for col in ['red', 'green', 'blue', 'magenta', 'cyan', 'white']:
+                yield ( col, style )
+
 def main():
     args = parse_args()
     styles = []
@@ -148,9 +155,10 @@ def main():
         style_def_name = args.name[0]
         styles = get_styles(conf_parser, style_def_name)
     elif args.regex:
-        regex = args.regex[0]
-        transforms = ['red', 'bold']
-        styles = [RegexStyle(regex, transforms)]
+        rexps = list(itertools.chain.from_iterable(args.regex))
+        styles = [ RegexStyle(regex, style)
+                for regex, style in zip(rexps,
+                                    loop_default_colors()) ]
 
     txts = Txts(styles, args.filepath, args.color_always)
     txts.transform()
