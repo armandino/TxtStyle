@@ -26,8 +26,6 @@ assert_exit_code 0 "./txts --regex 'some pattern' $test_log"
 assert_exit_code 0 "./txts -r 'some pattern' $test_log"
 assert_exit_code 0 "./txts --regex 'some pattern' --regex 'another pattern' $test_log"
 assert_exit_code 0 "./txts -r 'some pattern' -r 'another pattern' $test_log"
-assert_exit_code 0 "./txts $test_log --regex-rest 'some pattern' 'another pattern' 'yet another pattern'"
-assert_exit_code 0 "./txts $test_log -R 'some pattern' 'another pattern' 'yet another pattern'"
 # --conf
 assert_exit_code 0 "./txts --conf txtstyle/testdata/test.txts.conf -n first $test_log"
 assert_exit_code 0 "./txts -c txtstyle/testdata/test.txts.conf -n first $test_log"

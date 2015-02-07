@@ -79,11 +79,6 @@ color, as in:
 
     echo "A Foo and a Bar" | txts -r Foo -r Bar
 
-You can also specify multiple regexps with the `-R` (or `--regex-rest`)
-option with the very same result:
-
-    echo "A Foo and a Bar" | txts -R Foo Bar
-
 `TxtStyle` does not apply styles if output is piped to another command.
 To force color if the output is piped, use `--color-always` option:
 
