@@ -59,22 +59,20 @@ class Transformer(object):
         if not self.styles:
             return line
 
-        region_map = self.line_style_processor.get_region_map(line, self.styles)
-        regions = region_map.keys()
+        style_map = self.line_style_processor.get_style_map(line, self.styles)
+        regions = style_map.keys()
         regions.sort()
         
         pos = 0
         styled_line = []
         for region in regions:
-            style = region_map[region]
+            style = style_map[region]
             start, end = region[0], region[1]
 
             if pos < start:
                 self._append_to(styled_line, line, pos, start)
-                self._append_to(styled_line, line, start, end, style)
-            else:
-                self._append_to(styled_line, line, start, end, style)
 
+            self._append_to(styled_line, line, start, end, style)
             pos = end
 
         if pos <= len(line) - 1:

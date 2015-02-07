@@ -5,8 +5,8 @@ import transformer
 
 class LineStyleProcessor(object):
 
-    def get_region_map(self, line, styles):
-        region_map = {}
+    def get_style_map(self, line, styles):
+        style_map = {}
         line_is_clean = True
         line_length = len(line)
         occupied = [False for i in range(line_length)]
@@ -24,7 +24,7 @@ class LineStyleProcessor(object):
             if apply_to_whole_line and regions:
                 if line_is_clean:
                     region = (0, line_length)
-                    region_map[region] = style
+                    style_map[region] = style
                     break # can't apply any more styles
                 else:
                     # skip since other styles
@@ -44,10 +44,10 @@ class LineStyleProcessor(object):
                 if not overlaps:
                     for i in range(start, end):
                         occupied[i] = True
-                    region_map[region] = style
+                    style_map[region] = style
                     line_is_clean = False
 
-        return region_map
+        return style_map
 
     def find_regions(self, line, regex_obj):
         """\

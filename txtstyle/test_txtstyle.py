@@ -14,7 +14,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.find_regions = self.lineStyleProcessor.find_regions
 
 
-    def test_get_region_map(self):
+    def test_get_style_map(self):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         red = ['red']
@@ -25,22 +25,22 @@ class LineStyleProcessorTests(unittest.TestCase):
 
         styles = [s1, s2, s3]
         
-        region_map = self.lineStyleProcessor.get_region_map(
+        style_map = self.lineStyleProcessor.get_style_map(
             line, styles)
         
-        regions = region_map.keys()
+        regions = style_map.keys()
         regions.sort()
         
         self.assert_results([(0,4), (5,7), (15,16),
                              (32,33)], regions)
         
-        self.assertEqual(region_map[(0,4)], s1)
-        self.assertEqual(region_map[(5,7)], s2)
-        self.assertEqual(region_map[(15,16)], s3)
-        self.assertEqual(region_map[(32,33)], s3)
+        self.assertEqual(style_map[(0,4)], s1)
+        self.assertEqual(style_map[(5,7)], s2)
+        self.assertEqual(style_map[(15,16)], s3)
+        self.assertEqual(style_map[(32,33)], s3)
 
 
-    def test_get_region_map_reverse_order(self):
+    def test_get_style_map_reverse_order(self):
         #       0123456789012345678901234567890123456789
         line = "This is a long string forty chars long.."
         red = ['red']
@@ -50,29 +50,29 @@ class LineStyleProcessorTests(unittest.TestCase):
         s3 = RegexStyle(regex("This"), red)
         styles = [s1, s2, s3]
         
-        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+        style_map = self.lineStyleProcessor.get_style_map(line, styles)
         
-        regions = region_map.keys()
+        regions = style_map.keys()
         regions.sort()
         
         self.assert_results([(3,4), (6,7), (15,16),
                              (32,33)], regions)
         
-        self.assertEqual(region_map[(3,4)], s1)
-        self.assertEqual(region_map[(6,7)], s1)
-        self.assertEqual(region_map[(15,16)], s1)
-        self.assertEqual(region_map[(32,33)], s1)
+        self.assertEqual(style_map[(3,4)], s1)
+        self.assertEqual(style_map[(6,7)], s1)
+        self.assertEqual(style_map[(15,16)], s1)
+        self.assertEqual(style_map[(32,33)], s1)
 
-    def test_get_region_map_index_style_when_start_is_equal_to_line_length(self):
+    def test_get_style_map_index_style_when_start_is_equal_to_line_length(self):
         line = "blip"
         region = (len(line), len(line) + 1)
         s1 = IndexStyle([region], ['red'])
-        region_map = self.lineStyleProcessor.get_region_map(line, [s1])
-        regions = region_map.keys()
+        style_map = self.lineStyleProcessor.get_style_map(line, [s1])
+        regions = style_map.keys()
         self.assert_results([], regions)
 
 
-    def test_get_region_map_index_style_when_end_is_greater_than_line_length(self):
+    def test_get_style_map_index_style_when_end_is_greater_than_line_length(self):
         #       01234567890123456
         line = "a short string..."
 
@@ -81,28 +81,28 @@ class LineStyleProcessorTests(unittest.TestCase):
 
         s1 = IndexStyle([region], ['red'])
         styles = [s1]
-        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+        style_map = self.lineStyleProcessor.get_style_map(line, styles)
 
-        regions = region_map.keys()
+        regions = style_map.keys()
 
         self.assert_results([(7,17)], regions)
-        self.assertEqual(region_map[(7,17)], s1)
+        self.assertEqual(style_map[(7,17)], s1)
 
-    def test_get_region_map_index_style_when_end_is_none(self):
+    def test_get_style_map_index_style_when_end_is_none(self):
         line = "end is None, and therefore defaults to line length"
         region = (0, None)
 
         s1 = IndexStyle([region], ['red'])
         styles = [s1]
-        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+        style_map = self.lineStyleProcessor.get_style_map(line, styles)
 
-        regions = region_map.keys()
+        regions = style_map.keys()
         expected_end = len(line)
         self.assert_results([(0, expected_end)], regions)
-        self.assertEqual(region_map[(0, expected_end)], s1)
+        self.assertEqual(style_map[(0, expected_end)], s1)
 
 
-    def test_get_region_map_index_style(self):
+    def test_get_style_map_index_style(self):
         line = "a test string that needs to be longer than 65 characters.........."
         
         s1 = IndexStyle([
@@ -113,23 +113,23 @@ class LineStyleProcessorTests(unittest.TestCase):
                 (60,65)], ['red'])
 
         styles = [s1, s2, s3]
-        region_map = self.lineStyleProcessor.get_region_map(line, styles)
+        style_map = self.lineStyleProcessor.get_style_map(line, styles)
         
-        regions = region_map.keys()
+        regions = style_map.keys()
         regions.sort()
         
         self.assert_results([(1,5), (7,14), (15,20),
                              (35,40), (41,44), (45,50),
                              (55,60), (60,65)], regions) # (60,65)?
         
-        self.assertEqual(region_map[(1,5)], s1)
-        self.assertEqual(region_map[(7,14)], s2)
-        self.assertEqual(region_map[(15,20)], s1)
-        self.assertEqual(region_map[(35,40)], s1)
-        self.assertEqual(region_map[(41,44)], s2)
-        self.assertEqual(region_map[(45,50)], s1)
-        self.assertEqual(region_map[(55,60)], s2)
-        self.assertEqual(region_map[(60,65)], s3)
+        self.assertEqual(style_map[(1,5)], s1)
+        self.assertEqual(style_map[(7,14)], s2)
+        self.assertEqual(style_map[(15,20)], s1)
+        self.assertEqual(style_map[(35,40)], s1)
+        self.assertEqual(style_map[(41,44)], s2)
+        self.assertEqual(style_map[(45,50)], s1)
+        self.assertEqual(style_map[(55,60)], s2)
+        self.assertEqual(style_map[(60,65)], s3)
 
     def assert_results(self, expected_results, results):
         self.assertEquals(len(expected_results), len(results))
