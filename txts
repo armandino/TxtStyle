@@ -133,9 +133,10 @@ def get_conf_path(args):
         return _USER_HOME_CONF_FILE
 
 def loop_default_colors():
-    for style in ['bold','underline']:
-        for col in ['red', 'green', 'blue', 'magenta', 'cyan', 'white']:
-            yield ( col, style )
+    while True:
+        for style in ['bold','underline']:
+            for col in ['red', 'green', 'blue', 'magenta', 'cyan', 'white']:
+                yield ( col, style )
 
 def main():
     args = parse_args()
