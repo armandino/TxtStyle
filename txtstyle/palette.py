@@ -44,7 +44,7 @@ class Palette(object):
 
     def _named_styles(self):
         self._separator()
-        print "                %sNamed styles%s" % (NAMED_STYLE_MAP['bold'], DEFAULT_STYLE)
+        print("                %sNamed styles%s" % (NAMED_STYLE_MAP['bold'], DEFAULT_STYLE))
         self._separator()
         self._justify("bold", "underline")
         self._justify("grey", "red", "green", "yellow")
@@ -53,15 +53,15 @@ class Palette(object):
         self._justify("on-blue", "on-magenta", "on-cyan", "on-white")
 
     def _number_based_styles(self):
-        print
+        print()
         self._separator()
-        print "               %sNumeric styles%s" % (NAMED_STYLE_MAP['bold'], DEFAULT_STYLE)
+        print("               %sNumeric styles%s" % (NAMED_STYLE_MAP['bold'], DEFAULT_STYLE))
         self._separator()
         for i in range(1, 256):
             sys.stdout.write("\x1b[38;5;%im [%3i]" % (i, i))
             if i % 8 == 0:
-                print
-        print
+                print()
+        print()
         self._separator()
 
     def _justify(self, *words):
@@ -74,9 +74,9 @@ class Palette(object):
         sys.stdout.write(' ') # padding
         for word in words:
             self._print_style(word)
-            sys.stdout.write(' ' * spacing)
+            sys.stdout.write(' ' * int(spacing))
             if spacing_rem > 0:
                 sys.stdout.write(' ')
                 spacing_rem -= 1
-        print
+        print()
 

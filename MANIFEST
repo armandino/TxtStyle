@@ -1,10 +1,11 @@
 README.md
 setup.py
-txts
+txts-runner.py
 txtstyle/__init__.py
 txtstyle/confparser.py
 txtstyle/linestyleprocessor.py
 txtstyle/palette.py
 txtstyle/regionmatcher.py
 txtstyle/transformer.py
+txtstyle/txts.py
 txtstyle/version.py

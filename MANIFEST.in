@@ -1,1 +1,1 @@
-exclude txtstyle/test*
+exclude tests

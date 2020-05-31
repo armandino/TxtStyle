@@ -1,9 +1,17 @@
 import re
+import sys
 import unittest
 
-from confparser import ConfParser
-from linestyleprocessor import LineStyleProcessor
-from transformer import _STYLES, IndexStyle, RegexStyle, Transformer
+from txtstyle.confparser import ConfParser
+from txtstyle.linestyleprocessor import LineStyleProcessor
+from txtstyle.transformer import _STYLES
+from txtstyle.transformer import IndexStyle
+from txtstyle.transformer import RegexStyle
+from txtstyle.transformer import Transformer
+
+sys.path.append("..")
+
+_TEST_DATA_DIR = 'tests/testdata'
 
 def regex(pattern):
     return re.compile(pattern)
@@ -28,8 +36,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         style_map = self.lineStyleProcessor.get_style_map(
             line, styles)
         
-        regions = style_map.keys()
-        regions.sort()
+        regions = sorted(style_map.keys())
         
         self.assert_results([(0,4), (5,7), (15,16),
                              (32,33)], regions)
@@ -52,8 +59,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         
         style_map = self.lineStyleProcessor.get_style_map(line, styles)
         
-        regions = style_map.keys()
-        regions.sort()
+        regions = sorted(style_map.keys())
         
         self.assert_results([(3,4), (6,7), (15,16),
                              (32,33)], regions)
@@ -115,8 +121,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         styles = [s1, s2, s3]
         style_map = self.lineStyleProcessor.get_style_map(line, styles)
         
-        regions = style_map.keys()
-        regions.sort()
+        regions = sorted(style_map.keys())
         
         self.assert_results([(1,5), (7,14), (15,20),
                              (35,40), (41,44), (45,50),
@@ -132,7 +137,7 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.assertEqual(style_map[(60,65)], s3)
 
     def assert_results(self, expected_results, results):
-        self.assertEquals(len(expected_results), len(results))
+        self.assertEqual(len(expected_results), len(results))
         for i, result in enumerate(results):
             self.assertEqual(expected_results[i], result)
 
@@ -230,13 +235,13 @@ class LineStyleProcessorTests(unittest.TestCase):
         self.assert_results([(2,14)], results)
 
     def assert_results(self, expected_results, results):
-        self.assertEquals(len(expected_results), len(results))
+        self.assertEqual(len(expected_results), len(results))
         for i, result in enumerate(results):
             self.assertEqual(expected_results[i], result)
 
 class ConfParserTests(unittest.TestCase):
     def setUp(self):
-        conf = open('testdata/test.txts.conf')
+        conf = open('%s/test.txts.conf' % _TEST_DATA_DIR)
         try:
             self.confparser = ConfParser(conf.readlines())
         finally:
@@ -298,8 +303,8 @@ class ConfParserTests(unittest.TestCase):
         try:
             styles = self.confparser.get_styles('sixth')
             self.fail('should fail on invalid style key')
-        except Exception, e:
-            self.assertEqual(e.message, 'Invalid style key: "some-bad-key"')
+        except Exception as e:
+            self.assertEqual(e.args[0], 'Invalid style key: "some-bad-key"')
 
     def test_get_seventh(self):
         styles = self.confparser.get_styles('seventh')
@@ -347,16 +352,16 @@ class ConfParserTests(unittest.TestCase):
         self.assert_style_error('FOO', 'Style "FOO" is not defined')
 
     def assert_regex_styles(self, styles):
-        self.assertEquals(len(self.expected_styles), len(styles))
+        self.assertEqual(len(self.expected_styles), len(styles))
         for i, style in enumerate(styles):
             expected = self.expected_styles[i]
             self.assertEqual(expected.regex_obj.pattern, style.regex_obj.pattern)
             self.assertEqual(expected.transforms, style.transforms)
             msg = "Expected apply_to_whole_line=%s for %r" % (expected.apply_to_whole_line, style)
-            self.assertEquals(expected.apply_to_whole_line, style.apply_to_whole_line, msg)
+            self.assertEqual(expected.apply_to_whole_line, style.apply_to_whole_line, msg)
 
     def assert_index_styles(self, styles):
-        self.assertEquals(len(self.expected_styles), len(styles))
+        self.assertEqual(len(self.expected_styles), len(styles))
         for i, style in enumerate(styles):
             expected = self.expected_styles[i]
             self.assertEqual(expected.regions, style.regions)
@@ -366,7 +371,7 @@ class ConfParserTests(unittest.TestCase):
         try:
             styles = self.confparser.get_styles(style)
             self.fail('should fail on invalid style definition')
-        except Exception, e:
+        except Exception as e:
             self.assertEqual(e.message, expected_error_msg)
 
 class TransformerTests(unittest.TestCase):
@@ -404,7 +409,7 @@ class TransformerTests(unittest.TestCase):
     def assert_styled_line(self, styles, input_line, expected_output_line):
         transformer = Transformer(styles)
         actual_output_line = transformer.style(input_line)
-        self.assertEquals(expected_output_line, actual_output_line)
+        self.assertEqual(expected_output_line, actual_output_line)
 
     def test_removing_styles_is_equal_to_original_line(self):
         """Style a line, remove escape sequences and compare to the original
@@ -418,22 +423,21 @@ class TransformerTests(unittest.TestCase):
             RegexStyle("\[(.*)\]", ['grey', 'bold']),
             ]
         transformer = Transformer(styles)
-        lines = self.get_lines('testdata/test-log')
+        lines = self.get_lines('%s/test-log' % _TEST_DATA_DIR)
 
         for original_line in lines:
             original_line = original_line.strip('\n')
             styled_line = transformer.style(original_line)
-            styled_line = styled_line.encode('string_escape')
+            styled_line = styled_line.encode('unicode_escape').decode('utf-8')
             unstyled_line = self.remove_styles(styled_line)
             self.assertEqual(original_line, unstyled_line)
 
     def remove_styles(self, line):
-        
         unstyled = line.replace(r'\x1b[m', '', 1000)
         unstyled = unstyled.replace("\\'", "'", 1000)
         for style_key in _STYLES:
             transform = _STYLES[style_key]
-            escape_code = transform.encode('string_escape')
+            escape_code = transform.encode('unicode_escape').decode('utf-8')
             unstyled = unstyled.replace(escape_code, '', 1000)
         return unstyled
 

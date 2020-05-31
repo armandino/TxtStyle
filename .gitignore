@@ -1,1 +1,6 @@
+build/
+dist/
+tmp/
+*.egg-info
 *.pyc
+clean-all.sh

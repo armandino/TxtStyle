@@ -2,7 +2,8 @@
 
 import os
 import re
-import transformer
+from .transformer import IndexStyle
+from .transformer import RegexStyle
 
 _STYLE_HEADER = re.compile('^\[\s*Style\s*=\s*\"?(\w+)\"?\s*\]$')
 _REGEX_STYLE_DEF = re.compile('^(!?)([\w|\s|-]+):\s*regex\([\'|"](.+)[\'|"]\)$')
@@ -33,7 +34,7 @@ class ConfParser(object):
         apply_to_whole_line = match.group(1).strip() == '!'
         transforms = match.group(2).strip().split()
         pattern = match.group(3).strip()
-        return transformer.RegexStyle(pattern, transforms, apply_to_whole_line)
+        return RegexStyle(pattern, transforms, apply_to_whole_line)
 
     def _parse_index_style(self, style_def, match):
         transforms = match.group(1).strip().split()
@@ -56,7 +57,7 @@ class ConfParser(object):
         if not regions:
             raise ConfParserException("Invalid style definition: %s" % style_def)
 
-        return transformer.IndexStyle(regions, transforms)
+        return IndexStyle(regions, transforms)
 
     def _get_style_defs(self, style_name):
         style_defs = []

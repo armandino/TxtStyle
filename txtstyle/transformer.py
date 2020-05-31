@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import re
-from linestyleprocessor import LineStyleProcessor
-from palette import DEFAULT_STYLE, NAMED_STYLE_MAP
+from txtstyle.linestyleprocessor import LineStyleProcessor
+from txtstyle.palette import DEFAULT_STYLE, NAMED_STYLE_MAP
 
 _FOREGROUND = '38'
 _BACKGROUND = '48'
@@ -60,8 +60,7 @@ class Transformer(object):
             return line
 
         style_map = self.line_style_processor.get_style_map(line, self.styles)
-        regions = style_map.keys()
-        regions.sort()
+        regions = sorted(style_map.keys())
         
         pos = 0
         styled_line = []
