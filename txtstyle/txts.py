@@ -15,7 +15,6 @@
 # limitations under the License.
 
 import argparse
-import codecs
 import errno
 import itertools
 import os
@@ -68,14 +67,14 @@ class Txts(object):
             sys.exit(e.errno)
 
     def _transform_pipe(self):
-        sys.stdin = codecs.getreader('utf8')(sys.stdin.detach(), errors='ignore')
+        sys.stdin = sys.stdin.detach()
 
         try:
             while True:
                 line = sys.stdin.readline()
                 if not line:
                     break
-                self._style(line)
+                self._style(line.decode('utf-8', errors='ignore'))
         except KeyboardInterrupt:
             pass
         finally:
