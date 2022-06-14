@@ -34,7 +34,7 @@ Copyright (C) 2013 Arman Sharif.
 Apache License v2.0 or later: <http://www.apache.org/licenses/LICENSE-2.0>
 """ % VERSION
 
-_USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME'), '.txts.conf')
+_USER_HOME_CONF_FILE = os.path.join(os.getenv('HOME', os.getenv("USERPROFILE")), '.txts.conf')
 
 class Txts(object):
 
