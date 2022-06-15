@@ -93,5 +93,5 @@ Print help
     txts -h
 
 ## ✨ Special thanks to contributors
-- (Josef Moudrik)[https://github.com/jmoudrik]
-- (Arjix)[https://github.com/ArjixWasTaken]
+- [Josef Moudrik](https://github.com/jmoudrik)
+- [Arjix](https://github.com/ArjixWasTaken)
