@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-DEFAULT_CONF = """
+DEFAULT_CONF = """\
 # Available styles keys:
 #
 # - bold, underline, hidden
@@ -9,7 +9,7 @@ DEFAULT_CONF = """
 #
 # The order of definitions matters, with highest precedence at the top.
 #
-# If a stlye definition starts with '!' then the whole line will be styled
+# If a style definition starts with '!' then the whole line will be styled
 # if it matches the given regex, and not just the match itself.
 
 [Style="example"]
