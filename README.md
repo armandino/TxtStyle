@@ -95,3 +95,4 @@ Print help
 ## ✨ Special thanks to contributors
 - [Josef Moudrik](https://github.com/jmoudrik)
 - [Arjix](https://github.com/ArjixWasTaken)
+- [Dmitry Konishchev](https://github.com/KonishchevDmitry)
