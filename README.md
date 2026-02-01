@@ -13,15 +13,7 @@ to make output of console programs prettier.
 
 ## Install
 
-### Using package installer
-
     pip install TxtStyle
-
-### From sources
-
-    git clone https://github.com/armandino/TxtStyle.git
-    cd TxtStyle
-    sudo python setup.py install
 
 ## Try it out
 
